@@ -12,7 +12,7 @@ import javax.swing.*;
 
 
 @SuppressWarnings("serial")
-public class Start extends JFrame implements ActionListener
+public class option extends JFrame implements ActionListener
 {
 	private JFrame Frame;
 	
@@ -40,7 +40,7 @@ public class Start extends JFrame implements ActionListener
 	URL url_son = this.getClass().getResource("02 - Down The Road.wav");
 	URL url_image = this.getClass().getResource("option.jpg");
 	
-	public Start()
+	public option()
 	{
 		
 		Frame = new JFrame("Options");
@@ -176,6 +176,6 @@ public class Start extends JFrame implements ActionListener
 	
 	public static void main (String args [])
 	{
-		new Start();
+		new option();
 	}
 }
