@@ -1,166 +1,212 @@
 package View;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URL;
 
-import javax.swing.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 
 @SuppressWarnings("serial")
-public class option extends JFrame implements ActionListener
+public class option extends stdWindow implements ActionListener
 {
-	private JFrame Frame;
-	
-	private JLabel couleur;
-	private JLabel difficulte;
+	//private JFrame Frame;
 	
 	private JPanel PPrincipale;
-	private JPanel PForButton; //contient leses bouton dans un gridlayout
-	private JPanel PForCouleur; //contient la liste des bouton relatif à la couleur dans un gridlayout.
-	private JPanel PForDifficulte;
+	private JPanel PForButton; //contient les boutons dans un gridlayout
+	private JPanel PForCouleurs; //contient la liste des bouton relatif à la couleur dans un gridlayout.
+	private JPanel PForDifficultees;
 	
 	private JButton music;
 	private JButton apply;
 	private JButton retour;
 	
 	private JLabel img;
-	private AudioClip clip;
+	private JLabel couleurs;
+	private JLabel difficultees;
 	
-	private JComboBox<String> comboBoxcouleurs;
-	private JComboBox<String> comboBoxdifficultees;
+	private JComboBox<String> comboBoxCouleurs;
+	private JComboBox<String> comboBoxDifficultees;
 	
-	private String[] couleurs = {"Rouge", "Vert", "Bleu"}; 
-	private String[] difficultees = {"Kikoo", "Facile", "Normal", "Difficile", "Extrème"};
+	private String[] TScouleurs = {"Rouge", "Vert", "Bleu", "Black"}; 
+	private String[] TSdifficultees = {"Kikoo", "Facile", "Normal", "Difficile", "Extrème"};
 	
-	URL url_son = this.getClass().getResource("02 - Down The Road.wav");
-	URL url_image = this.getClass().getResource("option.jpg");
+	private Clip clip;
+	private URL url_son = this.getClass().getResource("./C2C-Down-The-Road.wav");
+	
+	
+	private URL url_image = this.getClass().getResource("./option.png");
+	private ImageIcon image;
 	
 	public option()
 	{
+		super("Options"); //Crée un JFrame à partir de la classe stdWindow
+		//Frame = new stdWindow("Options");
+		//initialisation du Frame ainsi de que l'image pour en obtenir les dimensions, et les utiliser pour dimensionner le Frame.
+		//Frame = new JFrame("Options");
+		image = new ImageIcon(url_image);
+		int width = image.getIconWidth(); int height = image.getIconHeight();
+		//Frame.setSize(width, height+200);
+		//Frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		centerMe(width, height, 200); //Dimensionne et centre le JFrame.
 		
-		Frame = new JFrame("Options");
-		Frame.setSize(500, 500);
-		Frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+		//intialisation des JButtons
 		music = new JButton("Musique On");
 		apply = new JButton("Appliquer");
 		retour = new JButton("Retour");
 		
-		couleur = new JLabel("Couleur");
-		difficulte = new JLabel("Difficulté");
+		//initialisation des JLabel
+		couleurs = new JLabel("Couleur");
+		difficultees = new JLabel("Difficulté");
+		img = new JLabel(image);
 		
+		//initialisation des JPanel
 		PPrincipale = new JPanel (new BorderLayout());
-		img = new JLabel(new ImageIcon(url_image));
-		
 		PForButton = new JPanel (new GridLayout(5,1));
-		PForCouleur = new JPanel (new GridLayout(1,2));
-		PForDifficulte = new JPanel (new GridLayout(1,2));
+		PForCouleurs = new JPanel (new GridLayout(1,2));
+		PForDifficultees = new JPanel (new GridLayout(1,2));
 		
-		//Initialistaion de la boc des couleurs.
-		comboBoxcouleurs = new JComboBox<String>();
-		UpLabel(couleur , PForCouleur );
-		initialiseCombo( comboBoxcouleurs , couleurs );
+		//intialisation des JComboBox + ajout des champs
+		comboBoxCouleurs = new JComboBox<String>();
+		comboBoxDifficultees = new JComboBox<String>();
+		initialiseCombo(comboBoxCouleurs, TScouleurs);
+		initialiseCombo(comboBoxDifficultees, TSdifficultees);
 		
-		//Initialisation de la box des difficultées.
-		comboBoxdifficultees = new JComboBox<String>();
-		UpLabel(difficulte , PForDifficulte);
-		initialiseCombo( comboBoxdifficultees , difficultees );
-				
-		//Panel des couleurs.
-		PForCouleur.add(couleur);
-		PForCouleur.add(comboBoxcouleurs);
+		//ajout des éléments dans le Panel pour les couleurs
+		addLabelToPanel(couleurs,PForCouleurs);
+		PForCouleurs.add(comboBoxCouleurs);
 		
-		//Panel des difficultees
-		PForDifficulte.add(difficulte);
-		PForDifficulte.add(comboBoxdifficultees);
+		//ajout des éléments dans le Panel pour les difficulté
+		addLabelToPanel(difficultees,PForDifficultees);
+		PForDifficultees.add(comboBoxDifficultees);
 		
-		//Ajout des différents boutons au panel principal. 
+		//ajout des éléments dans le Panel pour les boutons
 		PForButton.add(music);
-		
-		//Ajout des panel couleur et difficultees au panel superieur
-		PForButton.add(PForCouleur);
-		PForButton.add(PForDifficulte);
-		
+		PForButton.add(PForCouleurs);
+		PForButton.add(PForDifficultees);
 		PForButton.add(apply);
 		PForButton.add(retour);
 		
-		//Ajout de l'image et du panel des boutons.
-		PPrincipale.add(img, BorderLayout.NORTH);
-		PPrincipale.add(PForButton, BorderLayout.CENTER);
+		//ajout des éléments dans le Panel principale
+		PPrincipale.add(img, BorderLayout.NORTH); //ajoute de l'image
+		PPrincipale.add(PForButton, BorderLayout.CENTER); //ajout du reste
+		PPrincipale.setBackground(Color.black);
 		
-		Frame.add(PPrincipale);
-		setListener();
+		//Frame.add(PPrincipale); //Ajout du JPanel principal dans le JFrame
+		add(PPrincipale);
+		setListener(); //Met les ActionListener aux boutons et au xomboBoxs
 		startSon();
-		Frame.setVisible(true);
+		//Frame.setVisible(true);
+		setVisible(true);
+	}
+	
+	private void startSon() 
+	{
+		try
+		{
+			clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream (url_son));
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+		catch (LineUnavailableException exception) { }
+		catch (IOException exception) {  }
+		catch (UnsupportedAudioFileException exception) {  }
 	}
 	
 	/**
 	 * pré:-
 	 * post: Raloute un label à un panel et le centre.
 	 */
-	private void UpLabel( JLabel label, JPanel panel)
+	private void addLabelToPanel(JLabel label, JPanel panel)
 	{
 		panel.add(label);
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		
 	}
-	
-	private void startSon() 
-	{
-		clip = Applet.newAudioClip(url_son);
-		//clip.loop();
-	}
-	
-	/**
-	 * @pré: -
-	 * @post: initialise une combobox et lui donne comme valeur les éléments du tableau de string passé en paramètre.
-	 * @param combo
-	 * @param string
-	 */
-	private void initialiseCombo( JComboBox<String> combo , String[] string) 
-	{
-		
-		for (int i = 0 ; i < string.length ; i++) 
-		{
-			combo.addItem(string[i]);
-		}
-	}
 
-	private void setListener() 
+	private void setListener()
 	{
 		music.addActionListener(this);
 		apply.addActionListener(this);
 		retour.addActionListener(this);
-		comboBoxcouleurs.addActionListener(this);
-		comboBoxdifficultees.addActionListener(this);
+		comboBoxCouleurs.addActionListener(this);
+		comboBoxDifficultees.addActionListener(this);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	
+	
+	/**
+	 * @pré: -
+	 * @post: initialise une comboBox et lui donne comme valeur les éléments du tableau de string passé en paramètre.
+	 * @param combo
+	 * @param string
+	 */
+	private void initialiseCombo(JComboBox<String> combo , String[] string) 
 	{
-		JButton b = (JButton) arg0.getSource();
-		if(b==music)
-		{
-			changeMusic();
-		}
 		
-		if(b==apply)
+		for (int i = 0 ; i < string.length ; i++)
 		{
-			//code pour appliquer les options modifiées.
-		}
-		
-		if(b==retour)
-		{
-			Frame.dispose(); //ferme la fenêtre.
+			combo.addItem(string[i]);
 		}
 	}
 	
-	private void changeMusic() 
+	
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.toString().contains("JButton"))
+		{
+			JButton b = (JButton) e.getSource();
+			if(b==music) changeMusic();
+			if(b==apply)
+			{
+		
+			}
+			if(b==retour)
+			{
+				//Frame.dispose();
+				dispose();
+			}
+		}
+		else
+		{
+			String s = (String)comboBoxCouleurs.getSelectedItem();
+			if(s=="Vert") PPrincipale.setBackground(Color.green);
+			if(s=="Rouge") PPrincipale.setBackground(Color.red);
+			if(s=="Bleu") PPrincipale.setBackground(Color.blue);
+			String s2 = (String)comboBoxDifficultees.getSelectedItem();
+			if(s2=="Kikoo")
+			{
+				JFrame Fmoment = new JFrame("Gros kikoo");
+				Fmoment.add(new JPanel().add(new JLabel("T'es pas sérieux ?!? Tu vas pas jouer en mode kikoo quand même ?!?")));
+				Fmoment.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				Fmoment.pack();
+				Fmoment.setVisible(true);
+			}
+			if(s2=="Facile")
+			{
+				JFrame Fmoment = new JFrame("Noob");
+				Fmoment.add(new JPanel().add(new JLabel("Bah le noob, il joue en mode facile !")));
+				Fmoment.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				Fmoment.pack();
+				Fmoment.setVisible(true);
+			}
+		}
+	}
+	
+	private void changeMusic()
 	{
 		if(music.getText()=="Musique On")
 		{
@@ -170,10 +216,10 @@ public class option extends JFrame implements ActionListener
 		else
 		{
 			music.setText("Musique On");
-			clip.loop();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 	}
-	
+
 	public static void main (String args [])
 	{
 		new option();
