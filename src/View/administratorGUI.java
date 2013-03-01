@@ -1,5 +1,6 @@
 package View;
 
-public class administratorGUI {
-
+public class administratorGUI
+{
+	
 }

@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 
 
 @SuppressWarnings("serial")
-public class option extends stdWindow implements ActionListener
+public class option extends StdWindow implements ActionListener
 {
 	//private JFrame Frame;
 	
@@ -29,31 +29,35 @@ public class option extends stdWindow implements ActionListener
 	private JPanel PForButton; //contient les boutons dans un gridlayout
 	private JPanel PForCouleurs; //contient la liste des bouton relatif à la couleur dans un gridlayout.
 	private JPanel PForDifficultees;
+	private JPanel PForMusique;
 	
-	private JButton music;
 	private JButton apply;
 	private JButton retour;
 	
 	private JLabel img;
+	private JLabel musique;
 	private JLabel couleurs;
 	private JLabel difficultees;
 	
 	private JComboBox<String> comboBoxCouleurs;
 	private JComboBox<String> comboBoxDifficultees;
+	private JComboBox<String> comboBoxMusique;
 	
 	private String[] TScouleurs = {"Rouge", "Vert", "Bleu", "Black"}; 
 	private String[] TSdifficultees = {"Kikoo", "Facile", "Normal", "Difficile", "Extrème"};
+	private String[] TSmusique = {"ON", "OFF"};
 	
 	private Clip clip;
-	private URL url_son = this.getClass().getResource("./C2C-Down-The-Road.wav");
+	private URL url_son = this.getClass().getResource("C2C-Down-The-Road.wav");
 	
 	
-	private URL url_image = this.getClass().getResource("./option.png");
+	private URL url_image = this.getClass().getResource("option.png");
 	private ImageIcon image;
 	
 	public option()
 	{
 		super("Options"); //Crée un JFrame à partir de la classe stdWindow
+		//System.out.println(this.getClass().getResourceAsStream());
 		//Frame = new stdWindow("Options");
 		//initialisation du Frame ainsi de que l'image pour en obtenir les dimensions, et les utiliser pour dimensionner le Frame.
 		//Frame = new JFrame("Options");
@@ -64,11 +68,11 @@ public class option extends stdWindow implements ActionListener
 		centerMe(width, height, 200); //Dimensionne et centre le JFrame.
 		
 		//intialisation des JButtons
-		music = new JButton("Musique On");
 		apply = new JButton("Appliquer");
 		retour = new JButton("Retour");
 		
 		//initialisation des JLabel
+		musique = new JLabel("Musique");
 		couleurs = new JLabel("Couleur");
 		difficultees = new JLabel("Difficulté");
 		img = new JLabel(image);
@@ -76,14 +80,21 @@ public class option extends stdWindow implements ActionListener
 		//initialisation des JPanel
 		PPrincipale = new JPanel (new BorderLayout());
 		PForButton = new JPanel (new GridLayout(5,1));
+		PForMusique = new JPanel (new GridLayout(1,2));
 		PForCouleurs = new JPanel (new GridLayout(1,2));
 		PForDifficultees = new JPanel (new GridLayout(1,2));
 		
 		//intialisation des JComboBox + ajout des champs
 		comboBoxCouleurs = new JComboBox<String>();
 		comboBoxDifficultees = new JComboBox<String>();
+		comboBoxMusique = new JComboBox<String>();
 		initialiseCombo(comboBoxCouleurs, TScouleurs);
 		initialiseCombo(comboBoxDifficultees, TSdifficultees);
+		initialiseCombo(comboBoxMusique, TSmusique);
+		
+		//ajout des éléments dans le Panel pour la musique
+		addLabelToPanel(musique,PForMusique);
+		PForMusique.add(comboBoxMusique);
 		
 		//ajout des éléments dans le Panel pour les couleurs
 		addLabelToPanel(couleurs,PForCouleurs);
@@ -94,7 +105,7 @@ public class option extends stdWindow implements ActionListener
 		PForDifficultees.add(comboBoxDifficultees);
 		
 		//ajout des éléments dans le Panel pour les boutons
-		PForButton.add(music);
+		PForButton.add(PForMusique);
 		PForButton.add(PForCouleurs);
 		PForButton.add(PForDifficultees);
 		PForButton.add(apply);
@@ -139,7 +150,6 @@ public class option extends stdWindow implements ActionListener
 
 	private void setListener()
 	{
-		music.addActionListener(this);
 		apply.addActionListener(this);
 		retour.addActionListener(this);
 		comboBoxCouleurs.addActionListener(this);
@@ -169,7 +179,7 @@ public class option extends stdWindow implements ActionListener
 		if(e.toString().contains("JButton"))
 		{
 			JButton b = (JButton) e.getSource();
-			if(b==music) changeMusic();
+			//if(b==music) changeMusic();
 			if(b==apply)
 			{
 		
@@ -208,7 +218,7 @@ public class option extends stdWindow implements ActionListener
 	
 	private void changeMusic()
 	{
-		if(music.getText()=="Musique On")
+		/*if(music.getText()=="Musique On")
 		{
 			music.setText("Musique Off");
 			clip.stop();
@@ -217,7 +227,7 @@ public class option extends stdWindow implements ActionListener
 		{
 			music.setText("Musique On");
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
+		}*/
 	}
 
 	public static void main (String args [])
