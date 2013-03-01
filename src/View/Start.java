@@ -37,8 +37,8 @@ public class Start extends JFrame implements ActionListener
 	private String[] couleurs = {"Rouge", "Vert", "Bleu"}; 
 	private String[] difficultees = {"Kikoo", "Facile", "Normal", "Difficile", "Extrème"};
 	
-	URL url_son = this.getClass().getResource("02 - Down The Road.wav");
-	URL url_image = this.getClass().getResource("option.jpg");
+	URL url_son = this.getClass().getResource("12 - Arcades.wav");
+	URL url_image = this.getClass().getResource("5730371_460s.jpg");
 	
 	public Start()
 	{
@@ -136,14 +136,17 @@ public class Start extends JFrame implements ActionListener
 		music.addActionListener(this);
 		apply.addActionListener(this);
 		retour.addActionListener(this);
-		comboBoxcouleurs.addActionListener(this);
-		comboBoxdifficultees.addActionListener(this);
+		//comboBoxcouleurs.addActionListener(this);
+		//comboBoxdifficultees.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
+		
 		JButton b = (JButton) arg0.getSource();
+		//mettre un if pr différencier les boutons des combobox.
+		
 		if(b==music)
 		{
 			changeMusic();

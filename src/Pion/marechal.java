@@ -4,7 +4,7 @@ public class marechal extends pion
 {
 	public marechal()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 10;
 	}
 

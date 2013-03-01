@@ -4,7 +4,7 @@ public class commandant extends pion
 {
 	public commandant()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 7;
 	}
 

@@ -4,7 +4,7 @@ public class demineur extends pion
 {
 	public demineur()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 3;
 	}
 
