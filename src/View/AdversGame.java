@@ -25,10 +25,11 @@ public class AdversGame extends BasicGameState implements InputProviderListener
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
-			throws SlickException {
+			throws SlickException 
+			{
 		// TODO Auto-generated method stub
 		
-		arg2.drawString("Yo Nigga!", 100, 100);
+		arg2.drawString("Joueur adverse", 100, 100);
 		
 	}
 

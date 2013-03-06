@@ -1,5 +1,6 @@
 package Controller;
 import Game.*;
+import View.AdminGame;
 	
 /** 
  *  Cette classe decouple l'interface graphique de la logique de l'application. Elle 
@@ -9,16 +10,29 @@ import Game.*;
 public class controller 
 {   
 	
-	Game game = new Game();
+	Game game;
+	AdminGame admin;
+	
 	public boolean Tour;
 	
 	public controller()
 	{
 		
+		
 		Tour = true;
 		
 	}
 	
+	/**
+	 * Lance une partie.
+	 */
+	public void newGame ()
+	{
+		game = new Game();
+		
+		admin = new AdminGame("");
+		
+	}
 	
 }   
 	

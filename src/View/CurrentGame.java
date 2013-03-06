@@ -137,7 +137,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        public void controlPressed(Command command) {
                if ( command.equals(menu))
                {
-               	new Start();
+               		 new Start();
                }
        }
 

@@ -27,7 +27,7 @@ public class Intermediaire extends BasicGameState implements InputProviderListen
 			{
 		// TODO Auto-generated method stub
 		
-		arg2.drawString("Play bitch!", 100, 100);
+		arg2.drawString("Tour suivant.", 100, 100);
 		
 	}
 
