@@ -37,14 +37,14 @@ public class Start extends JFrame implements ActionListener
 	private String[] couleurs = {"Rouge", "Vert", "Bleu"}; 
 	private String[] difficultees = {"Kikoo", "Facile", "Normal", "Difficile", "Extrème"};
 	
-	URL url_son = this.getClass().getResource("12 - Arcades.wav");
+	URL url_son = this.getClass().getResource("12 - Arcades.flac");
 	URL url_image = this.getClass().getResource("5730371_460s.jpg");
 	
 	public Start()
 	{
 		
 		Frame = new JFrame("Options");
-		Frame.setSize(500, 500);
+		Frame.setSize(500, 600);
 		Frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		music = new JButton("Musique On");
