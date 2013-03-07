@@ -35,23 +35,27 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 	
 	   private ArrayList<MouseOverArea> Echequier = new ArrayList<MouseOverArea>();
 	   private ArrayList<MouseOverArea> Force = new ArrayList<MouseOverArea>();
-	   
-	   private Image Select;
+	   private MouseOverArea Fin ;
 	   
        private Command menu = new BasicCommand("menu");
-       private Command echap = new BasicCommand("echap");
-       private Command clic = new BasicCommand("clic");
        /** The input provider abstracting input */
        
        private InputProvider provider;
        /** The message to be displayed */
        
-       private String message = "";
+       private Image prise = null;// représente la prise d'un pion (une image suit le curseur.
+       private boolean placement = true; // représente le fait de pouvoir placer ses pions en début de partie.
+       private String[] photos =  {"drapeau.jpg" ,"espion.jpg" , "eclaireur.jpg"  , "demineur.jpg",
+    		                       "sergent.jpg" , "lieutenant.jpg", "capitaine.jpg", "commandant.jpg" ,
+    		                       "colonel.jpg" ,"general.jpg", "marechal.jpg" , "bombe.jpg"};
+       
+       private boolean tour = true;
        
        /**
         * Create a new image rendering test
         */
-       public CurrentGame() {
+       public CurrentGame() 
+       {
                super();
        }
        
@@ -71,29 +75,39 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
                provider.addListener(this);
                 
                provider.bindCommand(new KeyControl(Input.KEY_M), menu);
-               provider.bindCommand(new KeyControl(Input.KEY_ESCAPE), echap);
-               provider.bindCommand(new KeyControl(Input.MOUSE_LEFT_BUTTON), clic);
                
-               Select = new Image("drapeau.jpg");
+               Fin = new MouseOverArea(container , new Image("vert.jpg") , 810 , 450);
+               Fin.setNormalColor(new Color(1f,1f,1f,0.7f));
+               Fin.setMouseOverColor(new Color(0.5f,0.5f,0.5f,3f));
                
+               // Mise en place de l'échequier.
                for ( int i = 0 ; i < 10 ; i++)
                {
             	   for ( int j = 0 ; j < 10 ; j++)
             	   {
-            		   Echequier.add(0, new MouseOverArea( container, new Image("Vert.jpg") ,55*j+10 , 70*i+10 ));
+            		   Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
             	   }
                }
                
-               force(container);
+               //premier bloc de flotte.
+               Echequier.set(42, new MouseOverArea (container , new Image("bleu.jpg") , 120 , 290));
+               Echequier.set(43, new MouseOverArea (container , new Image("bleu.jpg") , 175 , 290));
+               Echequier.set(52, new MouseOverArea (container , new Image("bleu.jpg") , 120 , 360));
+               Echequier.set(53, new MouseOverArea (container , new Image("bleu.jpg") , 175 , 360));
                
-               Echequier.get(79).setNormalImage(new Image("bombe.jpg"));
-               Echequier.get(79).setMouseOverImage(new Image("bombe.jpg"));
+               //deuxième bloc de flotte.
+               Echequier.set(46, new MouseOverArea (container , new Image("bleu.jpg") , 340 , 290));
+               Echequier.set(47, new MouseOverArea (container , new Image("bleu.jpg") , 395 , 290));
+               Echequier.set(56, new MouseOverArea (container , new Image("bleu.jpg") , 340 , 360));
+               Echequier.set(57, new MouseOverArea (container , new Image("bleu.jpg") , 395 , 360));
                
                for ( int i = 0 ; Echequier.size() > i ; i++)
                {
             	   Echequier.get(i).setNormalColor(new Color(1f,1f,1f,0.7f));
             	   Echequier.get(i).setMouseOverColor(new Color(0.5f,0.5f,0.5f,3f));
                }
+               
+               force(container);
                
        }
        
@@ -104,10 +118,17 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
         */
        public void force ( GameContainer container ) throws SlickException 
        {
+    	   for ( int i = 0 ; i < 6 ; i++)
+    	   {
+    		   Force.add(new MouseOverArea ( container , new Image (photos[i]), 810 , 10+70*i ));
+    		   Force.get(i).setNormalColor(new Color(1f,1f,1f,0.7f));
+    	   }
     	   
-    	   Force.add(new MouseOverArea ( container , new Image ("drapeau.jpg"), 910 , 5));
-    	   Force.get(0).setNormalColor(new Color(1f,1f,1f,0.7f));
-    	   
+    	   for ( int i = 0 ; i < 6 ; i++)
+    	   {
+    		   Force.add(new MouseOverArea ( container , new Image (photos[i+6]), 870 , 10+70*i ));
+    		   Force.get(i+6).setNormalColor(new Color(1f,1f,1f,0.7f));
+    	   }
        }
        
        
@@ -116,52 +137,103 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        /**
         * @see org.newdawn.slick.BasicGame#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
         */
-       public void render(GameContainer container,StateBasedGame game, Graphics g) 
+       public void render(GameContainer container,StateBasedGame game, Graphics g) throws SlickException 
        {
     	  
-           
+           	   //affichage de l'échaquier
                for ( int i = 0 ; i < Echequier.size() ; i++)
                {
             	   Echequier.get(i).render(container, g);
                }
                
-               Force.get(0).render(container , g);
+               //affichage des pions disponibles.
+               for ( int i = 0 ; i < Force.size() ; i++)
+               {
+            	   Force.get(i).render(container , g);
+               }
                
-               g.drawImage(Select, 600 , 0);
+               Fin.render(container, g);
                
-               Selection(container);
-               
-       }
-       
-       /**
-        * Permet de sélectionner une image avec la souris.
-        */
-       public void Selection (GameContainer container)
-       {
-    	   
-    	   if (  container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && Force.get(0).isMouseOver())
-    	   {
-    		  
-    		   Select.drawCentered(container.getInput().getMouseX(), container.getInput().getMouseY());
-    		  
-    	   }
-    	   
+               if ( prise != null)
+               {
+            	   prise.drawCentered(container.getInput().getMouseX(), container.getInput().getMouseY());
+               }
        }
        
        /**
         * @see org.newdawn.slick.BasicGame#update(org.newdawn.slick.GameContainer, int)
         */
-       public void update(GameContainer container,StateBasedGame game, int delta) 
+       
+       public void update(GameContainer container,StateBasedGame game, int delta) throws SlickException 
        {
     	   
-    	   if ( container.getInput().isKeyPressed(Input.KEY_T))
+    	   Input input = container.getInput();
+    	   
+    	   //code relatif au placement des pions en début de partie.
+    	   if (  input.isMousePressed(Input.MOUSE_LEFT_BUTTON) )
+    	   {
+    		   if ( placement)
+    		   {
+    			   
+    			   for (int i = 0 ; i < Force.size() ; i++)
+    			   {
+    				   if ( Force.get(i).isMouseOver() )
+    				   {
+    					   prise = new Image (photos[i]);
+    				   }
+    			   }
+    		   
+    			   for (int i = 0 ;  i < Echequier.size()  ; i++)
+    			   {
+    				   
+    				   if ( Echequier.get(i).isMouseOver() && prise != null)
+			   		   {
+    					   if( !(i == 42 || i == 43 || i == 46 || i == 47 || i == 52 || i == 53 || i == 56 || i == 57))
+        				   {
+    						   Echequier.set(i , new MouseOverArea( container, prise , Echequier.get(i).getX(), Echequier.get(i).getY()));
+
+			   					prise = null;
+        				   }
+			   			}
+    				   
+    			   }
+    		   
+    		   }
+    		   
+    		   if ( placement && Fin.isMouseOver())
+    		   {
+    			   placement = false;
+    		   }
+    		   
+    		   if (!placement && tour)
+    		   {
+    			   for (int i = 0 ; i < Echequier.size() ; i++)
+    			   {
+			   			if ( Echequier.get(i).isMouseOver())
+			   				{
+			   					if ( prise == null)
+			   					{
+			   						// à faire après le controller.
+			   					}
+			   					else
+			   					{
+			   						Echequier.set(i , new MouseOverArea( container, prise , Echequier.get(i).getX(), Echequier.get(i).getY()));
+			   					}
+			   				}
+			   		}
+    		   }
+    	 
+    	   }
+    		   
+    		   
+    	   if ( input.isKeyPressed(Input.KEY_T))
     	   {
     		   AdminGame.Tour = true;
     		   
     		   game.enterState(2,new  FadeOutTransition() , new FadeInTransition()) ;
     	   }
     	   
-    	   if ( container.getInput().isKeyPressed(Input.KEY_ESCAPE))
+    	   if ( input.isKeyPressed(Input.KEY_ESCAPE))
     	   {
     		   container.exit();
     	   }
@@ -182,11 +254,6 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
                if ( command.equals(menu))
                {
                		 new Start();
-               }
-               
-               if ( command.equals(clic) && Force.get(0).isMouseOver())
-               {
-            	   //Selection();
                }
        }
 
