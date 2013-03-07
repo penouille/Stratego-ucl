@@ -3,8 +3,6 @@ package View;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,13 +11,9 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.command.BasicCommand;
 import org.newdawn.slick.command.Command;
-import org.newdawn.slick.command.ControllerButtonControl;
-import org.newdawn.slick.command.ControllerDirectionControl;
 import org.newdawn.slick.command.InputProvider;
 import org.newdawn.slick.command.InputProviderListener;
 import org.newdawn.slick.command.KeyControl;
-import org.newdawn.slick.command.MouseButtonControl;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -56,7 +50,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
         */
        public CurrentGame() 
        {
-               super();
+           super();
        }
        
        public int getID() 
@@ -71,10 +65,10 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        {
     	   	   AdminGame.Tour= true;
     	   	   
-               provider = new InputProvider(container.getInput());
-               provider.addListener(this);
+               //provider = new InputProvider(container.getInput());
+               //provider.addListener(this);
                 
-               provider.bindCommand(new KeyControl(Input.KEY_M), menu);
+              // provider.bindCommand(new KeyControl(Input.KEY_M), menu);
                
                Fin = new MouseOverArea(container , new Image("vert.jpg") , 810 , 450);
                Fin.setNormalColor(new Color(1f,1f,1f,0.7f));

@@ -18,6 +18,7 @@ public class controller
 	public controller()
 	{
 		
+		newGame ();
 		
 		Tour = true;
 		
