@@ -5,7 +5,7 @@ public class espion extends pion
 	
 	public espion()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 1;
 	}
 }

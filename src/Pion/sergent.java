@@ -5,7 +5,7 @@ public class sergent extends pion
 	
 	public sergent()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 4;
 	}
 }

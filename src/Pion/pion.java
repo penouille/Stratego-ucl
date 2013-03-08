@@ -11,10 +11,25 @@ public abstract class pion
 {
 	protected int NbrDePas;
 	protected int Force;
+	protected int Team;
 	
 	public pion()
 	{
-		NbrDePas = 1;
+		
 	}
 	
+	public int getForce()
+	{
+		return this.Force;
+	}
+	
+	public int getNbrDePas()
+	{
+		return this.NbrDePas;
+	}
+	
+	public int getTeam()
+	{
+		return this.Team;
+	}
 }

@@ -4,7 +4,7 @@ public class general extends pion
 {
 	public general()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 9;
 	}
 

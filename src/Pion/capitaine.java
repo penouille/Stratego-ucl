@@ -4,7 +4,7 @@ public class capitaine extends pion
 {
 	public capitaine()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 6;
 		
 	}

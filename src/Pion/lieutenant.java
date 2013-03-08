@@ -4,7 +4,7 @@ public class lieutenant extends pion
 {
 	public lieutenant()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 5;
 	}
 }

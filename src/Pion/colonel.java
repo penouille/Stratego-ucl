@@ -4,7 +4,7 @@ public class colonel extends pion
 {
 	public colonel()
 	{
-		super();
+		NbrDePas = 1;
 		Force = 8;
 	}
 
