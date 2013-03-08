@@ -48,7 +48,7 @@ public class option extends StdWindow implements ActionListener
 	private String[] TSmusique = {"ON", "OFF"};
 	
 	private Clip clip;
-	private URL url_son = this.getClass().getResource("C2C-Down-The-Road.wav");
+	private URL url_son = this.getClass().getResource("song.wav");
 	
 	
 	private URL url_image = this.getClass().getResource("option.png");
