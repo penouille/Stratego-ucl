@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class option extends StdWindow implements ActionListener
 {
-	//private JFrame Frame;
 	
 	private JPanel PPrincipale;
 	private JPanel PForButton; //contient les boutons dans un gridlayout
@@ -48,23 +47,19 @@ public class option extends StdWindow implements ActionListener
 	private String[] TSmusique = {"ON", "OFF"};
 	
 	private Clip clip;
-	private URL url_son = this.getClass().getResource("song.wav");
+	private URL url_son = this.getClass().getResource("/song.wav");
 	
 	
-	private URL url_image = this.getClass().getResource("option.png");
+	private URL url_image = this.getClass().getResource("/option.png");
 	private ImageIcon image;
 	
 	public option()
 	{
 		super("Options"); //Crée un JFrame à partir de la classe stdWindow
-		//System.out.println(this.getClass().getResourceAsStream());
-		//Frame = new stdWindow("Options");
 		//initialisation du Frame ainsi de que l'image pour en obtenir les dimensions, et les utiliser pour dimensionner le Frame.
-		//Frame = new JFrame("Options");
 		image = new ImageIcon(url_image);
+		
 		int width = image.getIconWidth(); int height = image.getIconHeight();
-		//Frame.setSize(width, height+200);
-		//Frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		centerMe(width, height, 200); //Dimensionne et centre le JFrame.
 		
 		//intialisation des JButtons
@@ -116,11 +111,9 @@ public class option extends StdWindow implements ActionListener
 		PPrincipale.add(PForButton, BorderLayout.CENTER); //ajout du reste
 		PPrincipale.setBackground(Color.black);
 		
-		//Frame.add(PPrincipale); //Ajout du JPanel principal dans le JFrame
 		add(PPrincipale);
 		setListener(); //Met les ActionListener aux boutons et au xomboBoxs
 		startSon();
-		//Frame.setVisible(true);
 		setVisible(true);
 	}
 	
@@ -154,6 +147,7 @@ public class option extends StdWindow implements ActionListener
 		retour.addActionListener(this);
 		comboBoxCouleurs.addActionListener(this);
 		comboBoxDifficultees.addActionListener(this);
+		comboBoxMusique.addActionListener(this);
 	}
 	
 	
@@ -197,7 +191,7 @@ public class option extends StdWindow implements ActionListener
 			if(s=="Rouge") PPrincipale.setBackground(Color.red);
 			if(s=="Bleu") PPrincipale.setBackground(Color.blue);
 			String s2 = (String)comboBoxDifficultees.getSelectedItem();
-			if(s2=="Kikoo")
+			/*if(s2=="Kikoo")
 			{
 				JFrame Fmoment = new JFrame("Gros kikoo");
 				Fmoment.add(new JPanel().add(new JLabel("T'es pas sérieux ?!? Tu vas pas jouer en mode kikoo quand même ?!?")));
@@ -212,22 +206,26 @@ public class option extends StdWindow implements ActionListener
 				Fmoment.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				Fmoment.pack();
 				Fmoment.setVisible(true);
+			}*/
+			String s3 = (String)comboBoxDifficultees.getSelectedItem();
+			if(comboBoxMusique.getVerifyInputWhenFocusTarget())
+			{
+				System.out.println("Hello !");
+				changeMusic();
 			}
 		}
 	}
 	
 	private void changeMusic()
 	{
-		/*if(music.getText()=="Musique On")
+		if((String)comboBoxMusique.getSelectedItem()=="OFF")
 		{
-			music.setText("Musique Off");
 			clip.stop();
 		}
 		else
 		{
-			music.setText("Musique On");
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}*/
+		}
 	}
 
 	public static void main (String args [])

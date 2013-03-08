@@ -13,7 +13,9 @@ public class StdWindow extends JFrame
 		//Frame = new JFrame(name);
 		super(name);
 		//Frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		//DISPOSE_ON_CLOSE
+		
 		//Frame.setVisible(true);
 		//setVisible(true);
 		//Frame.setResizable(false);
