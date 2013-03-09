@@ -40,7 +40,7 @@ public class controller
 	{
 		game = new Game();
 		
-		admin = new AdminGame("");
+		admin = new AdminGame("Stratego");
 		
 	}
 	
