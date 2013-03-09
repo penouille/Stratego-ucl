@@ -253,7 +253,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        {
                if ( command.equals(menu))
                {
-               		 new option();
+               		 new Option();
                }
        }
 
