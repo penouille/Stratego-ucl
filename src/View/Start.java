@@ -2,6 +2,8 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -9,7 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Start extends StdWindow
+import Controller.Controller;
+import Game.Game;
+
+import observer.Observer;
+
+public class Start extends StdWindow implements ActionListener //implements Observer
 {
 	private URL url_img;
 	
@@ -24,6 +31,8 @@ public class Start extends StdWindow
 	private JLabel image;
 	
 	private ImageIcon img;
+	
+	//private OperateurListener opeListener = new OperateurListener();
 
 	public Start() 
 	{
@@ -56,20 +65,53 @@ public class Start extends StdWindow
 		PForButtons.add(option);
 		PForButtons.add(quit);
 		
+		//ajout de l'action listener
+		initializeButton();
+		
 		//mise en place dans le panel principal
 		PPrincipal.add(image, BorderLayout.NORTH);
 		PPrincipal.add(PForButtons, BorderLayout.CENTER);
 		
 		//les finiolages
 		add(PPrincipal);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	
-	
-	public static void main (String [] toto)
+	public void initializeButton()
 	{
-		new Start();
+		JvJ.addActionListener(this);
+		JvIA.addActionListener(this);
+		quit.addActionListener(this);
+		option.addActionListener(this);
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		JButton b = (JButton)e.getSource();
+		if(b==JvJ)
+		{
+			Game game = new Game("JvJ");
+			Controller controller = new Controller(game);
+			AdminGame admin = new AdminGame("Stratego : Joueur Vs Joueur", controller);
+		}
+		if(b==JvIA)
+		{
+			Game game = new Game("JvIA");
+			Controller controller = new Controller(game);
+			AdminGame admin = new AdminGame("Stratego : Joueur Vs IA", controller);
+		}
+		if(b==option)
+		{
+			new Option();
+			//TODO Il serait bien de donner le controlleur à option, mais comment ?
+		}
+		if(b==quit)
+		{
+			System.exit(EXIT_ON_CLOSE);
+		}
 		
 	}
 

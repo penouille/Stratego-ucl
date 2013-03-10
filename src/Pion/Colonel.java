@@ -1,8 +1,8 @@
 package Pion;
 
-public class colonel extends pion
+public class Colonel extends Pion
 {
-	public colonel()
+	public Colonel()
 	{
 		NbrDePas = 1;
 		Force = 8;

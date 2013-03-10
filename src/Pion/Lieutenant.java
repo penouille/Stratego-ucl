@@ -1,8 +1,8 @@
 package Pion;
 
-public class lieutenant extends pion
+public class Lieutenant extends Pion
 {
-	public lieutenant()
+	public Lieutenant()
 	{
 		NbrDePas = 1;
 		Force = 5;

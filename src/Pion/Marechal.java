@@ -1,8 +1,8 @@
 package Pion;
 
-public class marechal extends pion
+public class Marechal extends Pion
 {
-	public marechal()
+	public Marechal()
 	{
 		NbrDePas = 1;
 		Force = 10;

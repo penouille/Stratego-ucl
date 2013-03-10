@@ -1,8 +1,8 @@
 package Pion;
 
-public class capitaine extends pion
+public class Capitaine extends Pion
 {
-	public capitaine()
+	public Capitaine()
 	{
 		NbrDePas = 1;
 		Force = 6;

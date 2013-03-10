@@ -1,8 +1,8 @@
 package Pion;
 
-public class demineur extends pion
+public class Demineur extends Pion
 {
-	public demineur()
+	public Demineur()
 	{
 		NbrDePas = 1;
 		Force = 3;

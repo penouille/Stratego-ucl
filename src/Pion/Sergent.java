@@ -1,9 +1,9 @@
 package Pion;
 
-public class sergent extends pion
+public class Sergent extends Pion
 {
 	
-	public sergent()
+	public Sergent()
 	{
 		NbrDePas = 1;
 		Force = 4;

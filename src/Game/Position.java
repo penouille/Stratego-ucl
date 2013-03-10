@@ -11,9 +11,9 @@ public class Position
 {
 	private int X;
 	private int Y;
-	private pion Etat;
+	private Pion Etat;
 	
-	public Position( int x, int y, pion pion)
+	public Position( int x, int y, Pion pion)
 	{
 		X = x;
 		Y = y;
@@ -43,12 +43,12 @@ public class Position
 		Y=y;
 	}
 	
-	public pion getEtat()
+	public Pion getEtat()
 	{
 		return Etat;
 	}
 	
-	public void setEtat(pion pion)
+	public void setEtat(Pion pion)
 	{
 		Etat = pion;
 	}

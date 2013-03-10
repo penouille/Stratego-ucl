@@ -1,9 +1,9 @@
 package Pion;
 
-public class eclaireur extends pion
+public class Eclaireur extends Pion
 {
 	
-	public eclaireur()
+	public Eclaireur()
 	{
 		NbrDePas = 2;
 		Force = 2;

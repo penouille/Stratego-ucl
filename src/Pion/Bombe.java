@@ -1,9 +1,9 @@
 package Pion;
 
-public class bombe extends pion
+public class Bombe extends Pion
 {
 	
-	public bombe()
+	public Bombe()
 	{
 		NbrDePas = 0;
 		Force = 11;

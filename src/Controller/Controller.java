@@ -29,18 +29,22 @@ public class Controller extends AbstractController
 	public Controller()
 	{
 		super();
-		game = new Game();
-		AG = new AdministratorGUI();
 		Tour = true;
 		
 	}
 	
+	public Controller(Game game)
+	{
+		// TODO Auto-generated constructor stub
+		System.out.println("Hello !!!");
+	}
+
 	/**
 	 * Lance une partie.
 	 */
 	public void newGame ()
 	{
-		game = new Game();
+		//game = new Game();
 		
 		admin = new AdminGame("Stratego");
 		

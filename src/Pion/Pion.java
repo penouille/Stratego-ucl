@@ -7,13 +7,13 @@ package Pion;
  *
  *
  */
-public abstract class pion 
+public abstract class Pion 
 {
 	protected int NbrDePas;
 	protected int Force;
 	protected int Team;
 	
-	public pion()
+	public Pion()
 	{
 		
 	}

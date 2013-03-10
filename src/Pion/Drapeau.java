@@ -1,9 +1,9 @@
 package Pion;
 
-public class drapeau extends pion
+public class Drapeau extends Pion
 {
 	
-	public drapeau()
+	public Drapeau()
 	{
 		NbrDePas = 0;
 		Force = 0;

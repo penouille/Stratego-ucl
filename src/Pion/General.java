@@ -1,8 +1,8 @@
 package Pion;
 
-public class general extends pion
+public class General extends Pion
 {
-	public general()
+	public General()
 	{
 		NbrDePas = 1;
 		Force = 9;

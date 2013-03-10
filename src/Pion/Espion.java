@@ -1,9 +1,9 @@
 package Pion;
 
-public class espion extends pion
+public class Espion extends Pion
 {
 	
-	public espion()
+	public Espion()
 	{
 		NbrDePas = 1;
 		Force = 1;

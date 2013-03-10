@@ -6,7 +6,7 @@ package Pion;
  * @author Florian
  *
  */
-public class Blackout extends pion
+public class Blackout extends Pion
 {
 	public Blackout()
 	{
