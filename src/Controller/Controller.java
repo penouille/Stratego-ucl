@@ -1,6 +1,7 @@
 package Controller;
 
 import View.AdminGame;
+import View.AdministratorGUI;
 import Game.Game;
 
 
@@ -17,18 +18,19 @@ import View.AdminGame;
 <<<<<<< HEAD
  */
 
-public class Controller 
+public class Controller extends AbstractController
 {   
 	
-	Game game;
+	//Game game;
 	AdminGame admin;
 	
 	public boolean Tour;
 	
 	public Controller()
 	{
-		
-		
+		super();
+		game = new Game();
+		AG = new AdministratorGUI();
 		Tour = true;
 		
 	}
@@ -41,6 +43,12 @@ public class Controller
 		game = new Game();
 		
 		admin = new AdminGame("Stratego");
+		
+	}
+
+	@Override
+	void control() {
+		// TODO Auto-generated method stub
 		
 	}
 	

@@ -1,6 +1,6 @@
 package Intelligence;
 
-public class joueur 
+public class Joueur 
 {
 	private final boolean Tour = true;
 }

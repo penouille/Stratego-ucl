@@ -1,6 +1,6 @@
 package Intelligence;
 
-public class artificielle 
+public class Artificielle 
 {
 	
 }

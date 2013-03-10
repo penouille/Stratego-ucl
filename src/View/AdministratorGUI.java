@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 
-public class administratorGUI 
+public class AdministratorGUI 
 {
 	
 	JFrame frame;
@@ -14,7 +14,7 @@ public class administratorGUI
 	JPanel PForButton;
 	JButton button;
 	
-	public administratorGUI ()
+	public AdministratorGUI ()
 	{
 		
 		frame = new JFrame();
