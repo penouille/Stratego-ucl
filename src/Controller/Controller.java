@@ -17,7 +17,7 @@ import View.AdminGame;
 <<<<<<< HEAD
  */
 
-public class controller 
+public class Controller 
 {   
 	
 	Game game;
@@ -25,7 +25,7 @@ public class controller
 	
 	public boolean Tour;
 	
-	public controller()
+	public Controller()
 	{
 		
 		

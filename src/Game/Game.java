@@ -10,7 +10,7 @@ import Pion.pion;
  * @author Florian
  *
  */
-public class Game 
+public class Game extends AbstractGame
 {
 	
 	private Map Map;

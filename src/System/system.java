@@ -1,5 +1,6 @@
 package System;
-import Controller.*;
+
+import Controller.Controller;
 
 public class system 
 {
@@ -10,7 +11,10 @@ public class system
 	
 	public static void main( String args[] )
 	{
-		new controller();
+		//Creation des Models
+		
+		//creation du controller
+		Controller controller = new Controller(/*model en argument*/);
 	}
 
 }

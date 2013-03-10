@@ -77,7 +77,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        		
        		provider.bindCommand(new KeyControl(Input.KEY_M), menu);
        		
-       		Fin = new MouseOverArea(container , new Image("vert.jpg") , 810 , 450);
+       		Fin = new MouseOverArea(container , new Image("Fin de tour.jpg") , 810 , 450);
        		Fin.setNormalColor(new Color(1f,1f,1f,0.7f));
        		Fin.setMouseOverColor(new Color(0.5f,0.5f,0.5f,3f));
        		
@@ -87,7 +87,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        			for ( int j = 0 ; j < 10 ; j++)
        			{
        				Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
-            	   }		
+            	   }
        		}
                
        		//premier bloc de flotte.
@@ -116,6 +116,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        /**
         * 
         * Crée les mouseoverarea a partir desquelles on pourra placer ses pions en début de partie
+        * Les cases avec les personnages.
         */
        	public void force ( GameContainer container ) throws SlickException 
        	{
