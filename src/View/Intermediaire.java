@@ -11,8 +11,19 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import Controller.Controller;
+
 public class Intermediaire extends BasicGameState implements InputProviderListener
 {
+	
+	private Controller controller;
+	
+	public Intermediaire(Controller controller)
+	{
+		super();
+		
+		this.controller = controller;
+	}
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)

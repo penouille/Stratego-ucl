@@ -30,7 +30,7 @@ public class Game extends AbstractGame
 		if(typeGame.equals("JvJ"))
 		{
 			joueur1 = new Joueur();
-			joueur2=new Joueur();
+			joueur2 = new Joueur();
 		}
 		else
 		{

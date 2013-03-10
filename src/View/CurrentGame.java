@@ -1,7 +1,6 @@
 package View;
 
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import org.newdawn.slick.AppGameContainer;
@@ -27,6 +26,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import Controller.Controller;
+
 
 
 
@@ -51,6 +52,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 		
        
        	private boolean tour = true;
+       	
+       	private Controller controller;
        
        	/**
        	 * Create a new image rendering test
@@ -58,6 +61,12 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        	public CurrentGame() 
        	{
        		super();
+       	}
+       	
+       	public CurrentGame(Controller controller) 
+       	{
+       		super();
+       		this.controller = controller;
        	}
        
        	public int getID() 

@@ -24,6 +24,8 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 	private JButton JvIA;
 	private JButton quit;
 	private JButton option;
+	private JButton regle;
+	private JButton score;
 	
 	private JPanel PPrincipal;
 	private JPanel PForButtons;
@@ -51,10 +53,12 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 		JvIA = new JButton("Joueur Vs IA");
 		quit = new JButton("Quitter");
 		option = new JButton("Option");
+		regle = new JButton("Règles");
+		score = new JButton("Scores");
 		
 		//intialisation Panel
 		PPrincipal = new JPanel(new BorderLayout());
-		PForButtons = new JPanel(new GridLayout(4,1));
+		PForButtons = new JPanel(new GridLayout(6,1));
 		
 		//intialisation JLabel
 		image = new JLabel(img);
@@ -63,6 +67,8 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 		PForButtons.add(JvJ);
 		PForButtons.add(JvIA);
 		PForButtons.add(option);
+		PForButtons.add(regle);
+		PForButtons.add(score);
 		PForButtons.add(quit);
 		
 		//ajout de l'action listener
@@ -84,7 +90,8 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 		JvIA.addActionListener(this);
 		quit.addActionListener(this);
 		option.addActionListener(this);
-		
+		regle.addActionListener(this);
+		score.addActionListener(this);
 	}
 
 	@Override
@@ -112,7 +119,14 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 		{
 			System.exit(EXIT_ON_CLOSE);
 		}
-		
+		if(b==score)
+		{
+			
+		}
+		if(b==regle)
+		{
+			
+		}
 	}
 
 }

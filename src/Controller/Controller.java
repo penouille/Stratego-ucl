@@ -26,35 +26,38 @@ public class Controller extends AbstractController
 	
 	public boolean Tour;
 	
+	private Game game;
+	
 	public Controller()
 	{
-		super();
-		Tour = true;
-		
+		super();		
 	}
 	
 	public Controller(Game game)
 	{
 		// TODO Auto-generated constructor stub
-		System.out.println("Hello !!!");
+		super();
+		this.game = game;
 	}
 
+
+	@Override
+	void control() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
 	/**
 	 * Lance une partie.
 	 */
-	public void newGame ()
+	/*public void newGame ()
 	{
 		//game = new Game();
 		
 		admin = new AdminGame("Stratego");
 		
-	}
-
-	@Override
-	void control() {
-		// TODO Auto-generated method stub
-		
-	}
+	}*/
 	
-}   
+}
 	

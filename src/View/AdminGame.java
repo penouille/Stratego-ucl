@@ -57,9 +57,9 @@ public class AdminGame extends StateBasedGame
 
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-		this.addState(new CurrentGame());
-		this.addState(new AdversGame());
-		this.addState(new Intermediaire());
+		this.addState(new CurrentGame(controller));
+		this.addState(new AdversGame(controller));
+		this.addState(new Intermediaire(controller));
 	}
 	
 	public static void main(String[] argv) 
