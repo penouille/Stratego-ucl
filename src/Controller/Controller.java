@@ -1,5 +1,7 @@
 package Controller;
 
+import org.newdawn.slick.Image;
+
 import Pion.Pion;
 import View.AdminGame;
 import View.AdministratorGUI;
@@ -26,6 +28,8 @@ public class Controller extends AbstractController
 	AdminGame admin;
 	
 	public boolean Tour;
+	private boolean placement;
+	private Image prise;
 	
 	private Game game;
 	
@@ -42,6 +46,16 @@ public class Controller extends AbstractController
 		super();
 		this.game = game;
 	}
+	
+	public void setPrise(Image prise)
+	{
+		this.prise = prise;
+	}
+	
+	public Image getPrise()
+	{
+		return this.prise;
+	}
 
 
 	@Override
@@ -51,9 +65,38 @@ public class Controller extends AbstractController
 		
 	}
 	
-	public void placePion(String pion, int x, int y)
+	/**
+	 * renvoit vrai si le pion sur lequel on a cliquer peut etre déplacer
+	 * faux sinon.
+	 */
+	public boolean checkMove()
 	{
-		game.placePion(pion, x, y);
+		
+	}
+	
+	public boolean checkClick(int i)
+	{
+		int x = i/10;
+		int y = i%10;
+		if(placement==true)
+		{
+			
+		}
+	}
+	
+	/**
+	 * pre:
+	 * post: Renvoit 
+	 */
+	public ArrayList<int> checkandroitoujepeuxposercesatanepion()
+	{
+		return null;
+	}
+	
+	public void placePion(String pionPath, int x, int y, boolean joueur)
+	{
+		
+		game.placePion(pionPath, x, y, joueur);
 	}
 	
 	/**
