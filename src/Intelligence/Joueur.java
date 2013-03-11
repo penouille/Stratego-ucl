@@ -38,7 +38,7 @@ public class Joueur
 	
 	public void initializePion()
 	{
-int i;
+		int i;
 		
 		ListePion[0] = new Drapeau();
 		for(i=1; i<7; i++)
@@ -76,5 +76,10 @@ int i;
 		}
 		ListePion[38] = new General();
 		ListePion[39] = new Marechal();
+	}
+
+	public Pion getPion(String pionPath) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -11,8 +11,9 @@ public abstract class Pion
 {
 	protected int NbrDePas;
 	protected int Force;
-	protected int Team;
-	protected boolean mort;
+	protected boolean teamRed;
+	protected String name;
+	//protected boolean mort;
 	
 	public Pion()
 	{
@@ -29,12 +30,22 @@ public abstract class Pion
 		return this.NbrDePas;
 	}
 	
-	public int getTeam()
+	public void setTeamRed(boolean b)
 	{
-		return this.Team;
+		this.teamRed = b;
 	}
 	
-	public void setMort(boolean b)
+	public boolean getTeamRed()
+	{
+		return this.teamRed;
+	}
+	
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	/*public void setMort(boolean b)
 	{
 		mort = b;
 	}
@@ -42,5 +53,5 @@ public abstract class Pion
 	public boolean getMort()
 	{
 		return this.mort;
-	}
+	}*/
 }

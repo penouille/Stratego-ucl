@@ -6,6 +6,7 @@ public class Marechal extends Pion
 	{
 		NbrDePas = 1;
 		Force = 10;
+		name = "lieutenant";
 	}
 
 }

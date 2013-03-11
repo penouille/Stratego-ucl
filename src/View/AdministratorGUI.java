@@ -18,4 +18,9 @@ public class AdministratorGUI
 		
 	}
 	
+	void init()
+	{
+		new Start();
+	}
+	
 }

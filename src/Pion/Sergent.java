@@ -7,5 +7,6 @@ public class Sergent extends Pion
 	{
 		NbrDePas = 1;
 		Force = 4;
+		name = "sergent";
 	}
 }

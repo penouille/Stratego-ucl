@@ -7,6 +7,7 @@ public class Bombe extends Pion
 	{
 		NbrDePas = 0;
 		Force = 11;
+		name = "bombe";
 	}
 	
 	

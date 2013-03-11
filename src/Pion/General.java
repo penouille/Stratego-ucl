@@ -6,6 +6,7 @@ public class General extends Pion
 	{
 		NbrDePas = 1;
 		Force = 9;
+		name = "general";
 	}
 
 }

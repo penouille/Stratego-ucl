@@ -6,5 +6,6 @@ public class Lieutenant extends Pion
 	{
 		NbrDePas = 1;
 		Force = 5;
+		name = "lieutenant";
 	}
 }

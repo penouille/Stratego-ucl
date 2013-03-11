@@ -35,6 +35,10 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 {
 		
 		private ArrayList<MouseOverArea> Echequier = new ArrayList<MouseOverArea>();
+		
+		private ArrayList<ArrayList<MouseOverArea>> echiquier = new ArrayList<ArrayList<MouseOverArea>> ();
+		
+		
 		private ArrayList<MouseOverArea> Force = new ArrayList<MouseOverArea>();
 		private MouseOverArea Fin ;
 	   
@@ -96,7 +100,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        			for ( int j = 0 ; j < 10 ; j++)
        			{
        				Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
-            	   }
+       				//echiquier.get(i).add(j, new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
+            	}
        		}
                
        		//premier bloc de flotte.
@@ -202,12 +207,20 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     					   if( !(i == 42 || i == 43 || i == 46 || i == 47 || i == 52 || i == 53 || i == 56 || i == 57))
         				   {
     						   Echequier.set(i , new MouseOverArea( container, prise , Echequier.get(i).getX(), Echequier.get(i).getY()));
-
+    						   	controller.placePion(prise.getResourceReference(), i/10, i%10);
+    						   //System.out.println("Kikoo lol = " +prise.getResourceReference()+ " i =  " + i + " modulo = " + i%10);
 			   					prise = null;
         				   }
 			   			}
     				   
     			   }
+    			   /*for(int i =0; i<echiquier.size(); i++)
+    			   {
+    				   for(int j=0; j<echiquier.get(i).size(); j++)
+    				   {
+    					   //controller.placePion(prise.getName(), i, j);
+    				   }
+    			   }*/
     		   
     		   }
     		   
@@ -229,6 +242,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 			   					else
 			   					{
 			   						Echequier.set(i , new MouseOverArea( container, prise , Echequier.get(i).getX(), Echequier.get(i).getY()));
+			   						
 			   					}
 			   				}
 			   		}

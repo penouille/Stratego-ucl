@@ -7,6 +7,7 @@ public class Eclaireur extends Pion
 	{
 		NbrDePas = 2;
 		Force = 2;
+		name = "eclaireur";
 	}
 
 }

@@ -7,6 +7,7 @@ public class Drapeau extends Pion
 	{
 		NbrDePas = 0;
 		Force = 0;
+		name = "drapeau";
 	}
 	
 }

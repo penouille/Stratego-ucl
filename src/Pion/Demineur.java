@@ -6,6 +6,7 @@ public class Demineur extends Pion
 	{
 		NbrDePas = 1;
 		Force = 3;
+		name = "demineur";
 	}
 
 }

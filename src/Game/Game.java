@@ -15,19 +15,19 @@ import Pion.Pion;
 public class Game extends AbstractGame
 {
 	
-	private Map Map;
+	private Map map;
 	
-	private Joueur joueur1;
+	//private Joueur joueur1;
 	
-	private Joueur joueur2;
+	//private Joueur joueur2;
 	
-	private Artificielle IA;
+	//private Artificielle IA;
 	
 	public Game(String typeGame)
 	{
-		Map = new Map();
+		map = new Map();
 		
-		if(typeGame.equals("JvJ"))
+		/*if(typeGame.equals("JvJ"))
 		{
 			joueur1 = new Joueur();
 			joueur2 = new Joueur();
@@ -36,20 +36,20 @@ public class Game extends AbstractGame
 		{
 			joueur1 = new Joueur();
 			IA = new Artificielle();
-		}
+		}*/
 	}
 	
 	//implémentation d'un mouvement
 	public void move ( int x1, int y1, int x2, int y2)
 	{
-		Pion attaquant = Map.getPosition(x1,y1);
-		Pion defenseur = Map.getPosition(x2, y2);
+		Pion attaquant = map.getPosition(x1,y1);
+		Pion defenseur = map.getPosition(x2, y2);
 		
-		Map.resetPosition(x1,y1);
+		map.resetPosition(x1,y1);
 		
 		if(defenseur == null)
 		{
-			Map.setEtat(x2, y2, attaquant);
+			map.setEtat(x2, y2, attaquant);
 			return;
 		}
 		
@@ -57,22 +57,22 @@ public class Game extends AbstractGame
 		{
 		
 		case(0): 
-			Map.setEtat(x2, y2, null);
+			map.setEtat(x2, y2, null);
 		
 		
 		case(1):
-			Map.setEtat(x2, y2, defenseur);
+			map.setEtat(x2, y2, defenseur);
 		
 		
 		case(2):
-			Map.setEtat(x2, y2, attaquant);
+			map.setEtat(x2, y2, attaquant);
 		}
 	}
 	
 	public boolean canMove(int x1, int y1, int x2, int y2 )
 	{
-		Pion attaquant = Map.getPosition(x1,y1);
-		Pion defenseur = Map.getPosition(x2, y2);
+		Pion attaquant = map.getPosition(x1,y1);
+		Pion defenseur = map.getPosition(x2, y2);
 		
 		if (attaquant == null)
 		{
@@ -84,7 +84,7 @@ public class Game extends AbstractGame
 			return false;
 		}
 		
-		if (defenseur.getTeam() == attaquant.getTeam())
+		if (defenseur.getTeamRed() == attaquant.getTeamRed())
 		{
 			return false;
 		}
@@ -100,5 +100,11 @@ public class Game extends AbstractGame
 	public int fight(Pion P1 , Pion P2)
 	{
 		return Fight.fightResult[P1.getForce()][P2.getForce()];
+	}
+
+	public void placePion(String pionPath, int x, int y) {
+		// TODO Auto-generated method stub
+		//Pion pion = joueur1.getPion(pionPath);
+		//map.setEtat(x, y, pion);
 	}
 }

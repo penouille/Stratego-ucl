@@ -6,7 +6,7 @@ public class Capitaine extends Pion
 	{
 		NbrDePas = 1;
 		Force = 6;
-		
+		name = "capitaine";
 	}
 
 }

@@ -46,7 +46,7 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 		img = new ImageIcon(url_img);
 		
 		int width = img.getIconWidth(); int height = img.getIconHeight();
-		centerMe(width, height, 200); //Dimensionne et centre le JFrame.
+		centerMe(width, height, 250); //Dimensionne et centre le JFrame.
 		
 		//initialisation des buttons
 		JvJ = new JButton("Joueur Vs Joueur");

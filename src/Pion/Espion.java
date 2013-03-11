@@ -7,5 +7,6 @@ public class Espion extends Pion
 	{
 		NbrDePas = 1;
 		Force = 1;
+		name = "espion";
 	}
 }

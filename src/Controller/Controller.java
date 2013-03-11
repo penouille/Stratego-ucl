@@ -1,5 +1,6 @@
 package Controller;
 
+import Pion.Pion;
 import View.AdminGame;
 import View.AdministratorGUI;
 import Game.Game;
@@ -28,6 +29,8 @@ public class Controller extends AbstractController
 	
 	private Game game;
 	
+	private AdministratorGUI interfaces;
+	
 	public Controller()
 	{
 		super();		
@@ -46,6 +49,11 @@ public class Controller extends AbstractController
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void placePion(String pion, int x, int y)
+	{
+		game.placePion(pion, x, y);
 	}
 	
 	/**
