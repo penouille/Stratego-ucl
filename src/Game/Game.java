@@ -1,9 +1,19 @@
 package Game;
 
-import Intelligence.Artificielle;
-import Intelligence.Joueur;
+import Pion.Bombe;
+import Pion.Capitaine;
+import Pion.Colonel;
+import Pion.Commandant;
+import Pion.Demineur;
+import Pion.Drapeau;
+import Pion.Eclaireur;
+import Pion.Espion;
 import Pion.Fight;
+import Pion.General;
+import Pion.Lieutenant;
+import Pion.Marechal;
 import Pion.Pion;
+import Pion.Sergent;
 
 
 /**
@@ -17,33 +27,21 @@ public class Game extends AbstractGame
 	
 	private Map map;
 	
-	//private Joueur joueur1;
-	
-	//private Joueur joueur2;
-	
-	//private Artificielle IA;
-	
 	public Game(String typeGame)
 	{
 		map = new Map();
-		
-		/*if(typeGame.equals("JvJ"))
-		{
-			joueur1 = new Joueur();
-			joueur2 = new Joueur();
-		}
-		else
-		{
-			joueur1 = new Joueur();
-			IA = new Artificielle();
-		}*/
+	}
+	
+	public Map getMap()
+	{
+		return this.map;
 	}
 	
 	//implémentation d'un mouvement
 	public void move ( int x1, int y1, int x2, int y2)
 	{
-		Pion attaquant = map.getPosition(x1,y1);
-		Pion defenseur = map.getPosition(x2, y2);
+		Pion attaquant = map.getPion(x1,y1);
+		Pion defenseur = map.getPion(x2, y2);
 		
 		map.resetPosition(x1,y1);
 		
@@ -69,25 +67,46 @@ public class Game extends AbstractGame
 		}
 	}
 	
-	public boolean canMove(int x1, int y1, int x2, int y2 )
+	public boolean canMove(int oldX, int oldY, int x, int y, boolean joueur)
 	{
-		Pion attaquant = map.getPosition(x1,y1);
-		Pion defenseur = map.getPosition(x2, y2);
-		
-		if (attaquant == null)
+		Pion attaquant = map.getPion(oldX,oldY);
+		if(attaquant==null)
 		{
 			return false;
 		}
-		
-		if (defenseur.getForce()==1000)
+		else if(attaquant.getTeam()!=joueur)//Si on tente de déplacer un joueur qui ne nous appartient pas.
 		{
 			return false;
 		}
-		
-		if (defenseur.getTeamRed() == attaquant.getTeamRed())
+		else
 		{
-			return false;
+			Pion defenseur = map.getPion(x, y);
+			if (defenseur.getForce()==1000)//Déplace un joueur sur une case interdite.
+			{
+				return false;
+			}
+			if (defenseur.getTeam() == attaquant.getTeam())
+			{
+				return false;
+			}
+			if(defenseur==null)
+			{
+				byte nbrPas = attaquant.getNbrDePas();
+				if(oldX-x<=nbrPas || oldX-x<=nbrPas*(-1) || oldY-y<=nbrPas || oldY-y<=nbrPas*(-1))
+				{
+					return true;
+				}
+			}
+			else
+			{
+				//TODO Affronter un pion adverse.
+				return false;
+			}
 		}
+		
+		
+		
+		
 		
 		//A rajouter: Le cas où un joueur essaie de jouer un pion adverse.
 		
@@ -102,9 +121,50 @@ public class Game extends AbstractGame
 		return Fight.fightResult[P1.getForce()][P2.getForce()];
 	}
 
-	public void placePion(String pionPath, int x, int y) {
+	public void placePion(int oldX, int oldY, int x, int y) 
+	{
 		// TODO Auto-generated method stub
-		//Pion pion = joueur1.getPion(pionPath);
-		//map.setEtat(x, y, pion);
+		map.setEtat(x, y, map.getPion(oldX, oldY));
+		map.setEtat(oldX, oldY, null);
+	}
+
+	private Pion getTypePion(String pionPath, boolean joueur)
+	{
+		if(pionPath.contains("bombe")) return new Bombe(joueur);
+		if(pionPath.contains("drapeau")) return new Drapeau(joueur);
+		if(pionPath.contains("espion")) return new Espion(joueur);
+		if(pionPath.contains("colonel")) return new Colonel(joueur);
+		if(pionPath.contains("capitaine")) return new Capitaine(joueur);
+		if(pionPath.contains("commandant")) return new Commandant(joueur);
+		if(pionPath.contains("demineur")) return new Demineur(joueur);
+		if(pionPath.contains("eclaireur")) return new Eclaireur(joueur);
+		if(pionPath.contains("espion")) return new Espion(joueur);
+		if(pionPath.contains("general")) return new General(joueur);
+		if(pionPath.contains("lieutenant")) return new Lieutenant(joueur);
+		if(pionPath.contains("marechal")) return new Marechal(joueur);
+		if(pionPath.contains("sergent")) return new Sergent(joueur);
+		else return null;
+	}
+
+	public boolean checkNumberOfPion(String pionPath) 
+	{
+		int count = 0; int nbrPion = 0;
+		for(int i = 0; i<4; i++)
+		{
+			for(int j = 0; j<10; j++)
+			{
+				if(pionPath.contains(map.getPion(i, j).getName()))
+				{
+					count++;
+					if(nbrPion==0) nbrPion = map.getPion(i, j).getNombre();
+				}
+			}
+		}
+		return nbrPion!=count;
+	}
+
+	public void createAndPlacePion(String pionPath, int x, int y, boolean joueur) {
+		Pion pion = getTypePion(pionPath, joueur);
+		map.setEtat(x, y, pion);
 	}
 }

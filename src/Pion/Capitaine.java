@@ -2,11 +2,13 @@ package Pion;
 
 public class Capitaine extends Pion
 {
-	public Capitaine()
+	public Capitaine(boolean joueur)
 	{
-		NbrDePas = 1;
-		Force = 6;
+		nbrDePas = 1;
+		force = 6;
 		name = "capitaine";
+		nombre = 4;
+		team = joueur;
 	}
 
 }

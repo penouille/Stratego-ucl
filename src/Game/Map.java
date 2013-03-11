@@ -42,7 +42,7 @@ public class Map
 	/*
 	 * retourne l'objet position dont les coordonnées ont été passées en argument.
 	 */
-	public Pion getPosition (int x, int y)
+	public Pion getPion (int x, int y)
 	{
 		return Map[x][y]; 
 	}

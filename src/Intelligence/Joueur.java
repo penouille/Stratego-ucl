@@ -32,11 +32,11 @@ public class Joueur
 		ListPion = new ArrayList<Pion>();
 		
 		ListePion = new Pion [40];
-		initializePion();
+		//initializePion();
 		
 	}
 	
-	public void initializePion()
+	/*public void initializePion()
 	{
 		int i;
 		
@@ -76,7 +76,7 @@ public class Joueur
 		}
 		ListePion[38] = new General();
 		ListePion[39] = new Marechal();
-	}
+	}*/
 
 	public Pion getPion(String pionPath) {
 		// TODO Auto-generated method stub

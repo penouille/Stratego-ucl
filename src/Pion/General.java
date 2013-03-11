@@ -2,11 +2,13 @@ package Pion;
 
 public class General extends Pion
 {
-	public General()
+	public General(boolean joueur)
 	{
-		NbrDePas = 1;
-		Force = 9;
+		nbrDePas = 1;
+		force = 9;
 		name = "general";
+		nombre = 1;
+		team = joueur;
 	}
 
 }

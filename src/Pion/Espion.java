@@ -3,10 +3,12 @@ package Pion;
 public class Espion extends Pion
 {
 	
-	public Espion()
+	public Espion(boolean joueur)
 	{
-		NbrDePas = 1;
-		Force = 1;
+		nbrDePas = 1;
+		force = 1;
 		name = "espion";
+		nombre = 1;
+		team = joueur;
 	}
 }

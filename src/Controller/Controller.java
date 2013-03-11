@@ -27,24 +27,31 @@ public class Controller extends AbstractController
 	//Game game;
 	AdminGame admin;
 	
-	public boolean Tour;
+	public boolean tour;
 	private boolean placement;
 	private Image prise;
+	private int lastClick;
+	private int newClick;
 	
 	private Game game;
 	
-	private AdministratorGUI interfaces;
-	
 	public Controller()
 	{
-		super();		
+		super();
 	}
 	
 	public Controller(Game game)
 	{
-		// TODO Auto-generated constructor stub
 		super();
+		tour = true;
 		this.game = game;
+	}
+	
+	public void setClick(int click)
+	{
+		lastClick = newClick;
+		newClick = click;
+		placePion();
 	}
 	
 	public void setPrise(Image prise)
@@ -63,40 +70,36 @@ public class Controller extends AbstractController
 	{
 		// TODO Auto-generated method stub
 		
-	}
-	
-	/**
-	 * renvoit vrai si le pion sur lequel on a cliquer peut etre déplacer
-	 * faux sinon.
-	 */
-	public boolean checkMove()
-	{
 		
 	}
 	
-	public boolean checkClick(int i)
+	public void placePion()
 	{
-		int x = i/10;
-		int y = i%10;
-		if(placement==true)
+		if(prise!=null)
 		{
-			
+			String pionPath = prise.getResourceReference();
+			if(placement && game.checkNumberOfPion(pionPath))
+			{
+				int x = newClick/10;
+				int y = newClick%10;
+				if(x<4) game.createAndPlacePion(pionPath, x, y, tour);
+			}
+			else
+			{
+				//TODO Quand on déplace un pion.
+				int oldX = lastClick/10;
+				int oldY = lastClick%10;
+				int x = newClick/10;
+				int y = newClick%10;
+				if(game.canMove(oldX, oldY, x, y, tour))
+				{
+					game.placePion(oldX, oldY, x, y);
+					tour=!tour;
+				}
+				
+			}
 		}
-	}
-	
-	/**
-	 * pre:
-	 * post: Renvoit 
-	 */
-	public ArrayList<int> checkandroitoujepeuxposercesatanepion()
-	{
-		return null;
-	}
-	
-	public void placePion(String pionPath, int x, int y, boolean joueur)
-	{
 		
-		game.placePion(pionPath, x, y, joueur);
 	}
 	
 	/**

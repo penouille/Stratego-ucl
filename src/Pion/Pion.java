@@ -9,10 +9,11 @@ package Pion;
  */
 public abstract class Pion 
 {
-	protected int NbrDePas;
-	protected int Force;
-	protected boolean teamRed;
+	protected byte nbrDePas;
+	protected int force;
+	protected boolean team;
 	protected String name;
+	protected byte nombre;
 	//protected boolean mort;
 	
 	public Pion()
@@ -22,22 +23,27 @@ public abstract class Pion
 	
 	public int getForce()
 	{
-		return this.Force;
+		return this.force;
 	}
 	
-	public int getNbrDePas()
+	public byte getNbrDePas()
 	{
-		return this.NbrDePas;
+		return this.nbrDePas;
 	}
 	
-	public void setTeamRed(boolean b)
+	public byte getNombre()
 	{
-		this.teamRed = b;
+		return this.nombre;
 	}
 	
-	public boolean getTeamRed()
+	public void setTeam(boolean b)
 	{
-		return this.teamRed;
+		this.team = b;
+	}
+	
+	public boolean getTeam()
+	{
+		return this.team;
 	}
 	
 	public String getName()

@@ -2,11 +2,13 @@ package Pion;
 
 public class Demineur extends Pion
 {
-	public Demineur()
+	public Demineur(boolean joueur)
 	{
-		NbrDePas = 1;
-		Force = 3;
+		nbrDePas = 1;
+		force = 3;
 		name = "demineur";
+		nombre = 5;
+		team = joueur;
 	}
 
 }

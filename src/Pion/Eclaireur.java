@@ -3,11 +3,13 @@ package Pion;
 public class Eclaireur extends Pion
 {
 	
-	public Eclaireur()
+	public Eclaireur(boolean joueur)
 	{
-		NbrDePas = 2;
-		Force = 2;
+		nbrDePas = 2;
+		force = 2;
 		name = "eclaireur";
+		nombre = 8;
+		team = joueur;
 	}
 
 }

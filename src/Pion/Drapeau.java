@@ -3,11 +3,13 @@ package Pion;
 public class Drapeau extends Pion
 {
 	
-	public Drapeau()
+	public Drapeau(boolean joueur)
 	{
-		NbrDePas = 0;
-		Force = 0;
+		nbrDePas = 0;
+		force = 0;
 		name = "drapeau";
+		nombre = 1;
+		team = joueur;
 	}
 	
 }

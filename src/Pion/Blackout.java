@@ -10,7 +10,7 @@ public class Blackout extends Pion
 {
 	public Blackout()
 	{
-		Force = 1000;
-		NbrDePas = 0;
+		force = 1000;
+		nbrDePas = 0;
 	}
 }

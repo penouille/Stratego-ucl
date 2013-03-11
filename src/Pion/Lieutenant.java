@@ -2,10 +2,12 @@ package Pion;
 
 public class Lieutenant extends Pion
 {
-	public Lieutenant()
+	public Lieutenant(boolean joueur)
 	{
-		NbrDePas = 1;
-		Force = 5;
+		nbrDePas = 1;
+		force = 5;
 		name = "lieutenant";
+		nombre = 4;
+		team = joueur;
 	}
 }

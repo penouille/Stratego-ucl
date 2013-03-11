@@ -2,12 +2,14 @@ package Pion;
 
 public class Bombe extends Pion
 {
-	
-	public Bombe()
+
+	public Bombe(boolean joueur)
 	{
-		NbrDePas = 0;
-		Force = 11;
+		nbrDePas = 0;
+		force = 11;
 		name = "bombe";
+		team = joueur;
+		nombre = 6;
 	}
 	
 	

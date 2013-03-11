@@ -2,11 +2,13 @@ package Pion;
 
 public class Marechal extends Pion
 {
-	public Marechal()
+	public Marechal(boolean joueur)
 	{
-		NbrDePas = 1;
-		Force = 10;
-		name = "lieutenant";
+		nbrDePas = 1;
+		force = 10;
+		name = "marechal";
+		nombre = 1;
+		team = joueur;
 	}
 
 }
