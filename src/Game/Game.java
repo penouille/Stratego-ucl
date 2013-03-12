@@ -37,85 +37,76 @@ public class Game extends AbstractGame
 		return this.map;
 	}
 	
-	//implémentation d'un mouvement
-	public void move ( int x1, int y1, int x2, int y2)
-	{
-		Pion attaquant = map.getPion(x1,y1);
-		Pion defenseur = map.getPion(x2, y2);
-		
-		map.resetPosition(x1,y1);
-		
-		if(defenseur == null)
-		{
-			map.setEtat(x2, y2, attaquant);
-			return;
-		}
-		
-		switch( fight(attaquant, defenseur) )
-		{
-		
-		case(0): 
-			map.setEtat(x2, y2, null);
-		
-		
-		case(1):
-			map.setEtat(x2, y2, defenseur);
-		
-		
-		case(2):
-			map.setEtat(x2, y2, attaquant);
-		}
-	}
-	
-	public boolean canMove(int oldX, int oldY, int x, int y, boolean joueur)
+	/**
+	 * @param oldX, oldY, x, y, joueur
+	 * @return 	renvoit true si le pion de la case (oldX,oldY) peut être déplacer sur la case (x,y)
+	 * 			Attention: 	Si la case sur laquelle on souhaite déplacer son pion est occupée par un 
+	 * 						pion adverse, cette methode renvoit true.
+	 */
+	public boolean canMoveOnNewCase(int oldX, int oldY, int x, int y, boolean joueur)
 	{
 		Pion attaquant = map.getPion(oldX,oldY);
 		if(attaquant==null)
 		{
 			return false;
 		}
-		else if(attaquant.getTeam()!=joueur)//Si on tente de déplacer un joueur qui ne nous appartient pas.
+		//Si on tente de déplacer un pion qui ne nous appartient pas.
+		else if(attaquant.getTeam()!=joueur)
 		{
 			return false;
 		}
 		else
 		{
 			Pion defenseur = map.getPion(x, y);
-			if (defenseur.getForce()==1000)//Déplace un joueur sur une case interdite.
+			//tenter de déplacer un pion sur une case interdite.
+			if (defenseur.getForce()==1000)
 			{
 				return false;
 			}
-			if (defenseur.getTeam() == attaquant.getTeam())
+			//tenter de deplacer un pion sur un autre pion qui nous appartient.
+			else if (defenseur.getTeam() == attaquant.getTeam())
 			{
 				return false;
-			}
-			if(defenseur==null)
-			{
-				byte nbrPas = attaquant.getNbrDePas();
-				if(oldX-x<=nbrPas || oldX-x<=nbrPas*(-1) || oldY-y<=nbrPas || oldY-y<=nbrPas*(-1))
-				{
-					return true;
-				}
 			}
 			else
 			{
-				//TODO Affronter un pion adverse.
-				return false;
+				byte nbrPas = attaquant.getNbrDePas();
+				if((oldX-x<=nbrPas || oldX-x<=nbrPas*(-1)) || (oldY-y<=nbrPas || oldY-y<=nbrPas*(-1)))
+				{
+					return true;
+				}
+				else return false;
 			}
-		}
-		
-		
-		
-		
-		
-		//A rajouter: Le cas où un joueur essaie de jouer un pion adverse.
-		
-		return true;
-		
+		}		
 	}
 	
-	//implémentation d'un combat entre pions sur la carte.
-	//return 0, 1 ou 2 en fct du résultat du combat.
+	/**
+	 * 
+	 * @param x, y, joueur
+	 * @return renvoit true si le pion à la position (x,y) peut etre deplacer sur une autre case,
+	 * false sinon.
+	 */
+	public boolean canMove(int x, int y, boolean joueur)
+	{
+		boolean canMove = false;
+		for(int i=1; !canMove && i<=map.getPion(x, y).getNbrDePas(); i++)
+		{
+			if( (x-i>=0) && canMoveOnNewCase(x, y, x-i, y, joueur)) canMove=true;
+			else if( (x+i<10) && canMoveOnNewCase(x, y, x+i, y, joueur)) canMove=true;
+			else if( (y-i>=0) && canMoveOnNewCase(x, y, x, y-i, joueur)) canMove=true;
+			else if( (y+i<10) && canMoveOnNewCase(x, y, x, y+i, joueur)) canMove=true;
+		}
+		
+		return canMove;
+	}
+	
+	/**
+	 * @param Pion1 et Pion2
+	 * @return implémentation d'un combat entre pions sur la carte.
+	 * 			renvoit 0 si les deux pions meurt
+	 * 			renvoit 1 si le pion attaquant meurt
+	 * 			ou renvoit 2 si le pion defenseur meurt.
+	 */
 	public int fight(Pion P1 , Pion P2)
 	{
 		return Fight.fightResult[P1.getForce()][P2.getForce()];
@@ -123,7 +114,6 @@ public class Game extends AbstractGame
 
 	public void placePion(int oldX, int oldY, int x, int y) 
 	{
-		// TODO Auto-generated method stub
 		map.setEtat(x, y, map.getPion(oldX, oldY));
 		map.setEtat(oldX, oldY, null);
 	}
@@ -146,10 +136,15 @@ public class Game extends AbstractGame
 		else return null;
 	}
 
+	/**
+	 * 
+	 * @param pionPath
+	 * @return renvoit true si on peut placer le pion desirer, en fonction de si on en as encore à placer.
+	 */
 	public boolean checkNumberOfPion(String pionPath) 
 	{
 		int count = 0; int nbrPion = 0;
-		for(int i = 0; i<4; i++)
+		for(int i = 6; i<10; i++)
 		{
 			for(int j = 0; j<10; j++)
 			{
@@ -163,8 +158,48 @@ public class Game extends AbstractGame
 		return nbrPion!=count;
 	}
 
-	public void createAndPlacePion(String pionPath, int x, int y, boolean joueur) {
+	public void createAndPlacePion(String pionPath, int x, int y, boolean joueur) 
+	{
 		Pion pion = getTypePion(pionPath, joueur);
 		map.setEtat(x, y, pion);
+	}
+
+	/**
+	 * @param oldX, oldY, x, y
+	 * @return renvoit le resultat d'un eventuel combat lors du deplacement d'un pion
+	 */
+	public int checkNewCase(int oldX, int oldY, int x, int y)
+	{
+		Pion attaquant = map.getPion(oldX,oldY);
+		Pion defenseur = map.getPion(x, y);
+		//Si la case sur laquelle on veut placer le pion est vide.
+		if(defenseur==null) return 10;
+		else return fight(attaquant, defenseur);
+	}
+
+	public void removePion(int x, int y) 
+	{
+		map.resetPosition(x, y);
+	}
+	
+	/**
+	 * @param joueur
+	 * @return 	renvoit true si le joueur a perdu parce qu'il ne sait plus déplacer un seul pion
+	 * 			false sinon.
+	 */
+	public boolean checkLost(boolean joueur)
+	{
+		boolean lost = true;
+		for(int i = 0; lost && i<10; i++)
+		{
+			for(int j = 0; lost && j<10; j++)
+			{
+				if(map.getPion(i, j)!=null && map.getPion(i, j).getTeam()==joueur)
+				{
+					if(canMove(i, j, joueur)) lost=false;
+				}
+			}
+		}
+		return lost;
 	}
 }

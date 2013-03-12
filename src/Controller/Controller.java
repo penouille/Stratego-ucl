@@ -1,10 +1,6 @@
 package Controller;
 
-import org.newdawn.slick.Image;
-
-import Pion.Pion;
 import View.AdminGame;
-import View.AdministratorGUI;
 import Game.Game;
 
 
@@ -21,17 +17,19 @@ import View.AdminGame;
 <<<<<<< HEAD
  */
 
-public class Controller extends AbstractController
+public class Controller
 {   
 	
 	//Game game;
 	AdminGame admin;
 	
 	public boolean tour;
-	private boolean placement;
-	private Image prise;
+	private boolean placementJoueur1;
+	private boolean placementJoueur2;
+	private String prise;
 	private int lastClick;
 	private int newClick;
+	private boolean partieFinie;
 	
 	private Game game;
 	
@@ -44,9 +42,15 @@ public class Controller extends AbstractController
 	{
 		super();
 		tour = true;
+		partieFinie=false;
 		this.game = game;
 	}
 	
+	/**
+	 * @param click
+	 * Methode qui est appelé par le view à chaque fois que l'on a fait un clique.
+	 * Cette methode appel placePion;
+	 */
 	public void setClick(int click)
 	{
 		lastClick = newClick;
@@ -54,64 +58,62 @@ public class Controller extends AbstractController
 		placePion();
 	}
 	
-	public void setPrise(Image prise)
+	public void setPrise(String prise)
 	{
 		this.prise = prise;
 	}
 	
-	public Image getPrise()
+	public String getPrise()
 	{
 		return this.prise;
 	}
-
-
-	@Override
-	void control() 
-	{
-		// TODO Auto-generated method stub
-		
-		
-	}
 	
+	/**
+	 * Methode qui est continuellement appelé (indirectement) par la view, et qui regarde si
+	 * on a tenté de faire un déplacement, si oui, s'il est possible, et si oui, il l'effectue.
+	 * elle ne fait rien, si on a par exemple cliqué n'importe ou.
+	 */
 	public void placePion()
 	{
 		if(prise!=null)
 		{
-			String pionPath = prise.getResourceReference();
-			if(placement && game.checkNumberOfPion(pionPath))
+			//Quand on place un pion.
+			if(placementJoueur1 && game.checkNumberOfPion(prise))
 			{
 				int x = newClick/10;
 				int y = newClick%10;
-				if(x<4) game.createAndPlacePion(pionPath, x, y, tour);
+				if(x>5)
+				{
+					//si on veut remplacer un pion déja existant sur la carte par un autre.
+					game.removePion(x, y);	
+					game.createAndPlacePion(prise, x, y, tour);
+				}
 			}
 			else
 			{
-				//TODO Quand on déplace un pion.
+				//Quand on déplace un pion.
 				int oldX = lastClick/10;
 				int oldY = lastClick%10;
 				int x = newClick/10;
 				int y = newClick%10;
-				if(game.canMove(oldX, oldY, x, y, tour))
+				if(game.canMoveOnNewCase(oldX, oldY, x, y, tour))
 				{
-					game.placePion(oldX, oldY, x, y);
+					int resultFight = game.checkNewCase(oldX, oldY, x, y);
+					if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
+					switch(resultFight)
+					{
+					case 10: game.placePion(oldX, oldY, x, y); break;
+					case 0:  game.removePion(oldX, oldY); game.removePion(x, y); break;
+					case 1:  game.removePion(oldX, oldY); break;
+					case 2:  game.removePion(x, y); game.placePion(oldX, oldY, x, y); break;
+					}
+					partieFinie = !game.checkLost(tour);
 					tour=!tour;
 				}
 				
 			}
 		}
 		
-	}
-	
-	/**
-	 * Lance une partie.
-	 */
-	/*public void newGame ()
-	{
-		//game = new Game();
-		
-		admin = new AdminGame("Stratego");
-		
-	}*/
-	
+	}	
 }
 	
