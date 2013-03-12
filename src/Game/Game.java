@@ -80,4 +80,19 @@ public class Game
 	{
 		return Fight.fightResult[P1.getForce()][P2.getForce()];
 	}
+	
+	public int sizeMap()
+	{
+		return Map.getSize();
+	}
+	
+	public pion getPosition( int x , int y)
+	{
+		return Map.getPosition( x , y);
+	}
+	
+	public void placePion(String pionPath, int x, int y, boolean joueur) {
+		// TODO Auto-generated method stub
+		
+	}
 }
