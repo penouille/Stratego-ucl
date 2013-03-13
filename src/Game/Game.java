@@ -45,7 +45,7 @@ public class Game
 	 */
 	public boolean canMoveOnNewCase(int oldX, int oldY, int x, int y, boolean joueur)
 	{
-		Pion attaquant = Map.getPion(oldX,oldY);
+		Pion attaquant = map.getPion(oldX,oldY);
 		if(attaquant==null)	//verification "inutile", mais on est jamais trop prudent.
 		{
 			return false;
@@ -205,21 +205,8 @@ public class Game
 		return lost;
 	}
 
-	private Pion getTypePion(String pionPath, boolean joueur)
+	public Map getMap() 
 	{
-		if(pionPath.contains("bombe")) return new Bombe(joueur);
-		if(pionPath.contains("drapeau")) return new Drapeau(joueur);
-		if(pionPath.contains("espion")) return new Espion(joueur);
-		if(pionPath.contains("colonel")) return new Colonel(joueur);
-		if(pionPath.contains("capitaine")) return new Capitaine(joueur);
-		if(pionPath.contains("commandant")) return new Commandant(joueur);
-		if(pionPath.contains("demineur")) return new Demineur(joueur);
-		if(pionPath.contains("eclaireur")) return new Eclaireur(joueur);
-		if(pionPath.contains("espion")) return new Espion(joueur);
-		if(pionPath.contains("general")) return new General(joueur);
-		if(pionPath.contains("lieutenant")) return new Lieutenant(joueur);
-		if(pionPath.contains("marechal")) return new Marechal(joueur);
-		if(pionPath.contains("sergent")) return new Sergent(joueur);
-		else return null;
+		return this.map;
 	}
 }

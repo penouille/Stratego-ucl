@@ -106,6 +106,7 @@ public class Controller
 				if(game.canMoveOnNewCase(oldX, oldY, x, y, tour))
 				{
 					int resultFight = game.checkNewCase(oldX, oldY, x, y);
+					
 					if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
 					switch(resultFight)
 					{

@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-<<<<<<< HEAD
+	<classpathentry excluding="Images/|src/|Song/" kind="src" path=""/>
 	<classpathentry kind="src" path="Images"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Song"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-=======
->>>>>>> branch 'master' of https://github.com/penouille/Stratego-ucl.git
 	<classpathentry kind="lib" path="src/Slick/lwjgl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Stratego-projet/src/Slick"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/Slick/slick.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
