@@ -2,7 +2,6 @@ package Pion;
 
 public class Espion extends Pion
 {
-	
 	public Espion(boolean joueur)
 	{
 		nbrDePas = 1;

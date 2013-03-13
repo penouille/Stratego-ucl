@@ -11,7 +11,4 @@ public class Bombe extends Pion
 		team = joueur;
 		nombre = 6;
 	}
-	
-	
-	
 }

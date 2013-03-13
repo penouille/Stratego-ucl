@@ -2,7 +2,6 @@ package Pion;
 
 public class Sergent extends Pion
 {
-	
 	public Sergent(boolean joueur)
 	{
 		nbrDePas = 1;

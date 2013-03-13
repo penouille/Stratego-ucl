@@ -259,16 +259,16 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        public void setFlotte(GameContainer container ) throws SlickException 
        {
     	 //premier bloc de flotte.
-           Echequier.set(42, new MouseOverArea (container , new Image("bleu.jpg") , 120 , 290));
-           Echequier.set(43, new MouseOverArea (container , new Image("bleu.jpg") , 175 , 290));
-           Echequier.set(52, new MouseOverArea (container , new Image("bleu.jpg") , 120 , 360));
-           Echequier.set(53, new MouseOverArea (container , new Image("bleu.jpg") , 175 , 360));
+           Echequier.set(42, new MouseOverArea (container , new Image("vert - Copie.jpg") , 120 , 290));
+           Echequier.set(43, new MouseOverArea (container , new Image("vert - Copie.jpg") , 175 , 290));
+           Echequier.set(52, new MouseOverArea (container , new Image("vert - Copie.jpg") , 120 , 360));
+           Echequier.set(53, new MouseOverArea (container , new Image("vert - Copie.jpg") , 175 , 360));
            
            //deuxième bloc de flotte.
-           Echequier.set(46, new MouseOverArea (container , new Image("bleu.jpg") , 340 , 290));
-           Echequier.set(47, new MouseOverArea (container , new Image("bleu.jpg") , 395 , 290));
-           Echequier.set(56, new MouseOverArea (container , new Image("bleu.jpg") , 340 , 360));
-           Echequier.set(57, new MouseOverArea (container , new Image("bleu.jpg") , 395 , 360));
+           Echequier.set(46, new MouseOverArea (container , new Image("vert - Copie.jpg") , 340 , 290));
+           Echequier.set(47, new MouseOverArea (container , new Image("vert - Copie.jpg") , 395 , 290));
+           Echequier.set(56, new MouseOverArea (container , new Image("vert - Copie.jpg") , 340 , 360));
+           Echequier.set(57, new MouseOverArea (container , new Image("vert - Copie.jpg") , 395 , 360));
        }
        
        

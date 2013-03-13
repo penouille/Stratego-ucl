@@ -10,5 +10,4 @@ public class Marechal extends Pion
 		nombre = 1;
 		team = joueur;
 	}
-
 }

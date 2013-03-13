@@ -73,4 +73,9 @@ public class Map
 	{
 		Map[x][y] = pion;
 	}
+	
+	public int getSize()
+	{
+		return Map.length;
+	}
 }

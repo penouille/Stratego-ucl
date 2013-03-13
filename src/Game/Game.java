@@ -22,7 +22,7 @@ import Pion.Sergent;
  * @author Florian
  *
  */
-public class Game extends AbstractGame
+public class Game
 {
 	
 	private Map map;
@@ -32,21 +32,20 @@ public class Game extends AbstractGame
 		map = new Map();
 	}
 	
-	public Map getMap()
+	public int sizeMap()
 	{
-		return this.map;
+		return map.getSize();
 	}
 	
 	/**
 	 * @param oldX, oldY, x, y, joueur
 	 * @return 	renvoit true si le pion de la case (oldX,oldY) peut être déplacer sur la case (x,y)
-	 * 			renvoit false si le pion ne nous appartient pas.
 	 * 			Attention: 	Si la case sur laquelle on souhaite déplacer son pion est occupée par un 
 	 * 						pion adverse, cette methode renvoit true.
 	 */
 	public boolean canMoveOnNewCase(int oldX, int oldY, int x, int y, boolean joueur)
 	{
-		Pion attaquant = map.getPion(oldX,oldY);
+		Pion attaquant = Map.getPion(oldX,oldY);
 		if(attaquant==null)	//verification "inutile", mais on est jamais trop prudent.
 		{
 			return false;
@@ -86,7 +85,6 @@ public class Game extends AbstractGame
 	}
 	
 	/**
-	 * 
 	 * @param x, y, joueur
 	 * @return renvoit true si le pion à la position (x,y) peut etre deplacer sur une autre case,
 	 * false sinon.
@@ -101,7 +99,6 @@ public class Game extends AbstractGame
 			else if( (y-i>=0) && canMoveOnNewCase(x, y, x, y-i, joueur)) canMove=true;
 			else if( (y+i<10) && canMoveOnNewCase(x, y, x, y+i, joueur)) canMove=true;
 		}
-		
 		return canMove;
 	}
 	
@@ -206,5 +203,23 @@ public class Game extends AbstractGame
 			}
 		}
 		return lost;
+	}
+
+	private Pion getTypePion(String pionPath, boolean joueur)
+	{
+		if(pionPath.contains("bombe")) return new Bombe(joueur);
+		if(pionPath.contains("drapeau")) return new Drapeau(joueur);
+		if(pionPath.contains("espion")) return new Espion(joueur);
+		if(pionPath.contains("colonel")) return new Colonel(joueur);
+		if(pionPath.contains("capitaine")) return new Capitaine(joueur);
+		if(pionPath.contains("commandant")) return new Commandant(joueur);
+		if(pionPath.contains("demineur")) return new Demineur(joueur);
+		if(pionPath.contains("eclaireur")) return new Eclaireur(joueur);
+		if(pionPath.contains("espion")) return new Espion(joueur);
+		if(pionPath.contains("general")) return new General(joueur);
+		if(pionPath.contains("lieutenant")) return new Lieutenant(joueur);
+		if(pionPath.contains("marechal")) return new Marechal(joueur);
+		if(pionPath.contains("sergent")) return new Sergent(joueur);
+		else return null;
 	}
 }

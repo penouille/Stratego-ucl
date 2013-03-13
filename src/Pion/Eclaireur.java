@@ -2,7 +2,6 @@ package Pion;
 
 public class Eclaireur extends Pion
 {
-	
 	public Eclaireur(boolean joueur)
 	{
 		nbrDePas = 2;
