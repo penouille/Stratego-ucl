@@ -1,5 +1,6 @@
 package Game;
 import Pion.*;
+
 import java.util.ArrayList;
 
 /**
@@ -10,11 +11,11 @@ import java.util.ArrayList;
  */
 public class Map 
 {
-	private pion[][] Map;
+	private Pion[][] Map;
 	
 	public Map()
 	{
-		Map = new pion[11][11];
+		Map = new Pion[11][11];
 		
 		initialise();
 		
@@ -42,7 +43,7 @@ public class Map
 	/*
 	 * retourne l'objet position dont les coordonnées ont été passées en argument.
 	 */
-	public pion getPosition (int x, int y)
+	public Pion getPion (int x, int y)
 	{
 		return Map[x][y]; 
 	}
@@ -69,8 +70,13 @@ public class Map
 		setEtat(5,6,blackout);
 	}
 	
-	public void setEtat(int x, int y, pion pion)
+	public void setEtat(int x, int y, Pion pion)
 	{
 		Map[x][y] = pion;
+	}
+	
+	public int getSize()
+	{
+		return Map.length;
 	}
 }

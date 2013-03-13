@@ -6,11 +6,14 @@ package Pion;
  * @author Florian
  *
  */
-public class Blackout extends pion
+public class Blackout extends Pion
 {
 	public Blackout()
 	{
-		Force = 1000;
-		NbrDePas = 0;
+		force = 1000;
+		nbrDePas = 0;
+		name = "bombe";
+		team = true;
+		nombre = 6;
 	}
 }
