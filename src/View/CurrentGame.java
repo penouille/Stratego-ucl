@@ -92,9 +92,9 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        		Fin.setMouseOverColor(new Color(0.5f,0.5f,0.5f,3f));
        		
        		// Mise en place de l'échequier.
-       		for ( int i = 0 ; i < 10 ; i++)
+       		for ( int i = 9 ; i > -1 ; i--)
        		{
-       			for ( int j = 0 ; j < 10 ; j++)
+       			for ( int j = 9 ; j > -1 ; j--)
        			{
        				Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
        				//echiquier.get(i).add(j, new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
@@ -193,6 +193,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     				   if ( Force.get(i).isMouseOver() )
     				   {
     					   prise = new Image (photos[i]);
+    					   System.out.println("premier i sur lequel on clique : "+i);
     				   }
     			   }
     		   
@@ -206,6 +207,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     						   Echequier.set(i , new MouseOverArea( container, prise , Echequier.get(i).getX(), Echequier.get(i).getY()));
     						   	//controller.placePion(prise.getResourceReference(), i/10, i%10, true);
     						   //System.out.println("Kikoo lol = " +prise.getResourceReference()+ " i =  " + i + " modulo = " + i%10);
+    						   System.out.println("le i du tableau : "+i);
+    						   
 			   					prise = null;
         				   }
 			   			}
