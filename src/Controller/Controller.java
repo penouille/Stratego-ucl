@@ -36,14 +36,36 @@ public class Controller
 	public Controller()
 	{
 		super();
-	}
-	
-	public Controller(Game game)
-	{
-		super();
 		tour = true;
 		partieFinie=false;
-		this.game = game;
+		this.game = new Game();
+		placementJoueur1=true;
+		placementJoueur2=true;
+	}
+	public Game getGame() 
+	{
+		return this.game;
+	}	
+	public boolean getPlacementJoueur1()
+	{
+		return this.placementJoueur1;
+	}
+	public boolean getPlacementJoueur2()
+	{
+		return this.placementJoueur2;
+	}
+	public boolean getPlacement()
+	{
+		return(placementJoueur1 || placementJoueur2);
+	}
+	public void setPrise(String prise)
+	{
+		this.prise = prise;
+	}
+	
+	public String getPrise()
+	{
+		return this.prise;
 	}
 	
 	/**
@@ -58,16 +80,6 @@ public class Controller
 		placePion();
 	}
 	
-	public void setPrise(String prise)
-	{
-		this.prise = prise;
-	}
-	
-	public String getPrise()
-	{
-		return this.prise;
-	}
-	
 	/**
 	 * Methode qui est continuellement appelé (indirectement) par la view, et qui regarde si
 	 * on a tenté de faire un déplacement, si oui, s'il est possible, et si oui, il l'effectue.
@@ -77,25 +89,29 @@ public class Controller
 	{
 		if(prise!=null)
 		{
-			//Quand on place un pion.
-			if(placementJoueur1 && game.checkNumberOfPion(prise))
+			int x = newClick/10;
+			int y = newClick%10;
+			//Quand c'est au tour de joueur1 de placer ses pions.
+			if(placementJoueur1 && x>5 && tour && game.checkNumberOfPion(prise, 6, 9))
 			{
-				int x = newClick/10;
-				int y = newClick%10;
-				if(x>5)
-				{
-					//si on veut remplacer un pion déja existant sur la carte par un autre.
-					game.removePion(x, y);	
-					game.createAndPlacePion(prise, x, y, tour);
-				}
+				System.out.println(x);
+				//si on veut remplacer un pion déja existant sur la carte par un autre.
+				game.removePion(x, y);	
+				game.createAndPlacePion(prise, x, y, tour);
+			}
+			//Quand c'est au tour de joueur2 de placer ses pions.
+			else if(placementJoueur2 && x<4 && !tour && game.checkNumberOfPion(prise, 0, 3))
+			{
+				System.out.println(x);
+				//si on veut remplacer un pion déja existant sur la carte par un autre.
+				game.removePion(x, y);	
+				game.createAndPlacePion(prise, x, y, tour);
 			}
 			else
 			{
 				//Quand on déplace un pion.
 				int oldX = lastClick/10;
 				int oldY = lastClick%10;
-				int x = newClick/10;
-				int y = newClick%10;
 				if(game.canMoveOnNewCase(oldX, oldY, x, y, tour))
 				{
 					int resultFight = game.checkNewCase(oldX, oldY, x, y);
@@ -107,13 +123,15 @@ public class Controller
 					case 1:  game.removePion(oldX, oldY); break;
 					case 2:  game.removePion(x, y); game.placePion(oldX, oldY, x, y); break;
 					}
-					partieFinie = !game.checkLost(tour);
+					//check si après le déplacement du pion d'un joueur, l'autre joueur sait encore jouer.
+					partieFinie = game.checkLost(!tour);
 					tour=!tour;
 				}
 				
 			}
+			System.out.println(game.getMap().getPion(x, y));
 		}
 		
-	}	
+	}
 }
 	

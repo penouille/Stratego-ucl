@@ -98,17 +98,10 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 	public void actionPerformed(ActionEvent e)
 	{
 		JButton b = (JButton)e.getSource();
-		if(b==JvJ)
+		if(b==JvJ || b==JvIA)
 		{
-			Game game = new Game("JvJ");
-			Controller controller = new Controller(game);
+			Controller controller = new Controller();
 			AdminGame admin = new AdminGame("Stratego : Joueur Vs Joueur", controller);
-		}
-		if(b==JvIA)
-		{
-			Game game = new Game("JvIA");
-			Controller controller = new Controller(game);
-			AdminGame admin = new AdminGame("Stratego : Joueur Vs IA", controller);
 		}
 		if(b==option)
 		{

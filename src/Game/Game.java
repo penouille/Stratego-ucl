@@ -27,7 +27,7 @@ public class Game extends AbstractGame
 	
 	private Map map;
 	
-	public Game(String typeGame)
+	public Game()
 	{
 		map = new Map();
 	}
@@ -40,13 +40,14 @@ public class Game extends AbstractGame
 	/**
 	 * @param oldX, oldY, x, y, joueur
 	 * @return 	renvoit true si le pion de la case (oldX,oldY) peut être déplacer sur la case (x,y)
+	 * 			renvoit false si le pion ne nous appartient pas.
 	 * 			Attention: 	Si la case sur laquelle on souhaite déplacer son pion est occupée par un 
 	 * 						pion adverse, cette methode renvoit true.
 	 */
 	public boolean canMoveOnNewCase(int oldX, int oldY, int x, int y, boolean joueur)
 	{
 		Pion attaquant = map.getPion(oldX,oldY);
-		if(attaquant==null)
+		if(attaquant==null)	//verification "inutile", mais on est jamais trop prudent.
 		{
 			return false;
 		}
@@ -58,6 +59,10 @@ public class Game extends AbstractGame
 		else
 		{
 			Pion defenseur = map.getPion(x, y);
+			if(defenseur==null)
+			{
+				return false;
+			}
 			//tenter de déplacer un pion sur une case interdite.
 			if (defenseur.getForce()==1000)
 			{
@@ -141,17 +146,17 @@ public class Game extends AbstractGame
 	 * @param pionPath
 	 * @return renvoit true si on peut placer le pion desirer, en fonction de si on en as encore à placer.
 	 */
-	public boolean checkNumberOfPion(String pionPath) 
+	public boolean checkNumberOfPion(String pionPath, int min, int max) 
 	{
-		int count = 0; int nbrPion = 0;
-		for(int i = 6; i<10; i++)
+		int count = 0; int nbrPion = -1;
+		for(int i = min; i<=max; i++)
 		{
 			for(int j = 0; j<10; j++)
 			{
-				if(pionPath.contains(map.getPion(i, j).getName()))
+				if(map.getPion(i, j)!=null && pionPath.contains(map.getPion(i, j).getName()))
 				{
 					count++;
-					if(nbrPion==0) nbrPion = map.getPion(i, j).getNombre();
+					if(nbrPion==-1) nbrPion = map.getPion(i, j).getNombre();
 				}
 			}
 		}
