@@ -71,6 +71,26 @@ public class Controller
 		placePion();
 	}
 	
+	public boolean checkStopPJ1()
+	{
+		if(game.checkHaveAllPionsPlaced(6,9))
+		{
+			placementJoueur1=false;
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean checkStopPJ2()
+	{
+		if(game.checkHaveAllPionsPlaced(0,3))
+		{
+			placementJoueur2=false;
+			return true;
+		}
+		else return false;
+	}
+	
 	/**
 	 * Methode qui est continuellement appelé (indirectement) par la view, et qui regarde si
 	 * on a tenté de faire un déplacement, si oui, s'il est possible, et si oui, il l'effectue.

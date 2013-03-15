@@ -14,7 +14,7 @@ public abstract class Pion
 	protected boolean team;
 	protected String name;
 	protected byte nombre;
-	//protected boolean mort;
+	protected String path;
 
 	public Pion()
 	{
@@ -49,5 +49,9 @@ public abstract class Pion
 	public String getName()
 	{
 		return this.name;
+	}
+	public String getPath()
+	{
+		return this.path;
 	}
 }

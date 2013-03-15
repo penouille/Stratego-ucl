@@ -9,6 +9,7 @@ public class Colonel extends Pion
 		name = "colonel";
 		nombre = 2;
 		team = joueur;
+		path = "colonel.jpg";
 	}
 
 }

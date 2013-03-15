@@ -10,5 +10,6 @@ public class Bombe extends Pion
 		name = "bombe";
 		team = joueur;
 		nombre = 6;
+		path = "bombe.jpg";
 	}
 }

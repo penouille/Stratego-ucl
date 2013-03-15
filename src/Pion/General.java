@@ -9,6 +9,7 @@ public class General extends Pion
 		name = "general";
 		nombre = 1;
 		team = joueur;
+		path = "general.jpg";
 	}
 
 }

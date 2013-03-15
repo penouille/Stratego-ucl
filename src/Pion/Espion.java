@@ -9,5 +9,6 @@ public class Espion extends Pion
 		name = "espion";
 		nombre = 1;
 		team = joueur;
+		path = "espion.jpg";
 	}
 }

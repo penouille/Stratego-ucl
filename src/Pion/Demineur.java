@@ -9,5 +9,6 @@ public class Demineur extends Pion
 		name = "demineur";
 		nombre = 5;
 		team = joueur;
+		path = "demineur.jpg";
 	}
 }

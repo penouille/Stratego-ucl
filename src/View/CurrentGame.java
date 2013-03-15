@@ -213,7 +213,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   }
     	   
     	   
-    	   particule.update(delta);
+    	   //particule.update(delta);
     	  
        }
        
@@ -225,11 +225,13 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        public void UpGame ( GameContainer container ) throws SlickException 
        {
     	   
-    	   //for ( int i = 0 ; i < controller.getGame().sizeMap() ; i++)
-    	   //{
-    		  // Echequier.set(i , new MouseOverArea( container, new Image (controller.getGame().getPosition( i/10 , i%10 ).getPath()) ,
-    			//	   Echequier.get(i).getX(), Echequier.get(i).getY()));
-    	   //}
+    	   for ( int i = 0 ; i < controller.getGame().sizeMap() ; i++)
+    	   {
+    		   if(controller.getGame().getMap().getPion( i/10 , i%10 )!=null) Echequier.set(i , new MouseOverArea( container, new Image (controller.getGame().getMap().getPion( i/10 , i%10 ).getPath()) ,
+    			Echequier.get(i).getX(), Echequier.get(i).getY()));
+    		   else Echequier.set(i , new MouseOverArea( container, new Image ("vert.jpg") ,
+    	    			Echequier.get(i).getX(), Echequier.get(i).getY()));
+    	   }
     	   
        }
        

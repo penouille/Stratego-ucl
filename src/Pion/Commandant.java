@@ -9,6 +9,7 @@ public class Commandant extends Pion
 		name = "commandant";
 		nombre = 3;
 		team = joueur;
+		path = "commandant.jpg";
 	}
 
 }

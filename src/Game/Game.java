@@ -37,6 +37,11 @@ public class Game
 		return map.getSize();
 	}
 	
+	public Map getMap() 
+	{
+		return this.map;
+	}
+	
 	/**
 	 * @param oldX, oldY, x, y, joueur
 	 * @return 	renvoit true si le pion de la case (oldX,oldY) peut être déplacer sur la case (x,y)
@@ -205,8 +210,21 @@ public class Game
 		return lost;
 	}
 
-	public Map getMap() 
+	
+	/**
+	 * @param min, max
+	 * @return 	Regarde si le joueur a bien placé tous ses pions.
+	 * 			Renvoit true si il a placé tous ses pions, false sinon.
+	 */
+	public boolean checkHaveAllPionsPlaced(int min, int max)
 	{
-		return this.map;
+		for(int i=min; i<=max; i++)
+		{
+			for(int j=0; j<10;j++)
+			{
+				if(map.getPion(i, j)==null) return false;
+			}
+		}
+		return true;
 	}
 }

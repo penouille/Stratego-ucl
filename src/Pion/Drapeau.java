@@ -9,5 +9,6 @@ public class Drapeau extends Pion
 		name = "drapeau";
 		nombre = 1;
 		team = joueur;
+		path = "drapeau.jpg";
 	}
 }

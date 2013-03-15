@@ -9,5 +9,6 @@ public class Sergent extends Pion
 		name = "sergent";
 		nombre = 4;
 		team = joueur;
+		path = "sergent.jpg";
 	}
 }
