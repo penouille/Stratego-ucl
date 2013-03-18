@@ -21,7 +21,7 @@ public class Controller
 	private int lastClick;
 	private int newClick;
 	private boolean partieFinie;
-	private boolean gagnant;
+	private String gagnant;
 	
 	private Game game;
 	
@@ -118,9 +118,14 @@ public class Controller
 			int x = newClick/10;
 			int y = newClick%10;
 			//Quand c'est au tour de joueur1 de placer ses pions.
+			
+			/*System.out.println("placementJoueur1 = "+placementJoueur1);
+			System.out.println("x>5 ? = "+ (x>5));
+			System.out.println("tour = "+tour);
+			System.out.println("Assez de nombre ? = "+game.checkNumberOfPion(prise, 6, 9));*/
+			
 			if(placementJoueur1 && x>5 && tour && game.checkNumberOfPion(prise, 6, 9))
 			{
-				System.out.println(x);
 				//si on veut remplacer un pion déja existant sur la carte par un autre.
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
@@ -128,21 +133,20 @@ public class Controller
 			//Quand c'est au tour de joueur2 de placer ses pions.
 			else if(placementJoueur2 && x<4 && !tour && game.checkNumberOfPion(prise, 0, 3))
 			{
-				System.out.println(x);
 				//si on veut remplacer un pion déja existant sur la carte par un autre.
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
-			else
+			else if(!getPlacement())
 			{
 				//Quand on déplace un pion.
 				int oldX = lastClick/10;
 				int oldY = lastClick%10;
+				System.out.println("Peut etre bougé ? = "+game.canMoveOnNewCase(oldX, oldY, x, y, tour));
 				if(game.canMoveOnNewCase(oldX, oldY, x, y, tour))
 				{
 					int resultFight = game.checkNewCase(oldX, oldY, x, y);
 					
-					if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
 					switch(resultFight)
 					{
 					case 10:game.placePion(oldX, oldY, x, y); break;
@@ -150,22 +154,25 @@ public class Controller
 							game.removePion(x, y);
 							//check si après l'élimination des deux pions, les deux joueurs savent encore jouer.
 							if(!partieFinie && game.checkLost(!tour) && game.checkLost(tour)) partieFinie=true;
+							if(!partieFinie && game.checkLost(!tour)) partieFinie=true; gagnant="J1";
+							if(!partieFinie && game.checkLost(tour)) partieFinie=true; gagnant="J2";
 							break;
 					case 1: game.removePion(oldX, oldY);
 							//check si après la perte du pion, le joueur sait encore jouer.
 							if(!partieFinie && game.checkLost(tour))
 							{
 								partieFinie=true;
-								gagnant = !tour;
+								gagnant = "J2";
 							}
 							break;
-					case 2: game.removePion(x, y); 
+					case 2: if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
+							game.removePion(x, y); 
 							game.placePion(oldX, oldY, x, y);
 							//check si après le déplacement du pion d'un joueur, l'autre joueur sait encore jouer.
 							if(!partieFinie && game.checkLost(!tour))
 							{
 								partieFinie=true;
-								gagnant = tour;
+								gagnant = "J1";
 							}
 							break;
 					}
