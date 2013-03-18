@@ -21,6 +21,7 @@ public class Controller
 	private int lastClick;
 	private int newClick;
 	private boolean partieFinie;
+	private boolean gagnant;
 	
 	private Game game;
 	
@@ -45,6 +46,10 @@ public class Controller
 	{
 		return this.placementJoueur2;
 	}
+	
+	/**
+	 * @return Renvoit true si l'un ou l'autre joueur est en phase de placement.
+	 */
 	public boolean getPlacement()
 	{
 		return(placementJoueur1 || placementJoueur2);
@@ -57,6 +62,16 @@ public class Controller
 	public String getPrise()
 	{
 		return this.prise;
+	}
+	
+	public int getNewClick()
+	{
+		return newClick;
+	}
+	
+	public int getLastClick()
+	{
+		return lastClick;
 	}
 	
 	/**
@@ -130,19 +145,33 @@ public class Controller
 					if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
 					switch(resultFight)
 					{
-					case 10: game.placePion(oldX, oldY, x, y); break;
-					case 0:  game.removePion(oldX, oldY); game.removePion(x, y); break;
-					case 1:  game.removePion(oldX, oldY); break;
-					case 2:  game.removePion(x, y); game.placePion(oldX, oldY, x, y); break;
+					case 10:game.placePion(oldX, oldY, x, y); break;
+					case 0: game.removePion(oldX, oldY); 
+							game.removePion(x, y);
+							//check si après l'élimination des deux pions, les deux joueurs savent encore jouer.
+							if(!partieFinie && game.checkLost(!tour) && game.checkLost(tour)) partieFinie=true;
+							break;
+					case 1: game.removePion(oldX, oldY);
+							//check si après la perte du pion, le joueur sait encore jouer.
+							if(!partieFinie && game.checkLost(tour))
+							{
+								partieFinie=true;
+								gagnant = !tour;
+							}
+							break;
+					case 2: game.removePion(x, y); 
+							game.placePion(oldX, oldY, x, y);
+							//check si après le déplacement du pion d'un joueur, l'autre joueur sait encore jouer.
+							if(!partieFinie && game.checkLost(!tour))
+							{
+								partieFinie=true;
+								gagnant = tour;
+							}
+							break;
 					}
-					//check si après le déplacement du pion d'un joueur, l'autre joueur sait encore jouer.
-					partieFinie = game.checkLost(!tour);
-					tour=!tour;
 				}
-				
 			}
 			System.out.println(game.getMap().getPion(x, y));
 		}
-		
 	}
 }

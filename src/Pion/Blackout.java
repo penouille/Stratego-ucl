@@ -12,5 +12,6 @@ public class Blackout extends Pion
 	{
 		force = 1000;
 		nbrDePas = 0;
+		path = "bleu.jpg";
 	}
 }

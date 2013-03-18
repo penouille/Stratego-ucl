@@ -63,10 +63,10 @@ public class Map
 		setEtat(5,2,blackout);
 		setEtat(5,3,blackout);
 		
-		setEtat(4,5,blackout);
 		setEtat(4,6,blackout);
-		setEtat(5,5,blackout);
+		setEtat(4,7,blackout);
 		setEtat(5,6,blackout);
+		setEtat(5,7,blackout);
 	}
 	
 	public void setEtat(int x, int y, Pion pion)

@@ -2,6 +2,7 @@ package View;
 
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -31,14 +32,14 @@ import Game.Game;
 
 public class CurrentGame extends BasicGameState implements InputProviderListener 
 {
-		
-	
+
+
 	   private ArrayList<MouseOverArea> Echequier = new ArrayList<MouseOverArea>();
 	   private ArrayList<MouseOverArea> Force = new ArrayList<MouseOverArea>();
 	   private MouseOverArea Fin ;
-	   
+
 	   private ParticleSystem particule = new ParticleSystem("drapeau.jpg");
-	   
+
        private Command menu = new BasicCommand("menu");
        /** The input provider abstracting input */
        
@@ -170,18 +171,18 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   
     	   Input input = container.getInput();
     	   
-    	   UpGame(container);
+    	   //UpGame2();
     	   
     	   //Code exécuté en cas de clic gauche avec la souris.
     	   if (  input.isMousePressed(Input.MOUSE_LEFT_BUTTON) )
     	   {
-    		   System.out.println(controller.getPlacement())
-;    		   if ( controller.getPlacement())
+    		   if ( controller.getPlacement())
     		   {
     			   
     			   ChoixPion();
     		   
     			   setPion(container);
+    			   
     		   
     		   }
     		   
@@ -194,6 +195,9 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     		   {
     			   setMove(container);
     		   }
+    		   
+    		   checkCase(controller.getLastClick());
+			   checkCase(controller.getNewClick());
     	 
     	   }
     		   
@@ -206,6 +210,10 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     		   game.enterState(2,new  FadeOutTransition() , new FadeInTransition()) ;
     	   }
     	   
+    	   if ( input.isKeyPressed(Input.KEY_N))
+    	   {
+    		   dude(container);
+    	   }
     	 //Code exécuté en cas de pression sur la touche Echap.
     	   if ( input.isKeyPressed(Input.KEY_ESCAPE))
     	   {
@@ -217,22 +225,28 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	  
        }
        
-       /**
-        * 
-        * pre:
-        * post: actualise l'echequier en fct du model
-        */
-       public void UpGame ( GameContainer container ) throws SlickException 
+       
+       
+       public void UpGame2 () throws SlickException
        {
-    	   
-    	   for ( int i = 0 ; i < controller.getGame().sizeMap() ; i++)
+    	   for (int i = 0 ; i < 100 ; i++)
     	   {
-    		   if(controller.getGame().getMap().getPion( i/10 , i%10 )!=null) Echequier.set(i , new MouseOverArea( container, new Image (controller.getGame().getMap().getPion( i/10 , i%10 ).getPath()) ,
-    			Echequier.get(i).getX(), Echequier.get(i).getY()));
-    		   else Echequier.set(i , new MouseOverArea( container, new Image ("vert.jpg") ,
-    	    			Echequier.get(i).getX(), Echequier.get(i).getY()));
+    		   checkCase(i);
     	   }
-    	   
+       }
+       
+       public void checkCase(int i) throws SlickException
+       {
+    	   if ( controller.getGame().getMap().getPion(i/10,i%10) == null)
+    	   {
+    		   Echequier.get(i).setNormalImage(new Image ("vert.jpg"));
+    		   Echequier.get(i).setMouseOverImage(new Image ("vert.jpg"));
+    	   }
+    	   else
+    	   {
+    		   Echequier.get(i).setNormalImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
+    		   Echequier.get(i).setMouseOverImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
+    	   }
        }
        
        /**
@@ -291,30 +305,33 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        
        /**
         * 
-        * pre: Un pion doit avoir été sélectionner
+        * pre: 
         * post: Pose le pion sélectionné sur la case sélectionnée, annule la variable prise si c'est fait.
         * 		et modifie le model en conséquence.
+        * Si aucun pion n'est sélectionné, en sélectionne un.
         */
        public void setPion(GameContainer container) throws SlickException
        {
     	   for (int i = 0 ;  i < Echequier.size()  ; i++)
 		   {
-			   
+
 			   if ( Echequier.get(i).isMouseOver() && controller.getPrise() != null)
 	   		   {
 				   if( !(i == 42 || i == 43 || i == 46 || i == 47 || i == 52 || i == 53 || i == 56 || i == 57))
 				   {
-					   Echequier.set(i , new MouseOverArea( container, new Image (controller.getPrise()) , Echequier.get(i).getX(),
-							   Echequier.get(i).getY()));
-					   
-					   
+					  // Echequier.set(i , new MouseOverArea( container, new Image (controller.getPrise()) , Echequier.get(i).getX(),
+						//	   Echequier.get(i).getY()));
+
+
 					  // game.placePion(controller.getPrise(), i/10, i%10);
 					   controller.setClick(i);
+					   //System.out.println(controller.getGame().getMap().getPion(i/10,i%10).getName()); //.getMap().getPion(i/10,i%10).getName());
 					   controller.setPrise( null );
 				   }
 	   			}
-			   
-		   }
+			  
+			}
+
        }
        
        /**
@@ -329,12 +346,19 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 	   				{
 	   					if ( controller.getPrise() == null)
 	   					{
-	   						// à faire après le controller.
+	   						System.out.println(controller.getPrise());
+	   						controller.setPrise( controller.getGame().getMap().getPion(i/10,i%10).getPath() );
+	   						System.out.println(controller.getPrise());
 	   					}
 	   					else
 	   					{
-	   						Echequier.set(i , new MouseOverArea( container, new Image(controller.getPrise()) ,
-	   								Echequier.get(i).getX(), Echequier.get(i).getY()));
+	   						if( !(i == 42 || i == 43 || i == 46 || i == 47 || i == 52 || i == 53 || i == 56 || i == 57))
+	   					   {
+	   							controller.setClick(i);
+	   							controller.setPrise(null);
+	   							checkCase(controller.getLastClick());
+	   							checkCase(controller.getNewClick());
+	   					   }
 	   					}
 	   				}
 	   		}
@@ -358,6 +382,28 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        public void controlReleased(Command command) 
        {
        		
+       }
+       
+       /**
+        * pre-
+        * post: place les pions automatiquement en début de partie pr ne pas emmerder les programmeurs.( good guy method )
+        */
+       public void dude (GameContainer container) throws SlickException
+       {
+    	   for (int i = 0 ; i < 40 ; i++)
+    	   {
+    		   controller.setPrise(photos[i/4]);
+    		   
+    		   setPion(container);
+    		   checkCase(i);
+    	   }
+    	   
+    	   for (int i = 60 ; i < 100 ; i++)
+    	   {
+    		   controller.setPrise(photos[(i-60)/4]);
+    		   setPion(container);
+    		   checkCase(i);
+    	   }
        }
        
  }

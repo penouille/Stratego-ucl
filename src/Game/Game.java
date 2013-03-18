@@ -62,37 +62,36 @@ public class Game
 		}
 		else
 		{
-			Pion defenseur = map.getPion(x, y);
-			if(defenseur==null)
+			byte nbrPas = attaquant.getNbrDePas();
+			//Soit un déplacement vertical (donc les x)
+			if(((0<=oldX-x && oldX-x<=nbrPas) || (0<= oldX-x*(-1) && oldX-x*(-1)<=nbrPas)) 
+					//Soit un déplacement horizontale (donc les y)
+					|| ((0<=oldY-y && oldY-y<=nbrPas) || (0<=oldY-y*(-1) && oldY-y*(-1)<=nbrPas)))
 			{
-				return false;
-			}
-			//tenter de déplacer un pion sur une case interdite.
-			if (defenseur.getForce()==1000)
-			{
-				return false;
-			}
-			//tenter de deplacer un pion sur un autre pion qui nous appartient.
-			else if (defenseur.getTeam() == attaquant.getTeam())
-			{
-				return false;
-			}
-			else
-			{
-				byte nbrPas = attaquant.getNbrDePas();
-				if((oldX-x<=nbrPas || oldX-x<=nbrPas*(-1)) || (oldY-y<=nbrPas || oldY-y<=nbrPas*(-1)))
+				Pion defenseur = map.getPion(x, y);
+				if(defenseur==null)
 				{
 					return true;
 				}
-				else return false;
+				//deplacer un pion sur un pion adverse.
+				else if(defenseur.getTeam() != attaquant.getTeam())
+				{
+					return true;
+				}
+				//tenter de deplacer un pion sur un autre pion qui nous appartient, ou sur une case interdite.
+				else
+				{
+					return false;
+				}
 			}
-		}		
+			else return false;
+		}
 	}
 	
 	/**
 	 * @param x, y, joueur
-	 * @return renvoit true si le pion à la position (x,y) peut etre deplacer sur une autre case,
-	 * false sinon.
+	 * @return 	renvoit true si le pion à la position (x,y) peut etre deplacer sur une autre case 
+	 * 			(gauche, droite, haut, ou bas), false sinon.
 	 */
 	public boolean canMove(int x, int y, boolean joueur)
 	{
@@ -173,7 +172,11 @@ public class Game
 
 	/**
 	 * @param oldX, oldY, x, y
-	 * @return renvoit le resultat d'un eventuel combat lors du deplacement d'un pion
+	 * @return 	renvoit le resultat d'un eventuel combat lors du deplacement d'un pion
+	 * 			renvoit 10 si la case de destination etait inocupee.
+	 *			renvoit 0 si les deux pions meurt 
+	 * 			renvoit 1 si le pion attaquant meurt
+	 * 			ou renvoit 2 si le pion defenseur meurt.
 	 */
 	public int checkNewCase(int oldX, int oldY, int x, int y)
 	{
