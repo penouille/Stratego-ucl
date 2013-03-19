@@ -26,6 +26,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import Controller.Controller;
 import Game.Game;
+import System.system;
 
 
 
@@ -188,10 +189,22 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     		   
     		   if ( controller.getPlacement() && Fin.isMouseOver())
     		   {
-    			   //placement = false;
+    			   if ( controller.getPlacementJoueur1() )
+    			   {
+    				   controller.checkStopPJ1();
+    				   //controller.changeTour();
+    			   }
+    			   
+    			   else
+    				   
+    			   {
+    				   controller.checkStopPJ2();
+    				   //controller.changeTour();
+    			   }
+    			   UpGame2();
     		   }
     		   
-    		   if (!controller.getPlacement() && tour)
+    		   if (!controller.getPlacement() )
     		   {
     			   setMove(container);
     		   }
@@ -319,13 +332,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 	   		   {
 				   if( !(i == 42 || i == 43 || i == 46 || i == 47 || i == 52 || i == 53 || i == 56 || i == 57))
 				   {
-					  // Echequier.set(i , new MouseOverArea( container, new Image (controller.getPrise()) , Echequier.get(i).getX(),
-						//	   Echequier.get(i).getY()));
-
-
-					  // game.placePion(controller.getPrise(), i/10, i%10);
 					   controller.setClick(i);
-					   //System.out.println(controller.getGame().getMap().getPion(i/10,i%10).getName()); //.getMap().getPion(i/10,i%10).getName());
+					   
 					   controller.setPrise( null );
 				   }
 	   			}
@@ -344,26 +352,38 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 		   {
 	   			if ( Echequier.get(i).isMouseOver())
 	   				{
-	   					if ( controller.getPrise() == null)
-	   					{
-	   						System.out.println(controller.getPrise());
-	   						controller.setPrise( controller.getGame().getMap().getPion(i/10,i%10).getPath() );
-	   						System.out.println(controller.getPrise());
-	   					}
-	   					else
-	   					{
-	   						if( !(i == 42 || i == 43 || i == 46 || i == 47 || i == 52 || i == 53 || i == 56 || i == 57))
-	   					   {
-	   							controller.setClick(i);
-	   							controller.setPrise(null);
-	   							checkCase(controller.getLastClick());
-	   							checkCase(controller.getNewClick());
-	   					   }
-	   					}
+		   				if( !(i == 42 || i == 43 || i == 46 || i == 47 || i == 52 || i == 53 || i == 56 || i == 57))
+		   				{
+		   					if ( controller.getPrise() == null  )
+		   					{
+		   						if ( controller.getGame().getMap().getPion(i/10,i%10) != null)
+		   						{
+		   							if ((controller.tour == controller.getGame().getMap().getPion(i/10,i%10).getTeam()))
+		   							{
+		   								controller.setClick(i);
+				   						System.out.println(controller.getPrise());
+				   						controller.setPrise( controller.getGame().getMap().getPion(i/10,i%10).getPath() );
+				   						System.out.println(controller.getPrise());
+		   							}
+		   						}
+		   						
+		   					}
+		   					else
+		   					{
+		   						
+		   						System.out.println("poseDeLaPrise"+i);
+		   						controller.setClick(i);
+		   						controller.setPrise(null);
+		   						checkCase(controller.getLastClick());
+		   						checkCase(controller.getNewClick());
+		   					   
+		   					}
+		   				}
 	   				}
 	   		}
        }
 
+       
        /**
         * @see org.newdawn.slick.command.InputProviderListener#controlPressed(org.newdawn.slick.command.Command)
         */
@@ -390,20 +410,23 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
         */
        public void dude (GameContainer container) throws SlickException
        {
-    	   for (int i = 0 ; i < 40 ; i++)
+    	   /*for (int i = 0 ; i < 12 ; i++)
     	   {
-    		   controller.setPrise(photos[i/4]);
+    		   
+    		   controller.setPrise(photos[i]);
     		   
     		   setPion(container);
     		   checkCase(i);
     	   }
     	   
-    	   for (int i = 60 ; i < 100 ; i++)
+    	   for (int i = 60 ; i < 72 ; i++)
     	   {
-    		   controller.setPrise(photos[(i-60)/4]);
+    		   controller.setPrise(photos[(i-60)]);
     		   setPion(container);
     		   checkCase(i);
-    	   }
+    	   }*/
+    	   controller.dude();
+    	   UpGame2();
        }
        
  }

@@ -1,5 +1,8 @@
 package Game;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import Pion.Bombe;
 import Pion.Capitaine;
 import Pion.Colonel;
@@ -42,6 +45,56 @@ public class Game
 		return this.map;
 	}
 	
+	public boolean logicalXOR(boolean x, boolean y) 
+	{
+	    return ( ( x || y ) && ! ( x && y ) );
+	}
+	
+	/**
+	 * @param oldX, oldY, x, y, nbrPas
+	 * @return Cette methode renvoit true si il y a un obstacle sur le trajet, et false sinon.
+	 */
+	public boolean checkObstacleOnWay(int oldX, int oldY, int x, int y, int nbrPas)
+	{
+		//si le pion descend.
+		if(x>oldX)
+		{
+			for(int i=oldX+1; i<x; i++)
+			{
+				if(map.getPion(i, y)!=null) return true;
+			}
+			return false;
+		}
+		//si le pion monte
+		else if(oldX>x)
+		{
+			for(int i=x+1; i<oldX; i++)
+			{
+				if(map.getPion(i, y)!=null) return true;
+			}
+			return false;
+		}
+		//si le pion va à gauche
+		else if(y<oldY)
+		{
+			for(int i=y+1; y<oldY; i++)
+			{
+				if(map.getPion(x, i)!=null) return true;
+			}
+			return false;
+		}
+		//si le pion va à droite
+		else if(oldY<y)
+		{
+			for(int i=oldY+1; i<y; i++)
+			{
+				if(map.getPion(x, i)!=null) return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	
 	/**
 	 * @param oldX, oldY, x, y, joueur
 	 * @return 	renvoit true si le pion de la case (oldX,oldY) peut être déplacer sur la case (x,y)
@@ -53,6 +106,7 @@ public class Game
 		Pion attaquant = map.getPion(oldX,oldY);
 		if(attaquant==null)	//verification "inutile", mais on est jamais trop prudent.
 		{
+			System.out.println("attaquant = "+attaquant);
 			return false;
 		}
 		//Si on tente de déplacer un pion qui ne nous appartient pas.
@@ -63,14 +117,30 @@ public class Game
 		else
 		{
 			byte nbrPas = attaquant.getNbrDePas();
-			//Soit un déplacement vertical (donc les x)
-			if(((0<=oldX-x && oldX-x<=nbrPas) || (0<= oldX-x*(-1) && oldX-x*(-1)<=nbrPas)) 
-					//Soit un déplacement horizontale (donc les y)
-					|| ((0<=oldY-y && oldY-y<=nbrPas) || (0<=oldY-y*(-1) && oldY-y*(-1)<=nbrPas)))
+			
+			/*System.out.println("Nombre de pas = "+nbrPas);
+			System.out.println("(0<oldX-x && oldX-x<=nbrPas) = "+((0<oldX-x && oldX-x<=nbrPas)));
+			System.out.println("(0< x-oldX && x-oldX<=nbrPas) = "+((0< x-oldX && x-oldX<=nbrPas)));
+			System.out.println("(0<oldY-y && oldY-y<=nbrPas) = "+((0<oldY-y && oldY-y<=nbrPas)));
+			System.out.println("(0<y-oldY && y-oldY<=nbrPas) = "+((0<y-oldY && y-oldY<=nbrPas)));*/
+			System.out.println("Condition super compliquee = "+(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)),
+					((0<oldY-y && oldY-y<=nbrPas) || (0<y-oldY && y-oldY<=nbrPas)))));
+			
+							//Soit un déplacement verticale (donc les x)
+			if(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)), 
+							//Soit un déplacement horizontale (donc les y)
+					((0<oldY-y && oldY-y<=nbrPas) || (0<y-oldY && y-oldY<=nbrPas))))
 			{
+				System.out.println("Je suis rentre dans la condition super compliquee");
+				//Verifie s'il il n'y as pas de pion sur le trajet, lorsque la distance parcourue est différente de 1.
+				if(nbrPas!=1 && checkObstacleOnWay(oldX, oldY, x, y, nbrPas))
+				{
+					return false;
+				}
 				Pion defenseur = map.getPion(x, y);
 				if(defenseur==null)
 				{
+					System.out.println("case vide");
 					return true;
 				}
 				//deplacer un pion sur un pion adverse.
@@ -229,5 +299,71 @@ public class Game
 			}
 		}
 		return true;
+	}
+	
+	public void dude(boolean joueur)
+	{
+		int min, max;
+		if(joueur)
+		{
+			min=6; 
+			max=10;
+		}
+		else
+		{
+			min=0; 
+			max=4;
+		}
+		int i;
+		ArrayList<Pion> ListePion = new ArrayList<Pion>();
+		ListePion.add(new Drapeau(joueur));
+		for(i=1; i<7; i++)
+		{
+			ListePion.add(new Bombe(joueur));
+		}
+		ListePion.add(new Espion(joueur));
+		for(i=8; i<16; i++)
+		{
+			ListePion.add(new Eclaireur(joueur));
+		}
+		for(i=16; i<21; i++)
+		{
+			ListePion.add(new Demineur(joueur));
+		}
+		for(i=21; i<25; i++)
+		{
+			ListePion.add(new Sergent(joueur));
+		}
+		for(i=25; i<29; i++)
+		{
+			ListePion.add(new Lieutenant(joueur));
+		}
+		for(i=29; i<33; i++)
+		{
+			ListePion.add(new Capitaine(joueur));
+		}
+		for(i=33; i<36; i++)
+		{
+			ListePion.add(new Commandant(joueur));
+		}
+		for(i=36; i<38; i++)
+		{
+			ListePion.add(new Colonel(joueur));
+		}
+		ListePion.add(new General(joueur));
+		ListePion.add(new Marechal(joueur));
+		
+		int t;
+		for(i=min; i<max; i++)
+		{
+			for(int j=0;j<10;j++)
+			{
+				//t = (int)Math.random()*ListePion.size();
+				Random r = new Random();
+				t = r.nextInt(ListePion.size());
+				map.setEtat(i, j, ListePion.get(t));
+				ListePion.remove(t);
+;			}
+		}
 	}
 }

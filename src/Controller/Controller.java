@@ -86,11 +86,36 @@ public class Controller
 		placePion();
 	}
 	
+	public boolean checkStopPlacement()
+	{
+		if(tour)
+		{
+			if(game.checkHaveAllPionsPlaced(6,9))
+			{
+				placementJoueur1=false;
+				tour=!tour;
+				return true;
+			}
+			else return false;
+		}
+		else
+		{
+			if(game.checkHaveAllPionsPlaced(0,3))
+			{
+				placementJoueur2=false;
+				tour=!tour;
+				return true;
+			}
+			else return false;
+		}
+	}
+	
 	public boolean checkStopPJ1()
 	{
 		if(game.checkHaveAllPionsPlaced(6,9))
 		{
 			placementJoueur1=false;
+			tour=!tour;
 			return true;
 		}
 		else return false;
@@ -101,6 +126,7 @@ public class Controller
 		if(game.checkHaveAllPionsPlaced(0,3))
 		{
 			placementJoueur2=false;
+			tour=!tour;
 			return true;
 		}
 		else return false;
@@ -109,7 +135,7 @@ public class Controller
 	/**
 	 * Methode qui est continuellement appelé (indirectement) par la view, et qui regarde si
 	 * on a tenté de faire un déplacement, si oui, s'il est possible, et si oui, il l'effectue.
-	 * elle ne fait rien, si on a par exemple cliqué n'importe ou.
+	 * elle ne fait rien, si on a cliqué n'importe ou.
 	 */
 	public void placePion()
 	{
@@ -127,6 +153,7 @@ public class Controller
 			if(placementJoueur1 && x>5 && tour && game.checkNumberOfPion(prise, 6, 9))
 			{
 				//si on veut remplacer un pion déja existant sur la carte par un autre.
+				System.out.println(x);
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
@@ -134,6 +161,7 @@ public class Controller
 			else if(placementJoueur2 && x<4 && !tour && game.checkNumberOfPion(prise, 0, 3))
 			{
 				//si on veut remplacer un pion déja existant sur la carte par un autre.
+				System.out.println(x);
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
@@ -149,20 +177,32 @@ public class Controller
 					
 					switch(resultFight)
 					{
-					case 10:game.placePion(oldX, oldY, x, y); break;
-					case 0: game.removePion(oldX, oldY); 
+					case 10:game.placePion(oldX, oldY, x, y);
+							break;
+					case 0: game.removePion(oldX, oldY);
 							game.removePion(x, y);
 							//check si après l'élimination des deux pions, les deux joueurs savent encore jouer.
-							if(!partieFinie && game.checkLost(!tour) && game.checkLost(tour)) partieFinie=true;
-							if(!partieFinie && game.checkLost(!tour)) partieFinie=true; gagnant="J1";
-							if(!partieFinie && game.checkLost(tour)) partieFinie=true; gagnant="J2";
+							if(!partieFinie && game.checkLost(!tour) && game.checkLost(tour))
+							{
+								partieFinie=true;
+							}
+							if(!partieFinie && game.checkLost(!tour))
+							{
+								partieFinie=true; 
+								gagnant=tour+"";
+							}
+							if(!partieFinie && game.checkLost(tour))
+							{
+								partieFinie=true; 
+								gagnant=!tour+"";
+							}
 							break;
 					case 1: game.removePion(oldX, oldY);
 							//check si après la perte du pion, le joueur sait encore jouer.
 							if(!partieFinie && game.checkLost(tour))
 							{
 								partieFinie=true;
-								gagnant = "J2";
+								gagnant = !tour+"";
 							}
 							break;
 					case 2: if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
@@ -172,13 +212,19 @@ public class Controller
 							if(!partieFinie && game.checkLost(!tour))
 							{
 								partieFinie=true;
-								gagnant = "J1";
+								gagnant = tour+"";
 							}
 							break;
 					}
+					tour=!tour;
 				}
 			}
-			System.out.println(game.getMap().getPion(x, y));
+			System.out.println("Le pion = "+game.getMap().getPion(x, y));
 		}
+	}
+	
+	public void dude()
+	{
+		game.dude(tour);
 	}
 }
