@@ -15,8 +15,8 @@ public class system
 		//Creation des Models
 		//Game game = new Game();
 		//creation du controller
-		//Controller controller = new Controller(/*model en argument*/);
-		new Start();
+		Controller controller = new Controller();
+		new Start(controller);
 	}
 
 }

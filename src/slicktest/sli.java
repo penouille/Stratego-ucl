@@ -42,7 +42,7 @@ public class sli extends BasicGame implements InputProviderListener
     public void controlPressed(Command command) {
             if (command.equals(option))
             	{
-            		new Option();
+            		//new Option();
             	}
             
             }

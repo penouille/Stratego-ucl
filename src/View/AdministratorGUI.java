@@ -20,7 +20,7 @@ public class AdministratorGUI
 	
 	void init()
 	{
-		new Start();
+		new Start(controller);
 	}
 	
 }

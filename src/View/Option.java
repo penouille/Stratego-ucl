@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Controller.Controller;
+
 
 @SuppressWarnings("serial")
 public class Option extends StdWindow implements ActionListener
@@ -53,9 +55,13 @@ public class Option extends StdWindow implements ActionListener
 	private URL url_image;
 	private ImageIcon image;
 	
-	public Option()
+	private Controller controller;
+	
+	public Option(Controller controller)
 	{
 		super("Options"); //Crée un JFrame à partir de la classe stdWindow
+		
+		this.controller = controller;
 		
 		//initialisation des URL
 		url_son = this.getClass().getResource("/song.wav");
@@ -239,6 +245,6 @@ public class Option extends StdWindow implements ActionListener
 
 	public static void main (String args [])
 	{
-		new Option();
+		new Option(new Controller());
 	}
 }

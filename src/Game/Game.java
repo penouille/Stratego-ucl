@@ -77,7 +77,7 @@ public class Game
 		//si le pion va à gauche
 		else if(y<oldY)
 		{
-			for(int i=y+1; y<oldY; i++)
+			for(int i=y+1; i<oldY; i++)
 			{
 				if(map.getPion(x, i)!=null) return true;
 			}
@@ -112,18 +112,22 @@ public class Game
 		//Si on tente de déplacer un pion qui ne nous appartient pas.
 		else if(attaquant.getTeam()!=joueur)
 		{
+			System.out.println("ce n'est pas mon pion");
 			return false;
 		}
 		else
 		{
 			byte nbrPas = attaquant.getNbrDePas();
 			
-			/*System.out.println("Nombre de pas = "+nbrPas);
+			/*System.out.println("oldX = "+oldX+" et x = "+x);
+			System.out.println("oldY = "+oldY+" et y = "+y);
+			System.out.println("Nombre de pas = "+nbrPas);
 			System.out.println("(0<oldX-x && oldX-x<=nbrPas) = "+((0<oldX-x && oldX-x<=nbrPas)));
 			System.out.println("(0< x-oldX && x-oldX<=nbrPas) = "+((0< x-oldX && x-oldX<=nbrPas)));
 			System.out.println("(0<oldY-y && oldY-y<=nbrPas) = "+((0<oldY-y && oldY-y<=nbrPas)));
 			System.out.println("(0<y-oldY && y-oldY<=nbrPas) = "+((0<y-oldY && y-oldY<=nbrPas)));*/
-			System.out.println("Condition super compliquee = "+(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)),
+			
+			System.out.println("xor = "+(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)),
 					((0<oldY-y && oldY-y<=nbrPas) || (0<y-oldY && y-oldY<=nbrPas)))));
 			
 							//Soit un déplacement verticale (donc les x)
@@ -131,10 +135,15 @@ public class Game
 							//Soit un déplacement horizontale (donc les y)
 					((0<oldY-y && oldY-y<=nbrPas) || (0<y-oldY && y-oldY<=nbrPas))))
 			{
-				System.out.println("Je suis rentre dans la condition super compliquee");
+				if(oldX!=x && oldY!=y)
+				{
+					System.out.println("oldX!=x et oldY!=y");
+					return false;
+				}
 				//Verifie s'il il n'y as pas de pion sur le trajet, lorsque la distance parcourue est différente de 1.
 				if(nbrPas!=1 && checkObstacleOnWay(oldX, oldY, x, y, nbrPas))
 				{
+					System.out.println("il y a des obstacles");
 					return false;
 				}
 				Pion defenseur = map.getPion(x, y);
@@ -146,11 +155,13 @@ public class Game
 				//deplacer un pion sur un pion adverse.
 				else if(defenseur.getTeam() != attaquant.getTeam())
 				{
+					System.out.println("Il y a un enemi");
 					return true;
 				}
 				//tenter de deplacer un pion sur un autre pion qui nous appartient, ou sur une case interdite.
 				else
 				{
+					System.out.println("c'est autre chose");
 					return false;
 				}
 			}

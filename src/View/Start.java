@@ -34,11 +34,15 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 	
 	private ImageIcon img;
 	
+	private Controller controller;
+	
 	//private OperateurListener opeListener = new OperateurListener();
 
-	public Start() 
+	public Start(Controller controller) 
 	{
 		super("Menu de demarrage");
+		
+		this.controller=controller;
 		
 		//initialisation de l'URL
 		url_img = this.getClass().getResource("/stratego.jpg");
@@ -105,7 +109,7 @@ public class Start extends StdWindow implements ActionListener //implements Obse
 		}
 		if(b==option)
 		{
-			new Option();
+			new Option(controller);
 			//TODO Il serait bien de donner le controlleur à option, mais comment ?
 		}
 		if(b==quit)
