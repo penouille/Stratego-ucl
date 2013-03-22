@@ -48,7 +48,7 @@ public class Option extends StdWindow implements ActionListener
 	private String[] TSdifficultees = {"Kikoo", "Facile", "Normal", "Difficile", "Extrème"};
 	private String[] TSmusique = {"ON", "OFF"};
 	
-	private Clip clip;
+	private static Clip clip;
 	private URL url_son;
 	
 	

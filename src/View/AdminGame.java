@@ -20,7 +20,7 @@ public class AdminGame extends StateBasedGame
 		try
 		{
             AppGameContainer container = new AppGameContainer(this);
-            container.setDisplayMode(1150,720,false);
+            container.setDisplayMode(1150,700,false);
             container.setShowFPS(false);
             container.setAlwaysRender(true);
             
@@ -42,7 +42,7 @@ public class AdminGame extends StateBasedGame
 		try
 		{
             AppGameContainer container = new AppGameContainer(this);
-            container.setDisplayMode(1150,720,false);
+            container.setDisplayMode(1150,700,false);
             container.setShowFPS(false);
             container.setAlwaysRender(true);
             

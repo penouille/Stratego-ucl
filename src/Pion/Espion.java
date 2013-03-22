@@ -10,5 +10,6 @@ public class Espion extends Pion
 		nombre = 1;
 		team = joueur;
 		path = "espion.jpg";
+		visibleByIA = false;
 	}
 }

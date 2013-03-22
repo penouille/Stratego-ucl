@@ -2,7 +2,6 @@ package View;
 
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -26,14 +25,14 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import Controller.Controller;
 import Game.Game;
-import System.system;
 
 
 
 
-public class CurrentGame extends BasicGameState implements InputProviderListener 
+public class CurrentGame extends BasicGameState implements InputProviderListener
 {
 
+	   private Image test;
 
 	   private ArrayList<MouseOverArea> Echequier = new ArrayList<MouseOverArea>();
 	   private ArrayList<MouseOverArea> Force = new ArrayList<MouseOverArea>();
@@ -57,6 +56,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     		                       "colonel.jpg" ,"general.jpg", "marechal.jpg" , "bombe.jpg"};
        
        private boolean tour = true;
+       
+       private int i=0;
        
        /**
         * Create a new image rendering test
@@ -86,23 +87,26 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        public void init(GameContainer container,StateBasedGame game) throws SlickException 
        {
     	   	   AdminGame.Tour= true;
+    	   	   test = new Image("strategoMap.jpg");
     	   	   
                
-               Fin = new MouseOverArea(container , new Image("vert.jpg") , 810 , 450);
+               Fin = new MouseOverArea(container , new Image("vert.jpg") , 1000 , 450);
                Fin.setNormalColor(new Color(1f,1f,1f,0.7f));
                Fin.setMouseOverColor(new Color(0.5f,0.5f,0.5f,3f));
                
+               int mid = (container.getWidth()/2-test.getWidth()/2)+13;
                // Mise en place de l'échequier.
                for ( int i = 0 ; i < 10 ; i++)
                {
             	   for ( int j = 0 ; j < 10 ; j++)
             	   {
-            		   Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
+            		   //Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
+            		   Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,mid+(j*66), 3+(i*66) , 44 , 62 ));
             	   }
                }
                
                
-               setFlotte(container);
+               setFlotte(container, mid);
                
                
                for ( int i = 0 ; Echequier.size() > i ; i++)
@@ -127,6 +131,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
                }
                
                particule.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
+               
        }
        
        
@@ -139,7 +144,9 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
         */
        public void render(GameContainer container,StateBasedGame game, Graphics g) throws SlickException 
        {
-    	  
+    	   	   //Affichage de la map.
+    	   	   //test.draw(0, 0);
+    	   	   test.draw(container.getWidth()/2-test.getWidth()/2, 0);
            	   //affichage de l'échaquier
                for ( int i = 0 ; i < Echequier.size() ; i++)
                {
@@ -169,6 +176,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        
        public void update(GameContainer container,StateBasedGame game, int delta) throws SlickException 
        {
+    	   //i++; System.out.println("Coucou, je rentre dans update pour la "+i+"eme fois.");
     	   
     	   Input input = container.getInput();
     	   
@@ -232,6 +240,11 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   {
     		   container.exit();
     	   }
+    	   if( input.isKeyPressed(Input.KEY_M))
+    	   {
+    		   //new Option(controller);
+    		   new Option(controller);
+    	   }
     	   
     	   
     	   //particule.update(delta);
@@ -270,13 +283,13 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        {
     	   for ( int i = 0 ; i < 6 ; i++)
     	   {
-    		   Force.add(new MouseOverArea ( container , new Image (photos[i]), 810 , 10+70*i ));
+    		   Force.add(new MouseOverArea ( container , new Image (photos[i]), 1000 , 10+70*i ));
     		   Force.get(i).setNormalColor(new Color(1f,1f,1f,0.7f));
     	   }
     	   
     	   for ( int i = 0 ; i < 6 ; i++)
     	   {
-    		   Force.add(new MouseOverArea ( container , new Image (photos[i+6]), 870 , 10+70*i ));
+    		   Force.add(new MouseOverArea ( container , new Image (photos[i+6]), 1054 , 10+70*i ));
     		   Force.get(i+6).setNormalColor(new Color(1f,1f,1f,0.7f));
     	   }
        }
@@ -285,19 +298,19 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
         * pre: Echequier a été initialisé.
         * post: Crée mouseoverarea avec du bleau dans les case 42,43,46,47,52,53,56,57 de l'échequier.
         */
-       public void setFlotte(GameContainer container ) throws SlickException 
+       public void setFlotte(GameContainer container, int mid ) throws SlickException 
        {
     	 //premier bloc de flotte.
-           Echequier.set(42, new MouseOverArea (container , new Image("vert - Copie.jpg") , 120 , 290));
-           Echequier.set(43, new MouseOverArea (container , new Image("vert - Copie.jpg") , 175 , 290));
-           Echequier.set(52, new MouseOverArea (container , new Image("vert - Copie.jpg") , 120 , 360));
-           Echequier.set(53, new MouseOverArea (container , new Image("vert - Copie.jpg") , 175 , 360));
+           Echequier.set(42, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+135 , 270));
+           Echequier.set(43, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+197 , 270));
+           Echequier.set(52, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+135 , 335));
+           Echequier.set(53, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+197 , 335));
            
            //deuxième bloc de flotte.
-           Echequier.set(46, new MouseOverArea (container , new Image("vert - Copie.jpg") , 340 , 290));
-           Echequier.set(47, new MouseOverArea (container , new Image("vert - Copie.jpg") , 395 , 290));
-           Echequier.set(56, new MouseOverArea (container , new Image("vert - Copie.jpg") , 340 , 360));
-           Echequier.set(57, new MouseOverArea (container , new Image("vert - Copie.jpg") , 395 , 360));
+           Echequier.set(46, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+397 , 270));
+           Echequier.set(47, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+465 , 270));
+           Echequier.set(56, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+397 , 335));
+           Echequier.set(57, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+464 , 335));
        }
        
        
@@ -361,9 +374,9 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 		   							if ((controller.tour == controller.getGame().getMap().getPion(i/10,i%10).getTeam()))
 		   							{
 		   								controller.setClick(i);
-				   						System.out.println(controller.getPrise());
+				   						//System.out.println(controller.getPrise());
 				   						controller.setPrise( controller.getGame().getMap().getPion(i/10,i%10).getPath() );
-				   						System.out.println(controller.getPrise());
+				   						//System.out.println(controller.getPrise());
 		   							}
 		   						}
 		   						
@@ -371,7 +384,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 		   					else
 		   					{
 		   						
-		   						System.out.println("poseDeLaPrise"+i);
+		   						//System.out.println("poseDeLaPrise"+i);
 		   						controller.setClick(i);
 		   						controller.setPrise(null);
 		   						checkCase(controller.getLastClick());
@@ -392,7 +405,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
                if ( command.equals(menu))
                {
                		// new Start();
-            	   new Option();
+            	   //new Option(controller);
                }
        }
 

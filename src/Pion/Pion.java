@@ -15,6 +15,7 @@ public abstract class Pion
 	protected String name;
 	protected byte nombre;
 	protected String path;
+	protected boolean visibleByIA;
 
 	public Pion()
 	{
@@ -53,5 +54,14 @@ public abstract class Pion
 	public String getPath()
 	{
 		return this.path;
+	}
+	public void setVisibleByIA(boolean b)
+	{
+		this.visibleByIA = b;
+	}
+	
+	public boolean getVisibleByIA()
+	{
+		return this.visibleByIA;
 	}
 }

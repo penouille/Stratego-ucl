@@ -10,5 +10,6 @@ public class Drapeau extends Pion
 		nombre = 1;
 		team = joueur;
 		path = "drapeau.jpg";
+		visibleByIA = false;
 	}
 }

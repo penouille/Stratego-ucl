@@ -1,7 +1,9 @@
 package Controller;
 
 import View.AdminGame;
+import View.Option;
 import Game.Game;
+import Intelligence.Artificielle;
 
 	
 /** 
@@ -22,6 +24,9 @@ public class Controller
 	private int newClick;
 	private boolean partieFinie;
 	private String gagnant;
+	private boolean isAnIA;
+	
+	private Artificielle IA;
 	
 	private Game game;
 	
@@ -45,6 +50,11 @@ public class Controller
 	public boolean getPlacementJoueur2()
 	{
 		return this.placementJoueur2;
+	}
+	public void setIA(boolean isAnIA)
+	{
+		this.isAnIA = isAnIA;
+		IA = new Artificielle(this);
 	}
 	
 	/**
@@ -86,50 +96,26 @@ public class Controller
 		placePion();
 	}
 	
-	public boolean checkStopPlacement()
-	{
-		if(tour)
-		{
-			if(game.checkHaveAllPionsPlaced(6,9))
-			{
-				placementJoueur1=false;
-				tour=!tour;
-				return true;
-			}
-			else return false;
-		}
-		else
-		{
-			if(game.checkHaveAllPionsPlaced(0,3))
-			{
-				placementJoueur2=false;
-				tour=!tour;
-				return true;
-			}
-			else return false;
-		}
-	}
-	
-	public boolean checkStopPJ1()
+	public void checkStopPJ1()
 	{
 		if(game.checkHaveAllPionsPlaced(6,9))
 		{
 			placementJoueur1=false;
 			tour=!tour;
-			return true;
+			if(isAnIA)
+			{
+				IA.placeYourPions();
+			}
 		}
-		else return false;
 	}
 	
-	public boolean checkStopPJ2()
+	public void checkStopPJ2()
 	{
 		if(game.checkHaveAllPionsPlaced(0,3))
 		{
 			placementJoueur2=false;
 			tour=!tour;
-			return true;
 		}
-		else return false;
 	}
 	
 	/**
@@ -170,7 +156,7 @@ public class Controller
 				//Quand on déplace un pion.
 				int oldX = lastClick/10;
 				int oldY = lastClick%10;
-				System.out.println("Peut etre bougé ? = "+game.canMoveOnNewCase(oldX, oldY, x, y, tour));
+				//System.out.println("Peut etre bougé ? = "+game.canMoveOnNewCase(oldX, oldY, x, y, tour));
 				if(game.canMoveOnNewCase(oldX, oldY, x, y, tour))
 				{
 					int resultFight = game.checkNewCase(oldX, oldY, x, y);
@@ -217,9 +203,15 @@ public class Controller
 							break;
 					}
 					tour=!tour;
+					if(isAnIA && !tour)
+					{
+						IA.play();
+						//TODO Help ?
+						tour=!tour;
+					}
 				}
 			}
-			System.out.println("Le pion = "+game.getMap().getPion(x, y));
+			//System.out.println("Le pion = "+game.getMap().getPion(x, y));
 		}
 	}
 	

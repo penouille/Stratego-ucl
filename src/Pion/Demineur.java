@@ -10,5 +10,6 @@ public class Demineur extends Pion
 		nombre = 5;
 		team = joueur;
 		path = "demineur.jpg";
+		visibleByIA = false;
 	}
 }

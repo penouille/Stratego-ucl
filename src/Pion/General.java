@@ -10,6 +10,7 @@ public class General extends Pion
 		nombre = 1;
 		team = joueur;
 		path = "general.jpg";
+		visibleByIA = false;
 	}
 
 }

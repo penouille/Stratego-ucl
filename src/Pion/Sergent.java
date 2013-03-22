@@ -10,5 +10,6 @@ public class Sergent extends Pion
 		nombre = 4;
 		team = joueur;
 		path = "sergent.jpg";
+		visibleByIA = false;
 	}
 }
