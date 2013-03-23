@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,21 +67,32 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		regle = new JButton("Règles");
 		score = new JButton("Scores");*/
 		
-		URL url_JvJ = this.getClass().getResource("/JvJ.jpg");
-		JvJ = new JCoolButton(new ImageIcon(url_JvJ));
+		URL url_JvJ = this.getClass().getResource("/JvJ.png");
+		URL url_JvIA = this.getClass().getResource("/JvIA.png");
+		URL url_options = this.getClass().getResource("/options.png");
+		URL url_regles = this.getClass().getResource("/regles.png");
+		URL url_scores = this.getClass().getResource("/scores.png");
+		URL url_quitter = this.getClass().getResource("/quitter.png");
 		
-		JvIA = new JCoolButton("Joueur Vs IA");
+		JvJ = new JCoolButton(new ImageIcon(url_JvJ));
+		JvIA = new JCoolButton(new ImageIcon(url_JvIA));
+		option = new JCoolButton(new ImageIcon(url_options));
+		regle = new JCoolButton(new ImageIcon(url_regles));
+		score = new JCoolButton(new ImageIcon(url_scores));
+		quit = new JCoolButton(new ImageIcon(url_quitter));
+		
+		/*JvIA = new JCoolButton("Joueur Vs IA");
 		quit = new JCoolButton("Quitter");
 		option = new JCoolButton("Option");
 		regle = new JCoolButton("Règles");
-		score = new JCoolButton("Scores");
+		score = new JCoolButton("Scores");*/
 		
 		//personalise les JButtons
 		//personalizeButton();
 		
 		//intialisation Panel
 		PPrincipal = new JPanel(new BorderLayout());
-		PForButtons = new JPanel(new GridLayout(7,1));
+		PForButtons = new JPanel(new GridLayout(6,1));
 		
 		//intialisation JLabel
 		image = new JLabel(img);
@@ -92,7 +104,6 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		PForButtons.add(regle);
 		PForButtons.add(score);
 		PForButtons.add(quit);
-		PForButtons.add(new JCoolButton("test"));
 		
 		//ajout de l'action listener
 		initializeButton();
