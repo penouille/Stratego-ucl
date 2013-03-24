@@ -3,6 +3,8 @@ package Game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Controller.Controller;
+import Intelligence.Joueur;
 import Pion.Bombe;
 import Pion.Capitaine;
 import Pion.Colonel;
@@ -30,9 +32,23 @@ public class Game
 	
 	private Map map;
 	
+	private Joueur J1;
+	private Joueur J2;
+	
 	public Game()
 	{
 		map = new Map();
+		J1 = new Joueur(true);
+		J2 = new Joueur(false);
+	}
+	
+	public Joueur getJ1()
+	{
+		return this.J1;
+	}
+	public Joueur getJ2()
+	{
+		return this.J2;
 	}
 	
 	public int sizeMap()
@@ -219,7 +235,10 @@ public class Game
 
 	private Pion getTypePion(String pionPath, boolean joueur)
 	{
-		if(pionPath.contains("bombe")) return new Bombe(joueur);
+		Joueur player;
+		if(joueur) player = J1;
+		else player = J2;
+		if(pionPath.contains("bombe")) return new Bombe(joueur, player);
 		if(pionPath.contains("drapeau")) return new Drapeau(joueur);
 		if(pionPath.contains("espion")) return new Espion(joueur);
 		if(pionPath.contains("colonel")) return new Colonel(joueur);
@@ -326,6 +345,9 @@ public class Game
 	
 	public void dude(boolean joueur)
 	{
+		Joueur player;
+		if(joueur) player = J1;
+		else player = J2;
 		int min, max;
 		if(joueur)
 		{
@@ -342,7 +364,7 @@ public class Game
 		ListePion.add(new Drapeau(joueur));
 		for(i=1; i<7; i++)
 		{
-			ListePion.add(new Bombe(joueur));
+			ListePion.add(new Bombe(joueur, player));
 		}
 		ListePion.add(new Espion(joueur));
 		for(i=8; i<16; i++)

@@ -1,5 +1,7 @@
 package Pion;
 
+import Intelligence.Joueur;
+
 /**
  * 
  * @author Florian Faingnaert et Q.M.
@@ -16,6 +18,8 @@ public abstract class Pion
 	protected byte nombre;
 	protected String path;
 	protected boolean visibleByIA;
+	
+	protected Joueur joueur;
 
 	public Pion()
 	{
@@ -53,6 +57,7 @@ public abstract class Pion
 	}
 	public String getPath()
 	{
+		System.out.println(path);
 		return this.path;
 	}
 	public void setVisibleByIA(boolean b)
@@ -63,5 +68,15 @@ public abstract class Pion
 	public boolean getVisibleByIA()
 	{
 		return this.visibleByIA;
+	}
+
+	public Joueur getJoueur()
+	{
+		return joueur;
+	}
+
+	public void setJoueur(Joueur joueur)
+	{
+		this.joueur = joueur;
 	}
 }

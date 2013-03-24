@@ -28,7 +28,8 @@ public class Option extends StdWindow implements ActionListener
 	
 	private JPanel PPrincipale;
 	private JPanel PForButton; //contient les boutons dans un gridlayout
-	private JPanel PForCouleurs; //contient la liste des bouton relatif à la couleur dans un gridlayout.
+	private JPanel PForCouleursJ1; //contient la liste des bouton relatif à la couleur dans un gridlayout.
+	private JPanel PForCouleursJ2;
 	private JPanel PForDifficultees;
 	private JPanel PForMusique;
 	
@@ -37,10 +38,12 @@ public class Option extends StdWindow implements ActionListener
 	
 	private JLabel img;
 	private JLabel musique;
-	private JLabel couleurs;
+	private JLabel couleursJ1;
+	private JLabel couleursJ2;
 	private JLabel difficultees;
 	
-	private JComboBox<String> comboBoxCouleurs;
+	private JComboBox<String> comboBoxCouleursJ1;
+	private JComboBox<String> comboBoxCouleursJ2;
 	private JComboBox<String> comboBoxDifficultees;
 	private JComboBox<String> comboBoxMusique;
 	
@@ -71,7 +74,7 @@ public class Option extends StdWindow implements ActionListener
 		image = new ImageIcon(url_image);
 		
 		int width = image.getIconWidth(); int height = image.getIconHeight();
-		centerMe(width, height, 200); //Dimensionne et centre le JFrame.
+		centerMe(width, height, 230); //Dimensionne et centre le JFrame.
 		
 		//intialisation des JButtons
 		apply = new JButton("Appliquer");
@@ -79,22 +82,26 @@ public class Option extends StdWindow implements ActionListener
 		
 		//initialisation des JLabel
 		musique = new JLabel("Musique");
-		couleurs = new JLabel("Couleur");
+		couleursJ1 = new JLabel("Couleur Joueur1");
+		couleursJ2 = new JLabel("Couleur Joueur2");
 		difficultees = new JLabel("Difficulté");
 		img = new JLabel(image);
 		
 		//initialisation des JPanel
 		PPrincipale = new JPanel (new BorderLayout());
-		PForButton = new JPanel (new GridLayout(5,1));
+		PForButton = new JPanel (new GridLayout(6,1));
 		PForMusique = new JPanel (new GridLayout(1,2));
-		PForCouleurs = new JPanel (new GridLayout(1,2));
+		PForCouleursJ1 = new JPanel (new GridLayout(1,2));
+		PForCouleursJ2 = new JPanel (new GridLayout(1,2));
 		PForDifficultees = new JPanel (new GridLayout(1,2));
 		
 		//intialisation des JComboBox + ajout des champs
-		comboBoxCouleurs = new JComboBox<String>();
+		comboBoxCouleursJ1 = new JComboBox<String>();
+		comboBoxCouleursJ2 = new JComboBox<String>();
 		comboBoxDifficultees = new JComboBox<String>();
 		comboBoxMusique = new JComboBox<String>();
-		initialiseCombo(comboBoxCouleurs, TScouleurs);
+		initialiseCombo(comboBoxCouleursJ1, TScouleurs);
+		initialiseCombo(comboBoxCouleursJ2, TScouleurs);
 		initialiseCombo(comboBoxDifficultees, TSdifficultees);
 		initialiseCombo(comboBoxMusique, TSmusique);
 		
@@ -102,9 +109,13 @@ public class Option extends StdWindow implements ActionListener
 		addLabelToPanel(musique,PForMusique);
 		PForMusique.add(comboBoxMusique);
 		
-		//ajout des éléments dans le Panel pour les couleurs
-		addLabelToPanel(couleurs,PForCouleurs);
-		PForCouleurs.add(comboBoxCouleurs);
+		//ajout des éléments dans le Panel pour les couleurs pour le J1
+		addLabelToPanel(couleursJ1,PForCouleursJ1);
+		PForCouleursJ1.add(comboBoxCouleursJ1);
+		
+		//ajout des éléments dans le Panel pour les couleurs pour le J2
+		addLabelToPanel(couleursJ2,PForCouleursJ2);
+		PForCouleursJ2.add(comboBoxCouleursJ2);
 		
 		//ajout des éléments dans le Panel pour les difficulté
 		addLabelToPanel(difficultees,PForDifficultees);
@@ -112,7 +123,8 @@ public class Option extends StdWindow implements ActionListener
 		
 		//ajout des éléments dans le Panel pour les boutons
 		PForButton.add(PForMusique);
-		PForButton.add(PForCouleurs);
+		PForButton.add(PForCouleursJ1);
+		PForButton.add(PForCouleursJ2);
 		PForButton.add(PForDifficultees);
 		PForButton.add(apply);
 		PForButton.add(retour);
@@ -156,7 +168,8 @@ public class Option extends StdWindow implements ActionListener
 	{
 		apply.addActionListener(this);
 		retour.addActionListener(this);
-		comboBoxCouleurs.addActionListener(this);
+		comboBoxCouleursJ1.addActionListener(this);
+		comboBoxCouleursJ2.addActionListener(this);
 		comboBoxDifficultees.addActionListener(this);
 		comboBoxMusique.addActionListener(this);
 	}
@@ -187,6 +200,8 @@ public class Option extends StdWindow implements ActionListener
 			if(b==apply)
 			{
 				System.out.println("Application en cours . . .");
+				controller.setPrise("");
+				controller.setPrise(null);
 			}
 			if(b==retour)
 			{
@@ -200,10 +215,34 @@ public class Option extends StdWindow implements ActionListener
 			{
 				changeMusic();
 			}
-			if( jc == comboBoxCouleurs)
+			if( jc == comboBoxCouleursJ1)
 			{
-				String s = (String)comboBoxCouleurs.getSelectedItem();
-				if(s=="Vert") PPrincipale.setBackground(Color.green);
+				String s = (String)comboBoxCouleursJ1.getSelectedItem();
+				if(s=="Vert")
+				{
+					PPrincipale.setBackground(new Color(0,166,54));
+					controller.getGame().getJ1().setPrefColor("Vert");
+				}
+				if(s=="Rouge")
+				{
+					PPrincipale.setBackground(Color.red);
+					controller.getGame().getJ1().setPrefColor("Rouge");
+				}
+				if(s=="Bleu")
+				{
+					PPrincipale.setBackground(Color.blue);
+					controller.getGame().getJ1().setPrefColor("Bleu");
+				}
+				if(s=="Noir") 
+				{
+					PPrincipale.setBackground(Color.black);
+					controller.getGame().getJ1().setPrefColor("");
+				}
+			}
+			if( jc == comboBoxCouleursJ2)
+			{
+				String s = (String)comboBoxCouleursJ2.getSelectedItem();
+				if(s=="Vert") PPrincipale.setBackground(new Color(0,166,54));
 				if(s=="Rouge") PPrincipale.setBackground(Color.red);
 				if(s=="Bleu") PPrincipale.setBackground(Color.blue);
 				if(s=="Noir") PPrincipale.setBackground(Color.black);
@@ -241,10 +280,5 @@ public class Option extends StdWindow implements ActionListener
 		{
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
-	}
-
-	public static void main (String args [])
-	{
-		new Option(new Controller());
 	}
 }

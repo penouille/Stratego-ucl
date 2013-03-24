@@ -79,7 +79,7 @@ public class Artificielle
 		ListePion.add(new Drapeau(false));
 		for(i=1; i<7; i++)
 		{
-			ListePion.add(new Bombe(false));
+			ListePion.add(new Bombe(false, game.getJ2()));
 		}
 		ListePion.add(new Espion(false));
 		for(i=8; i<16; i++)
@@ -422,7 +422,7 @@ public class Artificielle
 	{
 		// TODO Auto-generated method stub
 		updateListOfDisplacement();
-		printList();
+		//printList();
 		ArrayList<Deplacement> bestDeplacement = getBestDisplacement();
 		if(bestDeplacement.size()==1)
 		{

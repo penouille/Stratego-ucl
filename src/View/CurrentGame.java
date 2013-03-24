@@ -219,7 +219,6 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     		   
     		   checkCase(controller.getLastClick());
 			   checkCase(controller.getNewClick());
-    	 
     	   }
     		   
     	   
@@ -387,9 +386,9 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
 		   						//System.out.println("poseDeLaPrise"+i);
 		   						controller.setClick(i);
 		   						controller.setPrise(null);
-		   						checkCase(controller.getLastClick());
-		   						checkCase(controller.getNewClick());
-		   					   
+		   						//checkCase(controller.getLastClick());
+		   						//checkCase(controller.getNewClick());
+		   					    UpGame2();
 		   					}
 		   				}
 	   				}

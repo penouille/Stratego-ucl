@@ -4,6 +4,7 @@ import View.AdminGame;
 import View.Option;
 import Game.Game;
 import Intelligence.Artificielle;
+import Intelligence.Joueur;
 
 	
 /** 
@@ -171,7 +172,7 @@ public class Controller
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
-			else if(!getPlacement())
+			else if(!getPlacement() && !partieFinie)
 			{
 				//Quand on déplace un pion.
 				int oldX = lastClick/10;
