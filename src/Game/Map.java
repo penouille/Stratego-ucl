@@ -15,7 +15,7 @@ public class Map
 	
 	public Map()
 	{
-		Map = new Pion[11][11];
+		Map = new Pion[10][10];
 		initialise();
 		
 	}

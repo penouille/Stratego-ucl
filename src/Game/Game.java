@@ -192,9 +192,9 @@ public class Game
 		for(int i=1; i<=map.getPion(x, y).getNbrDePas(); i++)
 		{
 			if( (x-i>=0) && canMoveOnNewCase(x, y, x-i, y, joueur)) listCase.add(((x-i)*10)+y);
-			else if( (x+i<10) && canMoveOnNewCase(x, y, x+i, y, joueur)) listCase.add(((x+i)*10)+y);
-			else if( (y-i>=0) && canMoveOnNewCase(x, y, x, y-i, joueur)) listCase.add((x*10)+y-i);
-			else if( (y+i<10) && canMoveOnNewCase(x, y, x, y+i, joueur)) listCase.add((x*10)+y-i);
+			if( (x+i<10) && canMoveOnNewCase(x, y, x+i, y, joueur)) listCase.add(((x+i)*10)+y);
+			if( (y-i>=0) && canMoveOnNewCase(x, y, x, y-i, joueur)) listCase.add((x*10)+y-i);
+			if( (y+i<10) && canMoveOnNewCase(x, y, x, y+i, joueur)) listCase.add((x*10)+y-i);
 		}
 		return listCase;
 	}

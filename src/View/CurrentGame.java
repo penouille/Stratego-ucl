@@ -423,21 +423,6 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
         */
        public void dude (GameContainer container) throws SlickException
        {
-    	   /*for (int i = 0 ; i < 12 ; i++)
-    	   {
-    		   
-    		   controller.setPrise(photos[i]);
-    		   
-    		   setPion(container);
-    		   checkCase(i);
-    	   }
-    	   
-    	   for (int i = 60 ; i < 72 ; i++)
-    	   {
-    		   controller.setPrise(photos[(i-60)]);
-    		   setPion(container);
-    		   checkCase(i);
-    	   }*/
     	   controller.dude();
     	   UpGame2();
        }

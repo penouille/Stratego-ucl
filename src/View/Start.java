@@ -81,12 +81,6 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		score = new JCoolButton(new ImageIcon(url_scores));
 		quit = new JCoolButton(new ImageIcon(url_quitter));
 		
-		/*JvIA = new JCoolButton("Joueur Vs IA");
-		quit = new JCoolButton("Quitter");
-		option = new JCoolButton("Option");
-		regle = new JCoolButton("Règles");
-		score = new JCoolButton("Scores");*/
-		
 		//personalise les JButtons
 		//personalizeButton();
 		

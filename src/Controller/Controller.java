@@ -56,6 +56,22 @@ public class Controller
 		this.isAnIA = isAnIA;
 		IA = new Artificielle(this);
 	}
+	public boolean getTour()
+	{
+		return this.tour;
+	}
+	public boolean getPartieFinie()
+	{
+		return this.partieFinie;
+	}
+	public void setPartieFinie(boolean b)
+	{
+		this.partieFinie = b;
+	}
+	public void setGagnant(String g)
+	{
+		this.gagnant = g;
+	}
 	
 	/**
 	 * @return Renvoit true si l'un ou l'autre joueur est en phase de placement.
@@ -96,7 +112,7 @@ public class Controller
 		placePion();
 	}
 	
-	public void checkStopPJ1()
+	public boolean checkStopPJ1()
 	{
 		if(game.checkHaveAllPionsPlaced(6,9))
 		{
@@ -106,16 +122,20 @@ public class Controller
 			{
 				IA.placeYourPions();
 			}
+			return true;
 		}
+		else return false;
 	}
 	
-	public void checkStopPJ2()
+	public boolean checkStopPJ2()
 	{
 		if(game.checkHaveAllPionsPlaced(0,3))
 		{
 			placementJoueur2=false;
 			tour=!tour;
+			return true;
 		}
+		else return false;
 	}
 	
 	/**
@@ -184,6 +204,7 @@ public class Controller
 							}
 							break;
 					case 1: game.removePion(oldX, oldY);
+							if(isAnIA) game.getMap().getPion(x, y).setVisibleByIA(true);
 							//check si après la perte du pion, le joueur sait encore jouer.
 							if(!partieFinie && game.checkLost(tour))
 							{
@@ -192,7 +213,8 @@ public class Controller
 							}
 							break;
 					case 2: if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
-							game.removePion(x, y); 
+							game.removePion(x, y);
+							if(isAnIA) game.getMap().getPion(oldX, oldY).setVisibleByIA(true);
 							game.placePion(oldX, oldY, x, y);
 							//check si après le déplacement du pion d'un joueur, l'autre joueur sait encore jouer.
 							if(!partieFinie && game.checkLost(!tour))
@@ -206,8 +228,7 @@ public class Controller
 					if(isAnIA && !tour)
 					{
 						IA.play();
-						//TODO Help ?
-						tour=!tour;
+						//tour=!tour;
 					}
 				}
 			}
