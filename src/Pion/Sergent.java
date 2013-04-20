@@ -1,15 +1,23 @@
 package Pion;
 
+import Intelligence.Joueur;
+
 public class Sergent extends Pion
 {
-	public Sergent(boolean joueur)
+	public Sergent(boolean teamm, Joueur prefJoueur)
 	{
 		nbrDePas = 1;
 		force = 4;
 		name = "sergent";
 		nombre = 4;
-		team = joueur;
+		team = teamm;
 		path = "sergent.jpg";
 		visibleByIA = false;
+		joueur = prefJoueur;
+	}
+	
+	public String getPath()
+	{
+		return path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg";
 	}
 }

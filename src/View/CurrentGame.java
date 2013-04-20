@@ -49,13 +49,15 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        private Controller controller;
        private Game game;
        
-       //private Image prise = null;// représente la prise d'un pion (une image suit le curseur.
-       //private boolean placement = true; // représente le fait de pouvoir placer ses pions en début de partie.
+       //private Image prise = null;// reprÃ©sente la prise d'un pion (une image suit le curseur.
+       //private boolean placement = true; // reprÃ©sente le fait de pouvoir placer ses pions en dÃ©but de partie.
        private String[] photos =  {"drapeau.jpg" ,"espion.jpg" , "eclaireur.jpg"  , "demineur.jpg",
     		                       "sergent.jpg" , "lieutenant.jpg", "capitaine.jpg", "commandant.jpg" ,
     		                       "colonel.jpg" ,"general.jpg", "marechal.jpg" , "bombe.jpg"};
        
        private boolean tour = true;
+       
+       private Option optFrame;
        
        private int i=0;
        
@@ -69,11 +71,13 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
            game = controller.getGame() ;
        }
        
-       public CurrentGame(Controller controller)
+       public CurrentGame(Controller controller, Option optFrame)
        {
     	   super();
     	   this.controller = controller;
     	   game = controller.getGame();
+    	   this.optFrame = optFrame;
+    	   optFrame.setCurrentGame(this);
        }
        
        public int getID() 
@@ -95,7 +99,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
                Fin.setMouseOverColor(new Color(0.5f,0.5f,0.5f,3f));
                
                int mid = (container.getWidth()/2-test.getWidth()/2)+13;
-               // Mise en place de l'échequier.
+               // Mise en place de l'Ã©chequier.
                for ( int i = 0 ; i < 10 ; i++)
                {
             	   for ( int j = 0 ; j < 10 ; j++)
@@ -147,7 +151,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   	   //Affichage de la map.
     	   	   //test.draw(0, 0);
     	   	   test.draw(container.getWidth()/2-test.getWidth()/2, 0);
-           	   //affichage de l'échaquier
+           	   //affichage de l'Ã©chaquier
                for ( int i = 0 ; i < Echequier.size() ; i++)
                {
             	   Echequier.get(i).render(container, g);
@@ -182,7 +186,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   
     	   //UpGame2();
     	   
-    	   //Code exécuté en cas de clic gauche avec la souris.
+    	   //Code exÃ©cutÃ© en cas de clic gauche avec la souris.
     	   if (  input.isMousePressed(Input.MOUSE_LEFT_BUTTON) )
     	   {
     		   if ( controller.getPlacement())
@@ -222,7 +226,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   }
     		   
     	   
-    	 //Code exécuté en cas de pression sur la touche T.
+    	 //Code exÃ©cutÃ© en cas de pression sur la touche T.
     	   if ( input.isKeyPressed(Input.KEY_T))
     	   {
     		   AdminGame.Tour = true;
@@ -234,15 +238,16 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   {
     		   dude(container);
     	   }
-    	 //Code exécuté en cas de pression sur la touche Echap.
+    	 //Code exÃ©cutÃ© en cas de pression sur la touche Echap.
     	   if ( input.isKeyPressed(Input.KEY_ESCAPE))
     	   {
+    		   new Start(controller, optFrame);
     		   container.exit();
+    		   
     	   }
     	   if( input.isKeyPressed(Input.KEY_M))
     	   {
-    		   //new Option(controller);
-    		   new Option(controller);
+    		   optFrame.setVisible(true);
     	   }
     	   
     	   
@@ -276,7 +281,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        
        /**
         * pre:
-        * post: crée le tableau de sélection de pions à droite de l'écran.
+        * post: crÃ©e le tableau de sÃ©lection de pions Ã  droite de l'Ã©cran.
         */
        public void force ( GameContainer container ) throws SlickException 
        {
@@ -294,8 +299,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        }
        
        /**
-        * pre: Echequier a été initialisé.
-        * post: Crée mouseoverarea avec du bleau dans les case 42,43,46,47,52,53,56,57 de l'échequier.
+        * pre: Echequier a Ã©tÃ© initialisÃ©.
+        * post: CrÃ©e mouseoverarea avec du bleau dans les case 42,43,46,47,52,53,56,57 de l'Ã©chequier.
         */
        public void setFlotte(GameContainer container, int mid ) throws SlickException 
        {
@@ -305,7 +310,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
            Echequier.set(52, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+135 , 335));
            Echequier.set(53, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+197 , 335));
            
-           //deuxième bloc de flotte.
+           //deuxiÃ¨me bloc de flotte.
            Echequier.set(46, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+397 , 270));
            Echequier.set(47, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+465 , 270));
            Echequier.set(56, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+397 , 335));
@@ -315,7 +320,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        
        /**
         * pre:-
-        * post: permet de sélectionner un pion parmi ceux proposer sur la droite
+        * post: permet de sÃ©lectionner un pion parmi ceux proposer sur la droite
         */
        public void ChoixPion() throws SlickException 
 	   {
@@ -331,9 +336,9 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        /**
         * 
         * pre: 
-        * post: Pose le pion sélectionné sur la case sélectionnée, annule la variable prise si c'est fait.
-        * 		et modifie le model en conséquence.
-        * Si aucun pion n'est sélectionné, en sélectionne un.
+        * post: Pose le pion sÃ©lectionnÃ© sur la case sÃ©lectionnÃ©e, annule la variable prise si c'est fait.
+        * 		et modifie le model en consÃ©quence.
+        * Si aucun pion n'est sÃ©lectionnÃ©, en sÃ©lectionne un.
         */
        public void setPion(GameContainer container) throws SlickException
        {
@@ -356,7 +361,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        
        /**
         * pre:-
-        * post: prend le pion du plateau sélectionné en "prise" si prise est vide ou si !prise place prise à cette endroit.
+        * post: prend le pion du plateau sÃ©lectionnÃ© en "prise" si prise est vide ou si !prise place prise Ã  cette endroit.
         */
        public void setMove(GameContainer container) throws SlickException
        {
@@ -418,7 +423,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        
        /**
         * pre-
-        * post: place les pions automatiquement en début de partie pr ne pas emmerder les programmeurs.( good guy method )
+        * post: place les pions automatiquement en dÃ©but de partie pr ne pas emmerder les programmeurs.( good guy method )
         */
        public void dude (GameContainer container) throws SlickException
        {

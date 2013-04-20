@@ -39,13 +39,17 @@ public class Start extends StdWindow implements ActionListener, Runnable
 	
 	private boolean isAnIA;
 	
+	private Option optionFrame;
+	
 	//private OperateurListener opeListener = new OperateurListener();
 
-	public Start(Controller controller) 
+	public Start(Controller controller, Option optFrame) 
 	{
 		super("Menu de demarrage");
 		
 		this.controller=controller;
+		
+		this.optionFrame = optFrame;
 		
 		//initialisation de l'URL
 		url_img = this.getClass().getResource("/stratego.jpg");
@@ -169,7 +173,7 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		}
 		if(b==option)
 		{
-			new Option(controller);
+			optionFrame.setVisible(true);
 		}
 		if(b==quit)
 		{
@@ -177,11 +181,11 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		}
 		if(b==score)
 		{
-			
+			new Scores();
 		}
 		if(b==regle)
 		{
-			
+			new Regles();
 		}
 	}
 
@@ -191,12 +195,12 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		if(isAnIA)
 		{
 			controller.setIA(isAnIA);
-			new AdminGame("Stratego : Joueur Vs Joueur", controller);
+			new AdminGame("Stratego : Joueur Vs Joueur", controller, optionFrame);
 		}
 		else
 		{
 			controller.setIA(isAnIA);
-			new AdminGame("Stratego : Joueur Vs Joueur", controller);
+			new AdminGame("Stratego : Joueur Vs Joueur", controller, optionFrame);
 		}
 	}
 

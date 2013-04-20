@@ -55,9 +55,13 @@ public abstract class Pion
 	{
 		return this.name;
 	}
-	public String getPath()
+	/*public String getPath()
 	{
 		System.out.println(path);
+		return this.path;
+	}*/
+	public String getPath()
+	{
 		return this.path;
 	}
 	public void setVisibleByIA(boolean b)

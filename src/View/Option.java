@@ -18,6 +18,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import org.newdawn.slick.SlickException;
 
 import Controller.Controller;
 
@@ -59,6 +65,8 @@ public class Option extends StdWindow implements ActionListener
 	private ImageIcon image;
 	
 	private Controller controller;
+	
+	private CurrentGame CG;
 	
 	public Option(Controller controller)
 	{
@@ -137,8 +145,10 @@ public class Option extends StdWindow implements ActionListener
 		add(PPrincipale);
 		setListener(); //Met les ActionListener aux boutons et au xomboBoxs
 		startSon();
-		setVisible(true);
+		setVisible(false);
 	}
+	
+	
 	
 	private void startSon() 
 	{
@@ -200,12 +210,17 @@ public class Option extends StdWindow implements ActionListener
 			if(b==apply)
 			{
 				System.out.println("Application en cours . . .");
-				controller.setPrise("");
-				controller.setPrise(null);
+				try {
+					CG.UpGame2();
+				} catch (SlickException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				setVisible(false);
 			}
 			if(b==retour)
 			{
-				dispose();
+				setVisible(false);
 			}
 		}
 		else
@@ -242,10 +257,26 @@ public class Option extends StdWindow implements ActionListener
 			if( jc == comboBoxCouleursJ2)
 			{
 				String s = (String)comboBoxCouleursJ2.getSelectedItem();
-				if(s=="Vert") PPrincipale.setBackground(new Color(0,166,54));
-				if(s=="Rouge") PPrincipale.setBackground(Color.red);
-				if(s=="Bleu") PPrincipale.setBackground(Color.blue);
-				if(s=="Noir") PPrincipale.setBackground(Color.black);
+				if(s=="Vert")
+				{
+					PPrincipale.setBackground(new Color(0,166,54));
+					controller.getGame().getJ2().setPrefColor("Vert");
+				}
+				if(s=="Rouge")
+				{
+					PPrincipale.setBackground(Color.red);
+					controller.getGame().getJ2().setPrefColor("Rouge");
+				}
+				if(s=="Bleu")
+				{
+					PPrincipale.setBackground(Color.blue);
+					controller.getGame().getJ2().setPrefColor("Bleu");
+				}
+				if(s=="Noir") 
+				{
+					PPrincipale.setBackground(Color.black);
+					controller.getGame().getJ2().setPrefColor("");
+				}
 			}
 			if(jc == comboBoxDifficultees)
 			{
@@ -280,5 +311,12 @@ public class Option extends StdWindow implements ActionListener
 		{
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
+	}
+
+
+
+	public void setCurrentGame(CurrentGame currentGame)
+	{
+		this.CG = currentGame;
 	}
 }
