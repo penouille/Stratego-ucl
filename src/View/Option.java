@@ -242,10 +242,26 @@ public class Option extends StdWindow implements ActionListener
 			if( jc == comboBoxCouleursJ2)
 			{
 				String s = (String)comboBoxCouleursJ2.getSelectedItem();
-				if(s=="Vert") PPrincipale.setBackground(new Color(0,166,54));
-				if(s=="Rouge") PPrincipale.setBackground(Color.red);
-				if(s=="Bleu") PPrincipale.setBackground(Color.blue);
-				if(s=="Noir") PPrincipale.setBackground(Color.black);
+				if(s=="Vert")
+				{
+					PPrincipale.setBackground(new Color(0,166,54));
+					controller.getGame().getJ2().setPrefColor("Vert");
+				}
+				if(s=="Rouge")
+				{
+					PPrincipale.setBackground(Color.red);
+					controller.getGame().getJ2().setPrefColor("Rouge");
+				}
+				if(s=="Bleu")
+				{
+					PPrincipale.setBackground(Color.blue);
+					controller.getGame().getJ2().setPrefColor("Bleu");
+				}
+				if(s=="Noir") 
+				{
+					PPrincipale.setBackground(Color.black);
+					controller.getGame().getJ2().setPrefColor("");
+				}
 			}
 			if(jc == comboBoxDifficultees)
 			{

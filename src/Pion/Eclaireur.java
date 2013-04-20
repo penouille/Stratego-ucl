@@ -12,5 +12,10 @@ public class Eclaireur extends Pion
 		path = "eclaireur.jpg";
 		visibleByIA = false;
 	}
+	public String getPath()
+	{
+		System.out.println(path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg");
+		return path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg";
+	}
 
 }

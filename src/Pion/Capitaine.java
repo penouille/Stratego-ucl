@@ -12,5 +12,10 @@ public class Capitaine extends Pion
 		path = "capitaine.jpg";
 		visibleByIA = false;
 	}
+	
+	public String getPath()
+	{
+		return path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg";
+	}
 
 }

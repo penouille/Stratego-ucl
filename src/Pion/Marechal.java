@@ -12,4 +12,8 @@ public class Marechal extends Pion
 		path = "marechal.jpg";
 		visibleByIA = false;
 	}
+	public String getPath()
+	{
+		return path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg";
+	}
 }

@@ -12,5 +12,9 @@ public class General extends Pion
 		path = "general.jpg";
 		visibleByIA = false;
 	}
+	public String getPath()
+	{
+		return path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg";
+	}
 
 }

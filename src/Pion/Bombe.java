@@ -19,7 +19,6 @@ public class Bombe extends Pion
 	
 	public String getPath()
 	{
-		System.out.println(path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg");
 		return path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg";
 	}
 }

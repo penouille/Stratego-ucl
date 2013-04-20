@@ -12,4 +12,8 @@ public class Sergent extends Pion
 		path = "sergent.jpg";
 		visibleByIA = false;
 	}
+	public String getPath()
+	{
+		return path.substring(0,path.indexOf("."))+joueur.getPrefColor()+".jpg";
+	}
 }
