@@ -239,18 +239,18 @@ public class Game
 		if(joueur) player = J1;
 		else player = J2;
 		if(pionPath.contains("bombe")) return new Bombe(joueur, player);
-		if(pionPath.contains("drapeau")) return new Drapeau(joueur);
-		if(pionPath.contains("espion")) return new Espion(joueur);
-		if(pionPath.contains("colonel")) return new Colonel(joueur);
-		if(pionPath.contains("capitaine")) return new Capitaine(joueur);
-		if(pionPath.contains("commandant")) return new Commandant(joueur);
-		if(pionPath.contains("demineur")) return new Demineur(joueur);
-		if(pionPath.contains("eclaireur")) return new Eclaireur(joueur);
-		if(pionPath.contains("espion")) return new Espion(joueur);
-		if(pionPath.contains("general")) return new General(joueur);
-		if(pionPath.contains("lieutenant")) return new Lieutenant(joueur);
-		if(pionPath.contains("marechal")) return new Marechal(joueur);
-		if(pionPath.contains("sergent")) return new Sergent(joueur);
+		if(pionPath.contains("drapeau")) return new Drapeau(joueur, player);
+		if(pionPath.contains("espion")) return new Espion(joueur, player);
+		if(pionPath.contains("colonel")) return new Colonel(joueur, player);
+		if(pionPath.contains("capitaine")) return new Capitaine(joueur, player);
+		if(pionPath.contains("commandant")) return new Commandant(joueur, player);
+		if(pionPath.contains("demineur")) return new Demineur(joueur, player);
+		if(pionPath.contains("eclaireur")) return new Eclaireur(joueur, player);
+		if(pionPath.contains("espion")) return new Espion(joueur, player);
+		if(pionPath.contains("general")) return new General(joueur, player);
+		if(pionPath.contains("lieutenant")) return new Lieutenant(joueur, player);
+		if(pionPath.contains("marechal")) return new Marechal(joueur, player);
+		if(pionPath.contains("sergent")) return new Sergent(joueur, player);
 		else return null;
 	}
 
@@ -361,42 +361,42 @@ public class Game
 		}
 		int i;
 		ArrayList<Pion> ListePion = new ArrayList<Pion>();
-		ListePion.add(new Drapeau(joueur));
+		ListePion.add(new Drapeau(joueur, player));
 		for(i=1; i<7; i++)
 		{
 			ListePion.add(new Bombe(joueur, player));
 		}
-		ListePion.add(new Espion(joueur));
+		ListePion.add(new Espion(joueur, player));
 		for(i=8; i<16; i++)
 		{
-			ListePion.add(new Eclaireur(joueur));
+			ListePion.add(new Eclaireur(joueur, player));
 		}
 		for(i=16; i<21; i++)
 		{
-			ListePion.add(new Demineur(joueur));
+			ListePion.add(new Demineur(joueur, player));
 		}
 		for(i=21; i<25; i++)
 		{
-			ListePion.add(new Sergent(joueur));
+			ListePion.add(new Sergent(joueur, player));
 		}
 		for(i=25; i<29; i++)
 		{
-			ListePion.add(new Lieutenant(joueur));
+			ListePion.add(new Lieutenant(joueur, player));
 		}
 		for(i=29; i<33; i++)
 		{
-			ListePion.add(new Capitaine(joueur));
+			ListePion.add(new Capitaine(joueur, player));
 		}
 		for(i=33; i<36; i++)
 		{
-			ListePion.add(new Commandant(joueur));
+			ListePion.add(new Commandant(joueur, player));
 		}
 		for(i=36; i<38; i++)
 		{
-			ListePion.add(new Colonel(joueur));
+			ListePion.add(new Colonel(joueur, player));
 		}
-		ListePion.add(new General(joueur));
-		ListePion.add(new Marechal(joueur));
+		ListePion.add(new General(joueur, player));
+		ListePion.add(new Marechal(joueur, player));
 		
 		int t; Random r = new Random();
 		for(i=min; i<max; i++)

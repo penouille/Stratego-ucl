@@ -1,16 +1,19 @@
 package Pion;
 
+import Intelligence.Joueur;
+
 public class Demineur extends Pion
 {
-	public Demineur(boolean joueur)
+	public Demineur(boolean teamm, Joueur prefJoueur)
 	{
 		nbrDePas = 1;
 		force = 3;
 		name = "demineur";
 		nombre = 5;
-		team = joueur;
+		team = teamm;
 		path = "demineur.jpg";
 		visibleByIA = false;
+		joueur = prefJoueur;
 	}
 	public String getPath()
 	{

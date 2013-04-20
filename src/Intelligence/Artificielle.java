@@ -76,46 +76,70 @@ public class Artificielle
 	{
 		int i;
 		ListePion = new ArrayList<Pion>();
-		ListePion.add(new Drapeau(false));
+		ListePion.add(new Drapeau(false, game.getJ2()));
 		for(i=1; i<7; i++)
 		{
 			ListePion.add(new Bombe(false, game.getJ2()));
 		}
-		ListePion.add(new Espion(false));
+		ListePion.add(new Espion(false, game.getJ2()));
 		for(i=8; i<16; i++)
 		{
-			ListePion.add(new Eclaireur(false));
+			ListePion.add(new Eclaireur(false, game.getJ2()));
 		}
 		for(i=16; i<21; i++)
 		{
-			ListePion.add(new Demineur(false));
+			ListePion.add(new Demineur(false, game.getJ2()));
 		}
 		for(i=21; i<25; i++)
 		{
-			ListePion.add(new Sergent(false));
+			ListePion.add(new Sergent(false, game.getJ2()));
 		}
 		for(i=25; i<29; i++)
 		{
-			ListePion.add(new Lieutenant(false));
+			ListePion.add(new Lieutenant(false, game.getJ2()));
 		}
 		for(i=29; i<33; i++)
 		{
-			ListePion.add(new Capitaine(false));
+			ListePion.add(new Capitaine(false, game.getJ2()));
 		}
 		for(i=33; i<36; i++)
 		{
-			ListePion.add(new Commandant(false));
+			ListePion.add(new Commandant(false, game.getJ2()));
 		}
 		for(i=36; i<38; i++)
 		{
-			ListePion.add(new Colonel(false));
+			ListePion.add(new Colonel(false, game.getJ2()));
 		}
-		ListePion.add(new General(false));
-		ListePion.add(new Marechal(false));
+		ListePion.add(new General(false, game.getJ2()));
+		ListePion.add(new Marechal(false, game.getJ2()));
 		
 		for(Pion pion: ListePion)
 		{
 			pion.setVisibleByIA(true);
+		}
+	}
+	
+	Pion getPion(String name)
+	{
+		for(Pion i : ListePion)
+		{
+			if(i.getName().equals(name))
+			{
+				ListePion.remove(i);
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	void setDrapeau()
+	{
+		int t; Random r = new Random();
+		t = r.nextInt(30);
+		if(t==20 || t==21 || t==24 || t==25 || t==28 || t==29) setDrapeau();
+		else
+		{
+			iaMap.setEtat(t/10, t%10, getPion("drapeau"));
 		}
 	}
 
@@ -124,7 +148,7 @@ public class Artificielle
 		// TODO Auto-generated method stub
 		initializePions();
 		int t; Random r = new Random();
-		for(int i=0; i<4; i++)
+		/*for(int i=0; i<4; i++)
 		{
 			for(int j=0;j<10;j++)
 			{
@@ -132,7 +156,10 @@ public class Artificielle
 				iaMap.setEtat(i, j, ListePion.get(t));
 				ListePion.remove(t);
 			}
-		}
+		}*/
+		setDrapeau();
+		System.out.println(ListePion.size());
+		
 		//updateInfluenceMap();
 		//printInfluenceMap();
 		controller.checkStopPJ2();

@@ -1,16 +1,19 @@
 package Pion;
 
+import Intelligence.Joueur;
+
 public class Capitaine extends Pion
 {
-	public Capitaine(boolean joueur)
+	public Capitaine(boolean teamm, Joueur prefJoueur)
 	{
 		nbrDePas = 1;
 		force = 6;
 		name = "capitaine";
 		nombre = 4;
-		team = joueur;
+		team = teamm;
 		path = "capitaine.jpg";
 		visibleByIA = false;
+		joueur = prefJoueur;
 	}
 	
 	public String getPath()

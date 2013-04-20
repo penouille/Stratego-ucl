@@ -13,6 +13,8 @@ public class AdminGame extends StateBasedGame
 	
 	private Controller controller;
 	
+	private Option optFrame;
+	
 	public AdminGame(String title)
 	{
 		super(title);
@@ -33,11 +35,13 @@ public class AdminGame extends StateBasedGame
 	}
 	
 	
-	public AdminGame(String title, Controller controller)
+	public AdminGame(String title, Controller controller, Option optFrame)
 	{
 		super(title);
 		
 		this.controller = controller;
+		
+		this.optFrame = optFrame;
 		
 		try
 		{
@@ -57,7 +61,7 @@ public class AdminGame extends StateBasedGame
 
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-		this.addState(new CurrentGame(controller));
+		this.addState(new CurrentGame(controller, optFrame));
 		this.addState(new AdversGame(controller));
 		this.addState(new Intermediaire(controller));
 	}

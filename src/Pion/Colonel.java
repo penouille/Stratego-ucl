@@ -1,17 +1,21 @@
 package Pion;
 
+import Intelligence.Joueur;
+
 public class Colonel extends Pion
 {
-	public Colonel(boolean joueur)
+	public Colonel(boolean teamm, Joueur prefJoueur)
 	{
 		nbrDePas = 1;
 		force = 8;
 		name = "colonel";
 		nombre = 2;
-		team = joueur;
+		team = teamm;
 		path = "colonel.jpg";
 		visibleByIA = false;
+		joueur = prefJoueur;
 	}
+
 
 	public String getPath()
 	{

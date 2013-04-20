@@ -1,5 +1,6 @@
 package System;
 
+import View.Option;
 import View.Start;
 import Controller.Controller;
 
@@ -17,7 +18,8 @@ public class system
 		//Game game = new Game();
 		//creation du controller
 		Controller controller = new Controller();
-		new Start(controller);
+		Option optFrame = new Option(controller);
+		new Start(controller, optFrame);
 	}
 
 }

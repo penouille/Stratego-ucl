@@ -55,6 +55,10 @@ public abstract class Pion
 	{
 		return this.name;
 	}
+	/*public String getPath()
+	{
+		return this.path;
+	}*/
 	public String getPath()
 	{
 		return this.path;
