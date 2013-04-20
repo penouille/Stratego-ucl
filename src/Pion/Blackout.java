@@ -12,7 +12,8 @@ public class Blackout extends Pion
 	{
 		force = 1000;
 		nbrDePas = 0;
-		path = "bleu.jpg";
+		path = "transparent.png";
 		name = "blackout";
+		team = true;
 	}
 }

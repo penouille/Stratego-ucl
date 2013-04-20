@@ -20,7 +20,7 @@ import Pion.Marechal;
 import Pion.Pion;
 import Pion.Sergent;
 
-public class Artificielle 
+public abstract class Artificielle 
 {
 	private Map iaMap;
 	
@@ -37,12 +37,42 @@ public class Artificielle
 	public Artificielle(Controller controller)
 	{
 		this.controller = controller;
-		iaMap = controller.getGame().getMap();
+		setIaMap(controller.getGame().getMap());
 		influenceMap = new int [10] [10];
-		game = controller.getGame();
+		setGame(controller.getGame());
 	}
 	
-	private void setInfluence(int x, int y, int influence)
+	public Map getIaMap()
+	{
+		return iaMap;
+	}
+
+	public void setIaMap(Map iaMap)
+	{
+		this.iaMap = iaMap;
+	}
+
+	public ArrayList<Deplacement> getListOfDisplacement()
+	{
+		return listOfDisplacement;
+	}
+
+	public void setListOfDisplacement(ArrayList<Deplacement> listOfDisplacement)
+	{
+		this.listOfDisplacement = listOfDisplacement;
+	}
+
+	public Game getGame()
+	{
+		return game;
+	}
+
+	public void setGame(Game game)
+	{
+		this.game = game;
+	}
+	
+	protected void setInfluence(int x, int y, int influence)
 	{
 		influenceMap [x][y] = influence;
 	}
@@ -66,7 +96,7 @@ public class Artificielle
 	
 	private void printList()
 	{
-		for(Deplacement i : listOfDisplacement)
+		for(Deplacement i : getListOfDisplacement())
 		{
 			System.out.println("oldX = "+i.getOldX()+", oldY = "+i.getOldY()+", x = "+i.getX()+", y = "+i.getY()+", et l'influence = "+i.getInfluence());
 		}
@@ -76,42 +106,42 @@ public class Artificielle
 	{
 		int i;
 		ListePion = new ArrayList<Pion>();
-		ListePion.add(new Drapeau(false, game.getJ2()));
+		ListePion.add(new Drapeau(false, getGame().getJ2()));
 		for(i=1; i<7; i++)
 		{
-			ListePion.add(new Bombe(false, game.getJ2()));
+			ListePion.add(new Bombe(false, getGame().getJ2()));
 		}
-		ListePion.add(new Espion(false, game.getJ2()));
+		ListePion.add(new Espion(false, getGame().getJ2()));
 		for(i=8; i<16; i++)
 		{
-			ListePion.add(new Eclaireur(false, game.getJ2()));
+			ListePion.add(new Eclaireur(false, getGame().getJ2()));
 		}
 		for(i=16; i<21; i++)
 		{
-			ListePion.add(new Demineur(false, game.getJ2()));
+			ListePion.add(new Demineur(false, getGame().getJ2()));
 		}
 		for(i=21; i<25; i++)
 		{
-			ListePion.add(new Sergent(false, game.getJ2()));
+			ListePion.add(new Sergent(false, getGame().getJ2()));
 		}
 		for(i=25; i<29; i++)
 		{
-			ListePion.add(new Lieutenant(false, game.getJ2()));
+			ListePion.add(new Lieutenant(false, getGame().getJ2()));
 		}
 		for(i=29; i<33; i++)
 		{
-			ListePion.add(new Capitaine(false, game.getJ2()));
+			ListePion.add(new Capitaine(false, getGame().getJ2()));
 		}
 		for(i=33; i<36; i++)
 		{
-			ListePion.add(new Commandant(false, game.getJ2()));
+			ListePion.add(new Commandant(false, getGame().getJ2()));
 		}
 		for(i=36; i<38; i++)
 		{
-			ListePion.add(new Colonel(false, game.getJ2()));
+			ListePion.add(new Colonel(false, getGame().getJ2()));
 		}
-		ListePion.add(new General(false, game.getJ2()));
-		ListePion.add(new Marechal(false, game.getJ2()));
+		ListePion.add(new General(false, getGame().getJ2()));
+		ListePion.add(new Marechal(false, getGame().getJ2()));
 		
 		for(Pion pion: ListePion)
 		{
@@ -119,7 +149,13 @@ public class Artificielle
 		}
 	}
 	
-	Pion getPion(String name)
+	/**
+	 * 
+	 * @param name
+	 * @return renvoit le pion et le retir de la liste des pions si il y en a encore un, renvoit null sinon, et ne
+	 * touche pas à la liste des pions.
+	 */
+	public Pion getPion(String name)
 	{
 		for(Pion i : ListePion)
 		{
@@ -132,14 +168,190 @@ public class Artificielle
 		return null;
 	}
 	
-	void setDrapeau()
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return true si il n'y a rien sur la case mentionné, false si il y a un pion, ou que la case n'existe pas.
+	 */
+	public boolean isNothingOnCase(int x, int y)
+	{
+		if(x>=0 && x<10 && y>=0 && y<10) return getIaMap().getPion(x, y)==null;
+		else return false;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return true si il n'y a rien sur la case mentionné ou que la case n'existe pas, false si il y a un pion.
+	 */
+	public boolean isNoPionOnCase(int x, int y)
+	{
+		if(x>=0 && x<10 && y>=0 && y<10) return getIaMap().getPion(x, y)==null;
+		else return true;
+	}
+	
+	public void setDrapeau()
 	{
 		int t; Random r = new Random();
 		t = r.nextInt(30);
 		if(t==20 || t==21 || t==24 || t==25 || t==28 || t==29) setDrapeau();
 		else
 		{
-			iaMap.setEtat(t/10, t%10, getPion("drapeau"));
+			getIaMap().setEtat(t/10, t%10, getPion("drapeau"));
+			//une bombe à gauche du drapeau
+			if(isNothingOnCase(t/10,t%10-1)) getIaMap().setEtat(t/10, t%10-1, getPion("bombe"));
+			//une bombe en haut du drapeau
+			if(isNothingOnCase(t/10-1,t%10)) getIaMap().setEtat(t/10-1, t%10, getPion("bombe"));
+			//une bombe à droite du drapeau
+			if(isNothingOnCase(t/10,t%10+1)) getIaMap().setEtat(t/10, t%10+1, getPion("bombe"));
+			//une bombe en bas du drapeau
+			if(isNothingOnCase(t/10+1,t%10)) getIaMap().setEtat(t/10+1, t%10, getPion("bombe"));
+		}
+	}
+	
+	public void setEclaireur()
+	{
+		getIaMap().setEtat(3, 0, getPion("eclaireur"));
+		getIaMap().setEtat(3, 1, getPion("eclaireur"));
+		getIaMap().setEtat(3, 4, getPion("eclaireur"));
+		getIaMap().setEtat(3, 5, getPion("eclaireur"));
+		getIaMap().setEtat(3, 8, getPion("eclaireur"));
+		getIaMap().setEtat(3, 9, getPion("eclaireur"));
+		Pion temp = getPion("eclaireur");
+		int t; Random r = new Random();
+		while(temp!=null)
+		{
+			t = r.nextInt(10);
+			if(isNothingOnCase(2, t))
+			{
+				getIaMap().setEtat(2, t, temp);
+				temp = getPion("eclaireur");
+			}
+				
+		}
+	}
+	
+	public void setBombe()
+	{
+		int t; Random r = new Random();
+		t = r.nextInt(20);
+		if(isNoPionOnCase(t/10+1, t%10) && isNoPionOnCase(t/10, t%10-1) && isNoPionOnCase(t/10, t%10+1))
+		{
+			getIaMap().setEtat(t/10+1, t%10, getPion("bombe"));
+			if(t%10<5)
+			{
+				//Si la case designé par t est plus à gauche, je commence par mettre à droite
+				getIaMap().setEtat(t/10, t%10+1, getPion("bombe"));
+				if(isNothingOnCase(t/10, t%10-1)) getIaMap().setEtat(t/10, t%10-1, getPion("bombe"));
+			}
+			else
+			{
+				//Si la case designé par t est plus à droite, je commence par mettre à gauche
+				getIaMap().setEtat(t/10, t%10-1, getPion("bombe"));
+				if(isNothingOnCase(t/10, t%10+1)) getIaMap().setEtat(t/10, t%10+1, getPion("bombe"));
+			}
+			if(isNothingOnCase(t/10, t%10)) getIaMap().setEtat(t/10, t%10, getPion("sergent"));
+				
+				
+		}
+		else setBombe();
+		Pion temp = getPion("bombe");
+		while(temp!=null)
+		{
+			t = r.nextInt(40);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				getIaMap().setEtat(t/10, t%10, temp);
+				temp = getPion("bombe");
+			}
+				
+		}
+	}
+	
+	public void setEspionAndMarechal()
+	{
+		int t; Random r = new Random();
+		t = r.nextInt(30);
+		if(isNothingOnCase(t/10, t%10) && 
+				(isNothingOnCase(t/10-1, t%10) || isNothingOnCase(t/10, t%10-1) || isNothingOnCase(t/10, t%10+1)))
+		{
+			getIaMap().setEtat(t/10, t%10, getPion("marechal"));
+			if(isNothingOnCase(t/10-1, t%10)) getIaMap().setEtat(t/10-1, t%10, getPion("espion"));
+			else if(isNothingOnCase(t/10, t%10-1)) getIaMap().setEtat(t/10, t%10-1, getPion("espion"));
+			else getIaMap().setEtat(t/10, t%10+1, getPion("espion"));
+		}
+		else setEspionAndMarechal();
+	}
+	
+	public void setDemineur()
+	{
+		int t, i=0; Random r = new Random();
+		Pion temp = getPion("demineur");
+		while(i<3)
+		{
+			t = r.nextInt(20);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				getIaMap().setEtat(t/10, t%10, temp);
+				temp = getPion("demineur");
+				i++;
+			}	
+		}
+		while(temp!=null)
+		{
+			t = 20+r.nextInt(20);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				getIaMap().setEtat(t/10, t%10, temp);
+				temp = getPion("demineur");
+			}	
+		}
+	}
+	
+	public void setSergent()
+	{
+		int t; Random r = new Random();
+		Pion temp = getPion("sergent");
+		while(temp!=null)
+		{
+			t = r.nextInt(40);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				getIaMap().setEtat(t/10, t%10, temp);
+				temp = getPion("sergent");
+			}	
+		}
+	}
+	
+	public void setLieutenant()
+	{
+		int t; Random r = new Random();
+		Pion temp = getPion("lieutenant");
+		while(temp!=null)
+		{
+			t = r.nextInt(40);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				getIaMap().setEtat(t/10, t%10, temp);
+				temp = getPion("lieutenant");
+			}	
+		}
+	}
+	
+	public void setOthersPions()
+	{
+		int t, place; Random r = new Random();
+		while(ListePion.size()!=0)
+		{
+			t = r.nextInt(ListePion.size());
+			place = r.nextInt(40);
+			if(isNothingOnCase(place/10, place%10))
+			{
+				getIaMap().setEtat(place/10, place%10, ListePion.get(t));
+				ListePion.remove(t);
+			}
 		}
 	}
 
@@ -147,321 +359,40 @@ public class Artificielle
 	{
 		// TODO Auto-generated method stub
 		initializePions();
-		int t; Random r = new Random();
-		/*for(int i=0; i<4; i++)
-		{
-			for(int j=0;j<10;j++)
-			{
-				t = r.nextInt(ListePion.size());
-				iaMap.setEtat(i, j, ListePion.get(t));
-				ListePion.remove(t);
-			}
-		}*/
+		
 		setDrapeau();
-		System.out.println(ListePion.size());
+		setEclaireur();
+		setBombe();
+		setEspionAndMarechal();
+		setDemineur();
+		setSergent();
+		setLieutenant();
+		setOthersPions();
 		
 		//updateInfluenceMap();
 		//printInfluenceMap();
 		controller.checkStopPJ2();
 	}
 	
+	public void checkIfEclaireur(int oldX, int oldY, int x, int y)
+	{
+		if(x-oldX>1 || x-oldX<-1 || y-oldY>1 || y-oldY<-1) iaMap.getPion(x, y).setVisibleByIA(true);
+	}	
+	
 
-	/*public int getInfluence(int oldX, int oldY, int x, int y)
-	{
-		//si la case est un blackout
-		if(iaMap.getPion(x, y)!=null && iaMap.getPion(x, y).getName().equals("blackout"))
-		{
-			return iaMap.getPion(x, y).getForce()*-1;
-		}
-		//si le pion sur la case x,y m'appartient
-		else if(iaMap.getPion(x, y)!=null && !iaMap.getPion(x, y).getTeam())
-		{
-			return -5;
-		}
-		//Cas à part pour les eclaireurs.
-		else if(iaMap.getPion(oldX, oldY) !=null && iaMap.getPion(oldX, oldY).getName().equals("eclaireur"))
-		{
-			//si la case est vide mais que l'influence dessus est superieur à la force de l'eclaireur
-			if(iaMap.getPion(x, y)==null && getInfluenceMap(x, y)>iaMap.getPion(oldX, oldY).getForce())
-			{
-				return getInfluenceMap(x, y);
-			}
-			//si la case est vide, et que l'influence dessus est inferieur à la force de l'eclaireur
-			else if(iaMap.getPion(x, y)==null)
-			{
-				return iaMap.getPion(oldX, oldY).getForce();
-			}
-			//si il y a un pion, mais qu'on le connait.
-			else if(iaMap.getPion(x, y)!=null && iaMap.getPion(x, y).getVisibleByIA())
-			{
-				if(iaMap.getPion(oldX, oldY).getForce()>iaMap.getPion(x, y).getForce())
-				{
-					return 21;
-				}
-				else if(iaMap.getPion(oldX, oldY).getForce()==iaMap.getPion(x, y).getForce())
-				{
-					return 0;
-				}
-				else return -10;
-			}
-			//si il y a un pion, mais qu'on ne le connait pas.
-			//je priviligie l'exploration avec les eclaireurs
-			else if(iaMap.getPion(x, y)!=null && !iaMap.getPion(x, y).getVisibleByIA())
-			{
-				return 20;
-			}
-			
-		}
-		//si la case sur laquelle on souhaite se deplacer est vide, l'influence est egal à la force du pion qui s'y déplace
-		else if(iaMap.getPion(x, y)==null)
-		{
-			if(getInfluenceMap(x, y)>iaMap.getPion(oldX, oldY).getForce()) return getInfluenceMap(x, y);
-			else return iaMap.getPion(oldX, oldY).getForce();
-		}
-		//si il y a un pion, mais qu'on ne le connait pas.
-		else if(iaMap.getPion(x, y)!=null && !iaMap.getPion(x, y).getVisibleByIA() )
-		{
-			if(getInfluenceMap(x, y)>iaMap.getPion(oldX, oldY).getForce()-5) return getInfluenceMap(x, y);
-			else return iaMap.getPion(oldX, oldY).getForce()-5;
-		}
-		//si il y a un pion, mais qu'on le connait.
-		else if(iaMap.getPion(x, y)!=null && iaMap.getPion(x, y).getVisibleByIA() && iaMap.getPion(x, y).getTeam())
-		{
-			if(iaMap.getPion(oldX, oldY).getForce()>iaMap.getPion(x, y).getForce())
-			{
-				return 21;
-			}
-			else if(iaMap.getPion(oldX, oldY).getForce()==iaMap.getPion(x, y).getForce())
-			{
-				return 0;
-			}
-			else return -10;
-		}
-		return -5;
-	}*/
 	
-	public int getInfluence(int oldX, int oldY, int x, int y)
-	{
-		//si la case est un blackout
-		if(iaMap.getPion(x, y)!=null && iaMap.getPion(x, y).getName().equals("blackout"))
-		{
-			return iaMap.getPion(x, y).getForce()*-1;
-		}
-		//si le pion sur la case (x,y) m'appartient
-		else if(iaMap.getPion(x, y)!=null && !iaMap.getPion(x, y).getTeam())
-		{
-			return -5;
-		}
-		//si la case sur laquelle on souhaite se deplacer est vide, l'influence est egal à la force du pion qui s'y déplace
-		else if(iaMap.getPion(x, y)==null)
-		{
-			return iaMap.getPion(oldX, oldY).getForce();
-		}
-		//si il y a un pion, mais qu'on ne le connait pas.
-		else if(iaMap.getPion(x, y)!=null && !iaMap.getPion(x, y).getVisibleByIA() )
-		{
-			//je privilegie l'exploration avec les eclaireurs;
-			if(iaMap.getPion(oldX, oldY).getName().equals("eclaireur"))
-			{
-				return 20;
-			}
-			else
-			{
-				return iaMap.getPion(oldX, oldY).getForce()-5;
-			}
-		}
-		//si il y a un pion, mais qu'on le connait.
-		else if(iaMap.getPion(x, y)!=null && iaMap.getPion(x, y).getVisibleByIA())
-		{
-			if(iaMap.getPion(oldX, oldY).getForce()>iaMap.getPion(x, y).getForce())
-			{
-				return 21;
-			}
-			else if(iaMap.getPion(oldX, oldY).getForce()==iaMap.getPion(x, y).getForce())
-			{
-				return 0;
-			}
-			else return -10;
-		}
-		else return -5;
-	}
-
-	private void updateInfluenceMap()
-	{
-		for(int i=0; i<10; i++)
-		{
-			for(int j=0; j<10; j++)
-			{
-				if(iaMap.getPion(i, j)!=null && !iaMap.getPion(i, j).getTeam())
-				{
-					for(int u=0; u<=iaMap.getPion(i, j).getNbrDePas(); u++)
-					{
-						
-						//a gauche
-						if(0<=j-u)
-						{
-							setInfluence(i, j-u, getInfluence(i, j, i, j-u));
-						}
-						//en haut
-						if(0<=i-u)
-						{
-							setInfluence(i-u, j, getInfluence(i, j, i-u, j));
-						}
-						//a droite
-						if(j+u<10)
-						{
-							setInfluence(i, j+u, getInfluence(i, j, i, j+u));
-						}
-						//en bas
-						if(i+u<10)
-						{
-							setInfluence(i+u, j, getInfluence(i, j, i+u, j));
-						}
-					}
-				}
-			}
-		}
-	}
 	
-	private void updateListOfDisplacement()
-	{
-		listOfDisplacement = new ArrayList<Deplacement>();
-		Deplacement depl;
-		for(int i=0; i<10; i++)
-		{
-			for(int j=0; j<10; j++)
-			{
-				if(iaMap.getPion(i, j)!=null && !iaMap.getPion(i, j).getTeam())
-				{
-					for(int u=1; u<=iaMap.getPion(i, j).getNbrDePas(); u++)
-					{
-						if( (i-u>=0) && game.canMoveOnNewCase(i, j, i-u, j, false))
-						{
-							depl = new Deplacement(i, j, i-u, j);
-							depl.setInfluence(getInfluence(i, j, i-u, j));
-							listOfDisplacement.add(depl);
-						}
-						if( (i+u<10) && game.canMoveOnNewCase(i, j, i+u, j, false))
-						{
-							depl = new Deplacement(i, j, i+u, j);
-							depl.setInfluence(getInfluence(i, j, i+u, j));
-							listOfDisplacement.add(depl);
-						}
-						if( (j-u>=0) && game.canMoveOnNewCase(i, j, i, j-u, false))
-						{
-							depl = new Deplacement(i, j, i, j-u);
-							depl.setInfluence(getInfluence(i, j, i, j-u));
-							listOfDisplacement.add(depl);
-						}
-						if( (j+u<10) && game.canMoveOnNewCase(i, j, i, j+u, false))
-						{
-							depl = new Deplacement(i, j, i, j+u);
-							depl.setInfluence(getInfluence(i, j, i, j+u));
-							listOfDisplacement.add(depl);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	private ArrayList<Deplacement> getBestDisplacement()
-	{
-		ArrayList<Deplacement> bestDisplacement = new ArrayList<Deplacement>();
-		for(Deplacement i : listOfDisplacement)
-		{
-			if(bestDisplacement.size()==0)
-			{
-				bestDisplacement.add(i);
-			}
-			else if(bestDisplacement.get(0).getInfluence()<i.getInfluence())
-			{
-				bestDisplacement.removeAll(bestDisplacement);
-				bestDisplacement.add(i);
-			}
-			else if(bestDisplacement.get(0).getInfluence()==i.getInfluence())
-			{
-				bestDisplacement.add(i);
-			}
-		}
-		return bestDisplacement;
-	}
-	
-	private void doDisplacement(Deplacement depl)
+	protected void doDisplacement(Deplacement depl)
 	{
 		System.out.println("Influence = "+depl.getInfluence()+", et x et y = "+depl.getX()+" "+depl.getY());
 		controller.setClick((depl.getOldX()*10)+depl.getOldY());
-		controller.setPrise(iaMap.getPion(depl.getOldX(), depl.getOldY()).getPath());
+		controller.setPrise(getIaMap().getPion(depl.getOldX(), depl.getOldY()).getPath());
 		controller.setClick((depl.getX()*10)+depl.getY());
 		controller.setPrise(null);
-		
-		
-		/*int resultFight = game.checkNewCase(depl.getOldX(), depl.getOldY(), depl.getX(), depl.getY());
-		
-		switch(resultFight)
-		{
-		case 10:game.placePion(depl.getOldX(), depl.getOldY(), depl.getX(), depl.getY());
-				break;
-		case 0: game.removePion(depl.getOldX(), depl.getOldY());
-				game.removePion(depl.getX(), depl.getY());
-				//check si après l'élimination des deux pions, les deux joueurs savent encore jouer.
-				if(!controller.getPartieFinie() && game.checkLost(!controller.getTour()) && game.checkLost(controller.getTour()))
-				{
-					controller.setPartieFinie(true);
-				}
-				if(!controller.getPartieFinie() && game.checkLost(!controller.getTour()))
-				{
-					controller.setPartieFinie(true);
-					controller.setGagnant(controller.getTour()+"");
-				}
-				if(!controller.getPartieFinie() && game.checkLost(controller.getTour()))
-				{
-					controller.setPartieFinie(true);
-					controller.setGagnant(!controller.getTour()+"");
-				}
-				break;
-		case 1: game.removePion(depl.getOldX(), depl.getOldY());
-				game.getMap().getPion(depl.getX(), depl.getY()).setVisibleByIA(true);
-				//check si après la perte du pion, le joueur sait encore jouer.
-				if(!controller.getPartieFinie() && game.checkLost(controller.getTour()))
-				{
-					controller.setPartieFinie(true);
-					controller.setGagnant(!controller.getTour()+"");
-				}
-				break;
-		case 2: if(game.getMap().getPion(depl.getX(), depl.getY()).getName().equals("drapeau")) controller.setPartieFinie(true);;
-				game.removePion(depl.getX(), depl.getY());
-				game.getMap().getPion(depl.getOldX(), depl.getOldY()).setVisibleByIA(true);
-				game.placePion(depl.getOldX(), depl.getOldY(), depl.getX(), depl.getY());
-				//check si après le déplacement du pion d'un joueur, l'autre joueur sait encore jouer.
-				if(!controller.getPartieFinie() && game.checkLost(!controller.getTour()))
-				{
-					controller.setPartieFinie(true);
-					controller.setGagnant(controller.getTour()+"");
-				}
-				break;
-		}*/
 	}
 
-	
-
-	public void play() 
+	public void play()
 	{
-		// TODO Auto-generated method stub
-		updateListOfDisplacement();
-		//printList();
-		ArrayList<Deplacement> bestDeplacement = getBestDisplacement();
-		if(bestDeplacement.size()==1)
-		{
-			doDisplacement(bestDeplacement.get(0));
-		}
-		else
-		{
-			int t; Random r = new Random();
-			t = r.nextInt(bestDeplacement.size());
-			doDisplacement(bestDeplacement.get(t));
-		}
+		
 	}
-	
-	
 }

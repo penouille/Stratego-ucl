@@ -104,8 +104,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
                {
             	   for ( int j = 0 ; j < 10 ; j++)
             	   {
-            		   //Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,55*j+10 , 70*i+10 , 44 , 62 ));
-            		   Echequier.add( new MouseOverArea( container, new Image("vert.jpg") ,mid+(j*66), 3+(i*66) , 44 , 62 ));
+            		   //Echequier.add( new MouseOverArea( container, new Image("transparent.png") ,55*j+10 , 70*i+10 , 44 , 62 ));
+            		   Echequier.add( new MouseOverArea( container, new Image("transparent.png") ,mid+(j*66), 3+(i*66) , 44 , 62 ));
             	   }
                }
                
@@ -269,8 +269,8 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        {
     	   if ( controller.getGame().getMap().getPion(i/10,i%10) == null)
     	   {
-    		   Echequier.get(i).setNormalImage(new Image ("vert.jpg"));
-    		   Echequier.get(i).setMouseOverImage(new Image ("vert.jpg"));
+    		   Echequier.get(i).setNormalImage(new Image ("transparent.png"));
+    		   Echequier.get(i).setMouseOverImage(new Image ("transparent.png"));
     	   }
     	   else
     	   {
@@ -305,16 +305,16 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        public void setFlotte(GameContainer container, int mid ) throws SlickException 
        {
     	 //premier bloc de flotte.
-           Echequier.set(42, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+135 , 270));
-           Echequier.set(43, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+197 , 270));
-           Echequier.set(52, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+135 , 335));
-           Echequier.set(53, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+197 , 335));
+           Echequier.set(42, new MouseOverArea (container , new Image("transparent.png") , mid+135 , 270));
+           Echequier.set(43, new MouseOverArea (container , new Image("transparent.png") , mid+197 , 270));
+           Echequier.set(52, new MouseOverArea (container , new Image("transparent.png") , mid+135 , 335));
+           Echequier.set(53, new MouseOverArea (container , new Image("transparent.png") , mid+197 , 335));
            
            //deuxième bloc de flotte.
-           Echequier.set(46, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+397 , 270));
-           Echequier.set(47, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+465 , 270));
-           Echequier.set(56, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+397 , 335));
-           Echequier.set(57, new MouseOverArea (container , new Image("vert - Copie.jpg") , mid+464 , 335));
+           Echequier.set(46, new MouseOverArea (container , new Image("transparent.png") , mid+397 , 270));
+           Echequier.set(47, new MouseOverArea (container , new Image("transparent.png") , mid+465 , 270));
+           Echequier.set(56, new MouseOverArea (container , new Image("transparent.png") , mid+397 , 335));
+           Echequier.set(57, new MouseOverArea (container , new Image("transparent.png") , mid+464 , 335));
        }
        
        

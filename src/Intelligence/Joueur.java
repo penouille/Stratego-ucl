@@ -3,6 +3,7 @@ package Intelligence;
 public class Joueur 
 {
 	private String prefColor;
+	private String prefDiff;
 	
 	public Joueur(boolean joueur)
 	{
@@ -14,6 +15,7 @@ public class Joueur
 		{
 			setPrefColor("Bleu");
 		}
+		setPrefDiff("Normal");
 	}
 
 	public String getPrefColor()
@@ -24,5 +26,15 @@ public class Joueur
 	public void setPrefColor(String prefColor)
 	{
 		this.prefColor = prefColor;
+	}
+
+	public String getPrefDiff()
+	{
+		return prefDiff;
+	}
+
+	public void setPrefDiff(String prefDiff)
+	{
+		this.prefDiff = prefDiff;
 	}
 }

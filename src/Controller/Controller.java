@@ -4,6 +4,9 @@ import View.AdminGame;
 import View.Option;
 import Game.Game;
 import Intelligence.Artificielle;
+import Intelligence.ArtificielleFacile;
+import Intelligence.ArtificielleKikoo;
+import Intelligence.ArtificielleNormal;
 import Intelligence.Joueur;
 
 	
@@ -55,7 +58,9 @@ public class Controller
 	public void setIA(boolean isAnIA)
 	{
 		this.isAnIA = isAnIA;
-		IA = new Artificielle(this);
+		if(getGame().getJ1().getPrefDiff().equals("kikoo")){ IA = new ArtificielleKikoo(this); }
+		else if(getGame().getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
+		else if(getGame().getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
 	}
 	public boolean getTour()
 	{
@@ -185,6 +190,10 @@ public class Controller
 					switch(resultFight)
 					{
 					case 10:game.placePion(oldX, oldY, x, y);
+							if(isAnIA && game.getMap().getPion(x, y).getName().equals("eclaireur"))
+							{
+								IA.checkIfEclaireur(oldX, oldY, x, y);
+							}
 							break;
 					case 0: game.removePion(oldX, oldY);
 							game.removePion(x, y);

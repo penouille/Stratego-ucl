@@ -209,14 +209,16 @@ public class Option extends StdWindow implements ActionListener
 			JButton b = (JButton) e.getSource();
 			if(b==apply)
 			{
-				System.out.println("Application en cours . . .");
-				try {
-					CG.UpGame2();
-				} catch (SlickException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 				setVisible(false);
+				System.out.println("Application en cours . . .");
+				if(CG!=null){
+					try {
+						CG.UpGame2();
+					} catch (SlickException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 			if(b==retour)
 			{
@@ -281,22 +283,7 @@ public class Option extends StdWindow implements ActionListener
 			if(jc == comboBoxDifficultees)
 			{
 				String s2 = (String)comboBoxDifficultees.getSelectedItem();
-				if(s2=="Kikoo")
-				{
-					JFrame Fmoment = new JFrame("Gros kikoo");
-					Fmoment.add(new JPanel().add(new JLabel("T'es pas sérieux ?!? Tu vas pas jouer en mode kikoo quand même ?!?")));
-					Fmoment.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-					Fmoment.pack();
-					Fmoment.setVisible(true);
-				}
-				if(s2=="Facile")
-				{
-					JFrame Fmoment = new JFrame("Noob");
-					Fmoment.add(new JPanel().add(new JLabel("Bah le noob, il joue en mode facile !")));
-					Fmoment.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-					Fmoment.pack();
-					Fmoment.setVisible(true);
-				}
+				controller.getGame().getJ1().setPrefDiff(s2);
 			}
 		}
 	}
