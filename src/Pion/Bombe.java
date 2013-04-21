@@ -13,7 +13,7 @@ public class Bombe extends Pion
 		team = teamm;
 		nombre = 6;
 		path = "bombe.jpg";
-		visibleByIA = false;
+		visibleByIA = !teamm;
 		joueur = prefJoueur;
 	}
 	

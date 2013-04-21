@@ -12,7 +12,7 @@ public class Marechal extends Pion
 		nombre = 1;
 		team = teamm;
 		path = "marechal.jpg";
-		visibleByIA = false;
+		visibleByIA = !teamm;
 		joueur = prefJoueur;
 	}
 	

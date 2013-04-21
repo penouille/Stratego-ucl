@@ -12,7 +12,7 @@ public class Commandant extends Pion
 		nombre = 3;
 		team = teamm;
 		path = "commandant.jpg";
-		visibleByIA = false;
+		visibleByIA = !teamm;
 		joueur = prefJoueur;
 	}
 	

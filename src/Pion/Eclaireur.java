@@ -12,7 +12,7 @@ public class Eclaireur extends Pion
 		nombre = 8;
 		team = teamm;
 		path = "eclaireur.jpg";
-		visibleByIA = false;
+		visibleByIA = !teamm;
 		joueur = prefJoueur;
 	}
 	

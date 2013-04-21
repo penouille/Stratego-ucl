@@ -9,12 +9,19 @@ import Pion.Pion;
 public class ArtificielleNormal extends Artificielle
 {
 	private String currentStrategy;
+	
+	private ArrayList<Pion> ListPionPris;
+	
+	private ArrayList<Deplacement> comboDepl;
 
 	public ArtificielleNormal(Controller controller)
 	{
 		super(controller);
 		System.out.println("IA Normal");
 		currentStrategy="Exploration";
+		setListOfDisplacement(new ArrayList<Deplacement>());
+		ListPionPris = new ArrayList<Pion>();
+		comboDepl = new ArrayList<Deplacement>();
 	}
 	
 	public int getInfluence(int oldX, int oldY, int x, int y)
@@ -135,7 +142,13 @@ public class ArtificielleNormal extends Artificielle
 				&& isNothingOnCase(x+1, y));
 	}
 	
-	public boolean hasStillEclaireur()
+	public void unblockPion(int x, int y)
+	{
+		//TODO
+		
+	}
+	
+	public boolean hasStillPion(String name)
 	{
 		for(int i=0; i<10; i++)
 		{
@@ -143,7 +156,7 @@ public class ArtificielleNormal extends Artificielle
 			{
 				if(getIaMap().getPion(i, j)!=null 
 						&& !getIaMap().getPion(i, j).getTeam() 
-						&& getIaMap().getPion(i, j).getName().equals("eclaireur"))
+						&& getIaMap().getPion(i, j).getName().equals(name))
 				{
 					return true;
 				}
@@ -180,88 +193,114 @@ public class ArtificielleNormal extends Artificielle
 	
 	public void addDeplForEclaireur(int x, int y)
 	{
-		int i; Pion pion;
+		int i; Pion pion; boolean end=false;
 		//on regarde à gauche
-		for(i=1; i<10; i++)
+		for(i=1; i<10 && !end; i++)
 		{
 			if(y-i>=0)
 			{
 				pion = getIaMap().getPion(x, y-i);
 				if(pion!=null)
 				{
-					if(!pion.getTeam()) break;
-					else if(pion.getTeam() && !pion.getVisibleByIA())
+					if(pion.getTeam())
 					{
-						Deplacement depl = new Deplacement(x, y, x, y-i);
-						depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x, y-i)-i);
-						getListOfDisplacement().add(depl);
+						if(!pion.getVisibleByIA())
+						{
+							Deplacement depl = new Deplacement(x, y, x, y-i);
+							depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x, y-i)-i);
+							getListOfDisplacement().add(depl);
+							end=true;
+						}
+						else end=true;
 					}
+					else end=true;
 				}
 			}
-			else break;
+			else end=true;
 		}
+		end=false;
 		//on regarde en haut
-		for(i=1; i<10; i++)
+		for(i=1; i<10 && !end; i++)
 		{
 			if(x-i>=0)
 			{
 				pion = getIaMap().getPion(x-i, y);
 				if(pion!=null)
 				{
-					if(!pion.getTeam()) break;
-					else if(pion.getTeam() && !pion.getVisibleByIA())
+					if(pion.getTeam())
 					{
-						Deplacement depl = new Deplacement(x, y, x-i, y);
-						depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x-i, y)-i);
-						getListOfDisplacement().add(depl);
+						if(!pion.getVisibleByIA())
+						{
+							Deplacement depl = new Deplacement(x, y, x-i, y);
+							depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x-i, y)-i);
+							getListOfDisplacement().add(depl);
+							end=true;
+						}
+						else end=true;
 					}
+					else end=true;
 				}
 			}
-			else break;
+			else end=true;
 		}
+		end=false;
 		//on regarde à droite
-		for(i=1; i<10; i++)
+		for(i=1; i<10 && !end; i++)
 		{
 			if(y+i<10)
 			{
 				pion = getIaMap().getPion(x, y+i);
 				if(pion!=null)
 				{
-					if(!pion.getTeam()) break;
-					else if(pion.getTeam() && !pion.getVisibleByIA())
+					if(pion.getTeam())
 					{
-						Deplacement depl = new Deplacement(x, y, x, y+i);
-						depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x, y+i)-i);
-						getListOfDisplacement().add(depl);
+						if(!pion.getVisibleByIA())
+						{
+							Deplacement depl = new Deplacement(x, y, x, y+i);
+							depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x, y+i)-i);
+							getListOfDisplacement().add(depl);
+							end=true;
+						}
+						else end=true;
 					}
+					else end=true;
 				}
 			}
-			else break;
+			else end=true;
 		}
+		end=false;
 		//on regarde en bas
-		for(i=1; i<10; i++)
+		for(i=1; i<10 && !end; i++)
 		{
 			if(x+i<10)
 			{
 				pion = getIaMap().getPion(x+i, y);
 				if(pion!=null)
 				{
-					if(!pion.getTeam()) break;
-					else if(pion.getTeam() && !pion.getVisibleByIA())
+					if(pion.getTeam())
 					{
-						Deplacement depl = new Deplacement(x, y, x+i, y);
-						depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x+i, y)-i);
-						getListOfDisplacement().add(depl);
+						if(!pion.getVisibleByIA())
+						{
+							Deplacement depl = new Deplacement(x, y, x+i, y);
+							depl.setInfluence(getInfluenceOfDeplEclaireur(x, y, x+i, y)-i);
+							getListOfDisplacement().add(depl);
+							end=true;
+						}
+						else end=true;
 					}
+					else end=true;
 				}
 			}
-			else break;
+			else end=true;
 		}
 	}
 	
 	public boolean pionAdversePeutEtrePris(int x, int y, int perimetre)
 	{
-		if(getIaMap().getPion(x, y)==null) return false;
+		if(getIaMap().getPion(x, y)==null)
+		{
+			return false;
+		}
 		int h = 0, v;
 		for(v=-perimetre; v<=0; v++)
 		{
@@ -293,44 +332,135 @@ public class ArtificielleNormal extends Artificielle
 		return false;
 	}
 	
+	public Deplacement isAPionAroundPos(String name, int x, int y, int perimetre)
+	{
+		int h = 0, v;
+		for(v=-perimetre; v<=0; v++)
+		{
+			for(int k=-h; k<=h; k++)
+			{
+				if(x+v<10 && x+v>=0 && y+k<10 && y+k>=0 && getIaMap().getPion(x+v, y+k)!=null 
+						&& !getIaMap().getPion(x+v, y+k).getTeam()
+						&& getIaMap().getPion(x+v, y+k).getName().equals(name))
+				{
+					return new Deplacement(x+v,y+k,0,0);
+				}
+			}
+			h++;
+		}
+		h -=2;
+		for(v=1; v<=perimetre; v++)
+		{
+			for(int k=-h; k<=h; k++)
+			{
+				if(x+v<10 && x+v>=0 && y+k<10 && y+k>=0 && getIaMap().getPion(x+v, y+k)!=null 
+						&& !getIaMap().getPion(x+v, y+k).getTeam()
+						&& getIaMap().getPion(x+v, y+k).getName().equals(name))
+				{
+					return new Deplacement(x+v,y+k,0,0);
+				}
+			}
+			h--;
+		}
+		return null;
+	}
+	
+	private void exploreMore(int oldX, int oldY, int x, int y)
+	{
+		// TODO Auto-generated method stub
+		if(hasStillPion("eclaireur"))
+		{
+			Deplacement depl = new Deplacement(0, 0, 0, 0); boolean find=false;
+			for(int i=0; i<10 && !find; i++)
+			{
+				depl = isAPionAroundPos("eclaireur", oldX, oldY, i);
+				if(depl!=null) find=true;
+			}
+			if(isBlocked(depl.getOldX(), depl.getOldY()))
+			{
+				unblockPion(depl.getOldX(), depl.getOldY());
+			}
+			else
+			{
+				//TODO
+			}
+		}
+		
+	}
+	
 	public void playExploration()
 	{
-		setListOfDisplacement(new ArrayList<Deplacement>());
-		if(hasStillEclaireur())
+		//si je n'ai pas de mouvement retenu du précédent mouvement effectué.
+		if(comboDepl.size()==0)
 		{
-			for(int i=9; i>=0; i--)
+			if(hasStillPion("eclaireur"))
 			{
-				for(int j=9; j>=0; j--)
+				System.out.println("réévaluation des deplacement des eclaireurs");
+				for(int i=9; i>=0; i--)
 				{
-					//System.out.println("different de null "+getIaMap().getPion(i, j)!=null);
-					//System.out.println("m'appartient "+ !getIaMap().getPion(i, j).getTeam());
-					//System.out.println("est un eclaireur "+ getIaMap().getPion(i, j).getName().equals("eclaireur"));
-					if(getIaMap().getPion(i, j)!=null 
-							&& !getIaMap().getPion(i, j).getTeam() 
-							&& getIaMap().getPion(i, j).getName().equals("eclaireur"))
+					for(int j=9; j>=0; j--)
 					{
-						if(!isBlocked(i, j))
+						if(getIaMap().getPion(i, j)!=null
+								&& !getIaMap().getPion(i, j).getTeam() 
+								&& getIaMap().getPion(i, j).getName().equals("eclaireur"))
 						{
-							addDeplForEclaireur(i, j);
-						}
-						else
-						{
-							
+							if(!isBlocked(i, j))
+							{
+								addDeplForEclaireur(i, j);
+							}
+							else
+							{
+								//TODO
+								System.out.println("else du isBlocked ");
+							}
 						}
 					}
 				}
 			}
+			//si je n'ai plus d'eclaireur.
+			else
+			{
+				System.out.println("else du hasStillEclaireur ");
+			}
 		}
 		else
 		{
-			
+			setListOfDisplacement(comboDepl);
 		}
+		Deplacement deplacementDone = playBestDisplacement();
+		if(deplacementDone!=null && pionAdversePeutEtrePris(deplacementDone.getX(), deplacementDone.getY(), 1)) currentStrategy="Attaque";
+		if(deplacementDone!=null && getIaMap().getPion(deplacementDone.getX(), deplacementDone.getY())==null)
+		{
+			exploreMore(deplacementDone.getOldX(), deplacementDone.getOldY(), deplacementDone.getX(), deplacementDone.getY());
+		}
+	}
+
+	public void playDefense()
+	{
+		updateListOfDisplacement();
+		playBestDisplacement();
+	}
+	
+	public void playAttaque()
+	{
+		System.out.println("Attaque mode");
+		updateListOfDisplacement();
+		playBestDisplacement();
+	}
+	
+	public Deplacement playBestDisplacement()
+	{
 		ArrayList<Deplacement> bestDeplacement = getBestDisplacement();
 		Deplacement deplacementDone;
 		if(bestDeplacement.size()==1)
 		{
 			deplacementDone = bestDeplacement.get(0);
 			doDisplacement(deplacementDone);
+		}
+		else if(bestDeplacement.size()==0)
+		{
+			playAttaque();
+			return null;
 		}
 		else
 		{
@@ -339,40 +469,8 @@ public class ArtificielleNormal extends Artificielle
 			deplacementDone = bestDeplacement.get(t);
 			doDisplacement(deplacementDone);
 		}
-		if(pionAdversePeutEtrePris(deplacementDone.getX(), deplacementDone.getY(), 6)) currentStrategy="Attaque";
-	}
-	
-	public void playDefense()
-	{
-		updateListOfDisplacement();
-		ArrayList<Deplacement> bestDeplacement = getBestDisplacement();
-		if(bestDeplacement.size()==1)
-		{
-			doDisplacement(bestDeplacement.get(0));
-		}
-		else
-		{
-			int t; Random r = new Random();
-			t = r.nextInt(bestDeplacement.size());
-			doDisplacement(bestDeplacement.get(t));
-		}
-	}
-	
-	public void playAttaque()
-	{
-		System.out.println("Attaque mode");
-		updateListOfDisplacement();
-		ArrayList<Deplacement> bestDeplacement = getBestDisplacement();
-		if(bestDeplacement.size()==1)
-		{
-			doDisplacement(bestDeplacement.get(0));
-		}
-		else
-		{
-			int t; Random r = new Random();
-			t = r.nextInt(bestDeplacement.size());
-			doDisplacement(bestDeplacement.get(t));
-		}
+		if(comboDepl.size()==0) setListOfDisplacement(new ArrayList<Deplacement>());
+		return deplacementDone;
 	}
 	
 	public void play() 

@@ -15,5 +15,6 @@ public class Blackout extends Pion
 		path = "transparent.png";
 		name = "blackout";
 		team = true;
+		visibleByIA = true;
 	}
 }

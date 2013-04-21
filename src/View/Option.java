@@ -144,7 +144,7 @@ public class Option extends StdWindow implements ActionListener
 		
 		add(PPrincipale);
 		setListener(); //Met les ActionListener aux boutons et au xomboBoxs
-		startSon();
+		//startSon();
 		setVisible(false);
 	}
 	

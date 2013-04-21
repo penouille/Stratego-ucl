@@ -12,7 +12,7 @@ public class Demineur extends Pion
 		nombre = 5;
 		team = teamm;
 		path = "demineur.jpg";
-		visibleByIA = false;
+		visibleByIA = !teamm;
 		joueur = prefJoueur;
 	}
 	public String getPath()

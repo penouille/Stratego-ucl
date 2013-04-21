@@ -12,7 +12,7 @@ public class Lieutenant extends Pion
 		nombre = 4;
 		team = teamm;
 		path = "lieutenant.jpg";
-		visibleByIA = false;
+		visibleByIA = !teamm;
 		joueur = prefJoueur;
 	}
 	

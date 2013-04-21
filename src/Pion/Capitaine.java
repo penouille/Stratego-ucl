@@ -12,7 +12,7 @@ public class Capitaine extends Pion
 		nombre = 4;
 		team = teamm;
 		path = "capitaine.jpg";
-		visibleByIA = false;
+		visibleByIA = !teamm;
 		joueur = prefJoueur;
 	}
 	
