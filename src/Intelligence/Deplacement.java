@@ -16,6 +16,15 @@ public class Deplacement
 		this.setY(y);
 	}
 	
+	public Deplacement(int oldX, int oldY, int x, int y, int influence)
+	{
+		this.setOldX(oldX);
+		this.setOldY(oldY);
+		this.setX(x);
+		this.setY(y);
+		this.setInfluence(influence);
+	}
+
 	public void setInfluence(int influence)
 	{
 		this.influence = influence;

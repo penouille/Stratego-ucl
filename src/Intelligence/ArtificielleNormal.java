@@ -142,10 +142,61 @@ public class ArtificielleNormal extends Artificielle
 				&& isNothingOnCase(x+1, y));
 	}
 	
-	public void unblockPion(int x, int y)
+	public Deplacement unblockPion(int x, int y, int xDest, int yDest, int influence)
 	{
-		//TODO
-		
+		//Deplacer les pions à droite pour alligner verticalement
+		if(yDest>y)
+		{
+			while(y!=yDest)
+			{
+				if(isNoPionOnCase(x, y+1))
+				{
+					comboDepl.add(new Deplacement(x, y, x, y+1, influence));
+					y++; influence--;
+				}
+				else if(isNoPionOnCase(x+1, y))
+				{
+					comboDepl.add(new Deplacement(x, y, x+1, y, influence));
+					x++; influence--;
+				}
+				else if(isNoPionOnCase(x-1, y))
+				{
+					comboDepl.add(new Deplacement(x, y, x-1, y, influence));
+					x--; influence--;
+				}
+				else
+				{
+					unblockPion(x, y+1, xDest, yDest+1, influence+30);
+				}					
+			}
+		}
+		//déplacer les pions à gauche pour alligner horizontalement
+		else if(yDest<y)
+		{
+			while(y!=yDest)
+			{
+				if(isNoPionOnCase(x, y-1))
+				{
+					comboDepl.add(new Deplacement(x, y, x, y-1, influence));
+					y--; influence--;
+				}
+				else if(isNoPionOnCase(x+1, y))
+				{
+					comboDepl.add(new Deplacement(x, y, x+1, y, influence));
+					x++; influence--;
+				}
+				else if(isNoPionOnCase(x-1, y))
+				{
+					comboDepl.add(new Deplacement(x, y, x-1, y, influence));
+					x--; influence--;
+				}
+				else
+				{
+					unblockPion(x, y-1, xDest, yDest-1, influence+30);
+				}					
+			}
+		}
+		return new Deplacement(x, y, 0, 0, influence--);
 	}
 	
 	public boolean hasStillPion(String name)
@@ -367,7 +418,6 @@ public class ArtificielleNormal extends Artificielle
 	
 	private void exploreMore(int oldX, int oldY, int x, int y)
 	{
-		// TODO Auto-generated method stub
 		if(hasStillPion("eclaireur"))
 		{
 			Deplacement depl = new Deplacement(0, 0, 0, 0); boolean find=false;
@@ -376,14 +426,9 @@ public class ArtificielleNormal extends Artificielle
 				depl = isAPionAroundPos("eclaireur", oldX, oldY, i);
 				if(depl!=null) find=true;
 			}
-			if(isBlocked(depl.getOldX(), depl.getOldY()))
-			{
-				unblockPion(depl.getOldX(), depl.getOldY());
-			}
-			else
-			{
-				//TODO
-			}
+			Deplacement newDepl = unblockPion(depl.getOldX(), depl.getOldY(), x, y, 30);
+			newDepl.setX(x); newDepl.setY(y);
+			comboDepl.add(newDepl);
 		}
 		
 	}
@@ -391,6 +436,7 @@ public class ArtificielleNormal extends Artificielle
 	public void playExploration()
 	{
 		//si je n'ai pas de mouvement retenu du précédent mouvement effectué.
+		boolean dontDebloque = false;
 		if(comboDepl.size()==0)
 		{
 			if(hasStillPion("eclaireur"))
@@ -407,11 +453,15 @@ public class ArtificielleNormal extends Artificielle
 							if(!isBlocked(i, j))
 							{
 								addDeplForEclaireur(i, j);
+								comboDepl.removeAll(comboDepl);
+								dontDebloque = true;
 							}
 							else
 							{
 								//TODO
-								System.out.println("else du isBlocked ");
+								if(!dontDebloque && comboDepl.size()==0)
+									if(j<5) unblockPion(i, j, i, 6, 30);
+									else unblockPion(i, j, i, 5, 30);
 							}
 						}
 					}
@@ -470,6 +520,7 @@ public class ArtificielleNormal extends Artificielle
 			doDisplacement(deplacementDone);
 		}
 		if(comboDepl.size()==0) setListOfDisplacement(new ArrayList<Deplacement>());
+		else getListOfDisplacement().remove(deplacementDone);
 		return deplacementDone;
 	}
 	
@@ -489,7 +540,6 @@ public class ArtificielleNormal extends Artificielle
 			playAttaque();
 		}
 		//printList();
-		
 	}
 
 }
