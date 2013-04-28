@@ -124,22 +124,14 @@ public class ArtificielleKikoo extends Artificielle
 		return bestDisplacement;
 	}
 	
-	public void play() 
+	public void play(Deplacement depl) 
 	{
-		// TODO Auto-generated method stub
 		updateListOfDisplacement();
-		//printList();
 		ArrayList<Deplacement> bestDeplacement = getBestDisplacement();
-		if(bestDeplacement.size()==1)
-		{
-			doDisplacement(bestDeplacement.get(0));
-		}
-		else
-		{
-			int t; Random r = new Random();
-			t = r.nextInt(bestDeplacement.size());
-			doDisplacement(bestDeplacement.get(t));
-		}
+		System.out.println(getBestDisplacement().size());
+		int t; Random r = new Random();
+		t = r.nextInt(bestDeplacement.size());
+		doDisplacement(bestDeplacement.get(t));
 	}
 
 }

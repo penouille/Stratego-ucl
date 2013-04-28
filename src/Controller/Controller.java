@@ -59,9 +59,19 @@ public class Controller
 	public void setIA(boolean isAnIA)
 	{
 		this.isAnIA = isAnIA;
-		if(getGame().getJ1().getPrefDiff().equals("kikoo")){ IA = new ArtificielleKikoo(this); }
-		else if(getGame().getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
-		else if(getGame().getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
+		if(game.getJ1().getPrefDiff().equals("Kikoo")){ IA = new ArtificielleKikoo(this); }
+		else if(game.getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
+		else if(game.getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
+	}
+	public void changeIA(String diff)
+	{
+		if(isAnIA)
+		{
+			if(diff.equals("Kikoo")) IA = new ArtificielleKikoo(this);
+			else if(diff.equals("Facile")) IA = new ArtificielleFacile(this);
+			else if(diff.equals("Normal")) IA = new ArtificielleNormal(this);
+		}
+		getGame().getJ1().setPrefDiff(diff);
 	}
 	public boolean getTour()
 	{
@@ -236,7 +246,7 @@ public class Controller
 							break;
 					}
 					tour=!tour;
-					if(isAnIA && !tour)
+					if(isAnIA && !tour && !partieFinie)
 					{
 						Deplacement depl = new Deplacement(oldX, oldY, x, y);
 						IA.play(depl);

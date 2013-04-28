@@ -283,7 +283,8 @@ public class Option extends StdWindow implements ActionListener
 			if(jc == comboBoxDifficultees)
 			{
 				String s2 = (String)comboBoxDifficultees.getSelectedItem();
-				controller.getGame().getJ1().setPrefDiff(s2);
+				controller.changeIA(s2);
+				//controller.getGame().getJ1().setPrefDiff(s2);
 			}
 		}
 	}

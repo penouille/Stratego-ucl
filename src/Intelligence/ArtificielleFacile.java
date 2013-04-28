@@ -17,7 +17,7 @@ public class ArtificielleFacile extends Artificielle
 	public ArtificielleFacile(Controller controller)
 	{
 		super(controller);
-		System.out.println("IA Normal");
+		System.out.println("IA Facile");
 		currentStrategy="Exploration";
 		setListOfDisplacement(new ArrayList<Deplacement>());
 	}
@@ -484,7 +484,10 @@ public class ArtificielleFacile extends Artificielle
 	
 	public Deplacement findWeakerPion(int force)
 	{
-		if(force==3) return findWeakerPion(force++);
+		if(force==3){
+			force +=1;
+			return findWeakerPion(force);
+		}
 		for(int i=9; i>=0; i--)
 		{
 			for(int j=9; j>=0; j--)
@@ -495,7 +498,8 @@ public class ArtificielleFacile extends Artificielle
 				}
 			}
 		}
-		return findWeakerPion(force++);
+		force +=1;
+		return findWeakerPion(force);
 	}
 	
 	private void exploreMore(int oldX, int oldY, int x, int y)
@@ -621,6 +625,7 @@ public class ArtificielleFacile extends Artificielle
 		if(depl==null)
 		{
 			System.out.println("goToDest avec depl==null");
+			setListOfDisplacement(new ArrayList<Deplacement>());
 			return;
 		}
 		System.out.println("currentStrategy = "+currentStrategy+ ", Influence="+depl.getInfluence()
@@ -670,12 +675,23 @@ public class ArtificielleFacile extends Artificielle
 	 */
 	private void checkIfNeededDeleteDepl(Deplacement depl)
 	{
-		if(depl.getOldX()==depl.getX() && depl.getOldY()==depl.getY())
+		if(deplAttaque!=null 
+				&& deplAttaque.getOldX()==deplAttaque.getX() 
+				&& deplAttaque.getOldY()==deplAttaque.getY())
 		{
-			System.out.println("arrive a destination");
-			if(currentStrategy.equals("Exploration"))  deplExploration=null;
-			else if(currentStrategy.equals("Attaque")) deplAttaque=null;
-			else if(currentStrategy.equals("Defense")) deplDefense=null;
+			deplAttaque=null;
+		}
+		if(deplDefense!=null
+				&& deplDefense.getOldX()==deplDefense.getX()
+				&& deplDefense.getOldY()==deplDefense.getY())
+		{
+			deplDefense=null;
+		}
+		if(deplExploration!=null
+				&& deplExploration.getOldX()==deplExploration.getX()
+				&& deplExploration.getOldY()==deplExploration.getY())
+		{
+			deplExploration=null;
 		}
 	}
 
@@ -890,14 +906,23 @@ public class ArtificielleFacile extends Artificielle
 			//si il a pris le pion que je comptais deplacer.
 			if(deplJoueur.getX()==deplAttaque.getOldX() && deplJoueur.getY()==deplAttaque.getOldY() 
 					&& (isNoPionOnCase(deplJoueur.getX(), deplJoueur.getY()) 
-							|| isEnemy(deplJoueur.getX(), deplJoueur.getY())))
+							|| isEnemy(deplJoueur.getX(), deplJoueur.getY())
+							|| isMine(deplJoueur.getX(), deplJoueur.getY())))
 			{
 				deplAttaque=null;
 			}
 			//si il a deplacer le pion que je comptais prendre
-			else if(deplJoueur.getOldX()==deplAttaque.getX() && deplJoueur.getOldY()==deplAttaque.getY())
+			else
 			{
-				deplAttaque.setX(deplJoueur.getX()); deplAttaque.setY(deplJoueur.getY());
+				if(deplJoueur.getOldX()==deplAttaque.getX() && deplJoueur.getOldY()==deplAttaque.getY())
+				{
+					deplAttaque.setX(deplJoueur.getX()); deplAttaque.setY(deplJoueur.getY());
+				}
+				if(isNothingOnCase(deplAttaque.getX(), deplAttaque.getY()) 
+						|| isMine(deplAttaque.getX(), deplAttaque.getY()))
+				{
+					deplAttaque=null;
+				}
 			}
 		}
 		if(deplDefense!=null)
@@ -920,9 +945,17 @@ public class ArtificielleFacile extends Artificielle
 				deplExploration=null;
 			}
 			//si il a deplacer le pion que je comptais "explorer"
-			else if(deplJoueur.getOldX()==deplExploration.getX() && deplJoueur.getOldY()==deplExploration.getY())
+			else
 			{
-				deplExploration.setX(deplJoueur.getX()); deplExploration.setY(deplJoueur.getY());
+				if(deplJoueur.getOldX()==deplExploration.getX() && deplJoueur.getOldY()==deplExploration.getY())
+				{
+					deplExploration.setX(deplJoueur.getX()); deplExploration.setY(deplJoueur.getY());
+				}
+				if(isNothingOnCase(deplExploration.getX(), deplExploration.getY()) 
+						|| isMine(deplExploration.getX(), deplExploration.getY()))
+				{
+					deplExploration=null;
+				}
 			}
 		}
 		//s'il déplace son pion à coté d'un de mes pions.
