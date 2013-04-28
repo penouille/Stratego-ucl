@@ -3,7 +3,6 @@ package Game;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Controller.Controller;
 import Intelligence.Joueur;
 import Pion.Bombe;
 import Pion.Capitaine;
@@ -168,6 +167,11 @@ public class Game
 					//System.out.println("case vide");
 					return true;
 				}
+				//si blackout
+				if(defenseur.getName().equals("blackout"))
+				{
+					return false;
+				}
 				//deplacer un pion sur un pion adverse.
 				else if(defenseur.getTeam() != attaquant.getTeam())
 				{
@@ -301,6 +305,9 @@ public class Game
 
 	public void removePion(int x, int y) 
 	{
+		Pion temp = map.getPion(x, y);
+		if(temp.getTeam()) J1.getListPionDead().add(temp);
+		else J2.getListPionDead().add(temp);
 		map.resetPosition(x, y);
 	}
 	

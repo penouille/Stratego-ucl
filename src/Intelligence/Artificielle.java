@@ -82,18 +82,6 @@ public abstract class Artificielle
 		return influenceMap[x][y];
 	}
 	
-	private void printInfluenceMap()
-	{
-		for(int i=0; i<10; i++)
-		{
-			for(int j=0; j<10; j++)
-			{
-				System.out.print(getInfluenceMap(i, j)+" ");
-			}
-			System.out.println();
-		}
-	}
-	
 	private void printList()
 	{
 		for(Deplacement i : getListOfDisplacement())
@@ -388,11 +376,11 @@ public abstract class Artificielle
 				+ ", et oldX="+depl.getOldX()+" et oldY="+depl.getOldY());
 		controller.setClick((depl.getOldX()*10)+depl.getOldY());
 		controller.setPrise(getIaMap().getPion(depl.getOldX(), depl.getOldY()).getPath());
-		controller.setClick((depl.getX()*10)+depl.getY());
+		controller.setClick((depl.getX()*10)+depl.getY()); 
 		controller.setPrise(null);
 	}
 
-	public void play()
+	public void play(Deplacement depl)
 	{
 		
 	}

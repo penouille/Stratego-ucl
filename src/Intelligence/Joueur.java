@@ -1,9 +1,14 @@
 package Intelligence;
 
+import java.util.ArrayList;
+
+import Pion.Pion;
+
 public class Joueur 
 {
 	private String prefColor;
 	private String prefDiff;
+	private ArrayList<Pion> listPionDead;
 	
 	public Joueur(boolean joueur)
 	{
@@ -16,6 +21,7 @@ public class Joueur
 			setPrefColor("Bleu");
 		}
 		setPrefDiff("Normal");
+		setListPionDead(new ArrayList<Pion>());
 	}
 
 	public String getPrefColor()
@@ -36,5 +42,15 @@ public class Joueur
 	public void setPrefDiff(String prefDiff)
 	{
 		this.prefDiff = prefDiff;
+	}
+
+	public ArrayList<Pion> getListPionDead()
+	{
+		return listPionDead;
+	}
+
+	public void setListPionDead(ArrayList<Pion> listPionDead)
+	{
+		this.listPionDead = listPionDead;
 	}
 }

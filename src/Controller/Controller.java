@@ -7,6 +7,7 @@ import Intelligence.Artificielle;
 import Intelligence.ArtificielleFacile;
 import Intelligence.ArtificielleKikoo;
 import Intelligence.ArtificielleNormal;
+import Intelligence.Deplacement;
 import Intelligence.Joueur;
 
 	
@@ -237,7 +238,8 @@ public class Controller
 					tour=!tour;
 					if(isAnIA && !tour)
 					{
-						IA.play();
+						Deplacement depl = new Deplacement(oldX, oldY, x, y);
+						IA.play(depl);
 						//tour=!tour;
 					}
 				}
