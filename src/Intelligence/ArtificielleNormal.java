@@ -204,7 +204,7 @@ public class ArtificielleNormal extends Artificielle
 	
 	public void unblockPion(Deplacement depl, int dist)
 	{
-		//TODO appel infini
+		//TODO appel infini et ça craint du boudin
 		int x = depl.getOldX(), y = depl.getOldY();
 		System.out.println("déblocage d'un pion au position ("+x+","+y+") et distance ="+dist);
 		//deplacer le pion à droite
