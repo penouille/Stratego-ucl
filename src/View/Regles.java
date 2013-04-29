@@ -1,19 +1,15 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 public class Regles extends StdWindow
 {
-	private JTextArea jta;
 	
 	private JPanel PPrincipal;
 	
