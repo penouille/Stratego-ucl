@@ -227,7 +227,7 @@ public class Option extends StdWindow implements ActionListener
 		}
 		else
 		{
-			JComboBox jc = (JComboBox) e.getSource();
+			JComboBox<?> jc = (JComboBox<?>) e.getSource();
 			if(jc == comboBoxMusique)
 			{
 				changeMusic();
