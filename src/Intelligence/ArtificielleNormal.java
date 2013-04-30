@@ -10,12 +10,12 @@ public class ArtificielleNormal extends Artificielle
 {
 	protected String currentStrategy;
 	
-	//private ArrayList<Pion> listPionDeadJ1;
-	//private ArrayList<Pion> listPionDeadJ2;
+	//protected ArrayList<Pion> listPionDeadJ1;
+	//protected ArrayList<Pion> listPionDeadJ2;
 	
-	private Deplacement deplExploration;
-	private Deplacement deplAttaque;
-	private Deplacement deplDefense;
+	protected Deplacement deplExploration;
+	protected Deplacement deplAttaque;
+	protected Deplacement deplDefense;
 	
 	protected int count;
 
@@ -105,7 +105,7 @@ public class ArtificielleNormal extends Artificielle
 		else return -5;
 	}
 	
-	private void updateListOfDisplacement()
+	protected void updateListOfDisplacement()
 	{
 		setListOfDisplacement(new ArrayList<Deplacement>());
 		Deplacement depl;
@@ -147,7 +147,7 @@ public class ArtificielleNormal extends Artificielle
 		}
 	}
 	
-	private ArrayList<Deplacement> getBestDisplacement(ArrayList<Deplacement> listDepl)
+	protected ArrayList<Deplacement> getBestDisplacement(ArrayList<Deplacement> listDepl)
 	{
 		System.out.println("taille de la liste des deplcament dans getBestDisplacement "+getListOfDisplacement().size());
 		ArrayList<Deplacement> bestDisplacement = new ArrayList<Deplacement>();
@@ -329,7 +329,7 @@ public class ArtificielleNormal extends Artificielle
 		}
 	}
 	
-	private void skirtBlackout(Deplacement depl)
+	protected void skirtBlackout(Deplacement depl)
 	{
 		System.out.println("On evite le blackout !");
 		int x=depl.getOldX(), y = depl.getOldY();
@@ -361,6 +361,7 @@ public class ArtificielleNormal extends Artificielle
 				depl.setY(y+1);
 			}
 		}
+		doOneMove(depl);
 	}
 
 	public boolean hasStillPion(String name, boolean team)
@@ -638,7 +639,7 @@ public class ArtificielleNormal extends Artificielle
 		return null;
 	}
 	
-	private void findPionToTake(int perimetre)
+	protected void findPionToTake(int perimetre)
 	{
 		for(int i=9; i>=0 && deplAttaque==null; i--)
 		{
@@ -674,7 +675,7 @@ public class ArtificielleNormal extends Artificielle
 		return findWeakerPion(force);
 	}
 	
-	private void exploreMore(int oldX, int oldY, int x, int y)
+	protected void exploreMore(int oldX, int oldY, int x, int y)
 	{
 		if(hasStillPion("eclaireur", false))
 		{
@@ -709,7 +710,7 @@ public class ArtificielleNormal extends Artificielle
 		
 	}
 	
-	private void playerMoveNearMe(int x, int y)
+	protected void playerMoveNearMe(int x, int y)
 	{
 		Pion temp = getIaMap().getPion(x, y);
 		//si le pion est mort en bougeant pres de moi, ou s'il n'y a rien que je puisse bougé à coté.
@@ -733,7 +734,7 @@ public class ArtificielleNormal extends Artificielle
 		}
 	}
 
-	private void evaluateStrategy(Deplacement pionFinded, int x, int y)
+	protected void evaluateStrategy(Deplacement pionFinded, int x, int y)
 	{
 		Pion myPion = getIaMap().getPion(pionFinded.getOldX(), pionFinded.getOldY());
 		int chance = howMuchPionCanTakeThis(myPion);
@@ -776,7 +777,7 @@ public class ArtificielleNormal extends Artificielle
 	 * @param myPion
 	 * @return Renvoit la force du pion - le nombre de pion qui peuvent prendre ce pion.
 	 */
-	private int howMuchPionCanTakeThis(Pion myPion) {
+	protected int howMuchPionCanTakeThis(Pion myPion) {
 		int nbr= 0; Pion temp;
 		for(int i=0; i<10; i++)
 		{
@@ -792,7 +793,7 @@ public class ArtificielleNormal extends Artificielle
 		return myPion.getForce()-nbr;
 	}
 
-	private void goToDest(Deplacement depl)
+	protected void goToDest(Deplacement depl)
 	{
 		if(depl==null || !isMine(depl.getOldX(), depl.getOldY()))
 		{
@@ -810,7 +811,7 @@ public class ArtificielleNormal extends Artificielle
 		}
 	}
 
-	private void doOneMove(Deplacement depl)
+	protected void doOneMove(Deplacement depl)
 	{
 		System.out.println("doOneMove");
 		//S'il faut deplacer le pion à droite
@@ -844,7 +845,7 @@ public class ArtificielleNormal extends Artificielle
 	 * @param depl
 	 * Regarde si l'une des tactiques de déplacement est accomplie, si oui, elle est mise à null.
 	 */
-	private void checkIfNeededDeleteDepl()
+	protected void checkIfNeededDeleteDepl()
 	{
 		if(deplAttaque!=null 
 				&& deplAttaque.getOldX()==deplAttaque.getX() 
@@ -866,7 +867,7 @@ public class ArtificielleNormal extends Artificielle
 		}
 	}
 
-	private boolean canMoveTop(Deplacement depl) {
+	protected boolean canMoveTop(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldX()-i>=0 
@@ -882,7 +883,7 @@ public class ArtificielleNormal extends Artificielle
 		return false;
 	}
 
-	private boolean canMoveBottom(Deplacement depl) {
+	protected boolean canMoveBottom(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldX()+i<10 
@@ -898,7 +899,7 @@ public class ArtificielleNormal extends Artificielle
 		return false;
 	}
 
-	private boolean canMoveLeft(Deplacement depl) {
+	protected boolean canMoveLeft(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldY()-i>=0
@@ -914,7 +915,7 @@ public class ArtificielleNormal extends Artificielle
 		return false;
 	}
 
-	private boolean canMoveRight(Deplacement depl) {
+	protected boolean canMoveRight(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldY()+i<10 
@@ -930,7 +931,7 @@ public class ArtificielleNormal extends Artificielle
 		return false;
 	}
 
-	private boolean findUnknownPion(Deplacement depl)
+	protected boolean findUnknownPion(Deplacement depl)
 	{
 		for(int i=0; i<10; i++)
 		{
@@ -1061,7 +1062,7 @@ public class ArtificielleNormal extends Artificielle
 		count=0;
 	}
 	
-	private void checkIfNeededToChangeStrategy(Deplacement depl)
+	protected void checkIfNeededToChangeStrategy(Deplacement depl)
 	{
 		if(depl==null)
 		{

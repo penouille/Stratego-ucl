@@ -22,19 +22,19 @@ import Pion.Sergent;
 
 public abstract class Artificielle 
 {
-	private Map iaMap;
+	protected Map iaMap;
 	
-	private int [] [] influenceMap;
+	protected int [] [] influenceMap;
 	
-	private Controller controller;
+	protected Controller controller;
 	
-	private ArrayList<Pion> ListePion;
+	protected ArrayList<Pion> ListePion;
 	
-	private ArrayList<Deplacement> listOfDisplacement;
+	protected ArrayList<Deplacement> listOfDisplacement;
 	
-	private Game game;
+	protected Game game;
 	
-	private String forceIA;
+	protected String forceIA;
 	
 	public Artificielle(Controller controller)
 	{
@@ -74,7 +74,7 @@ public abstract class Artificielle
 		this.game = game;
 	}
 	
-	protected void setInfluence(int x, int y, int influence)
+	public void setInfluence(int x, int y, int influence)
 	{
 		influenceMap [x][y] = influence;
 	}
@@ -84,7 +84,7 @@ public abstract class Artificielle
 		return influenceMap[x][y];
 	}
 	
-	private void printList()
+	public void printList()
 	{
 		for(Deplacement i : getListOfDisplacement())
 		{
@@ -92,7 +92,7 @@ public abstract class Artificielle
 		}
 	}
 	
-	public void initializePions()
+	protected void initializePions()
 	{
 		int i;
 		ListePion = new ArrayList<Pion>();
@@ -145,7 +145,7 @@ public abstract class Artificielle
 	 * @return renvoit le pion et le retir de la liste des pions si il y en a encore un, renvoit null sinon, et ne
 	 * touche pas à la liste des pions.
 	 */
-	public Pion getPion(String name)
+	protected Pion getPion(String name)
 	{
 		for(Pion i : ListePion)
 		{
@@ -164,7 +164,7 @@ public abstract class Artificielle
 	 * @param y
 	 * @return true si il n'y a rien sur la case mentionné, false si il y a un pion, ou que la case n'existe pas.
 	 */
-	public boolean isNothingOnCase(int x, int y)
+	protected boolean isNothingOnCase(int x, int y)
 	{
 		if(x>=0 && x<10 && y>=0 && y<10) return getIaMap().getPion(x, y)==null;
 		else return false;
@@ -176,13 +176,13 @@ public abstract class Artificielle
 	 * @param y
 	 * @return true si il n'y a rien sur la case mentionné ou que la case n'existe pas, false si il y a un pion.
 	 */
-	public boolean isNoPionOnCase(int x, int y)
+	protected boolean isNoPionOnCase(int x, int y)
 	{
 		if(x>=0 && x<10 && y>=0 && y<10) return getIaMap().getPion(x, y)==null;
 		else return true;
 	}
 	
-	public void setDrapeau()
+	protected void setDrapeau()
 	{
 		int t; Random r = new Random();
 		t = r.nextInt(30);
@@ -201,7 +201,7 @@ public abstract class Artificielle
 		}
 	}
 	
-	public void setEclaireur()
+	protected void setEclaireur()
 	{
 		getIaMap().setEtat(3, 0, getPion("eclaireur"));
 		getIaMap().setEtat(3, 1, getPion("eclaireur"));
@@ -223,7 +223,7 @@ public abstract class Artificielle
 		}
 	}
 	
-	public void setBombe()
+	protected void setBombe()
 	{
 		int t; Random r = new Random();
 		t = r.nextInt(20);
@@ -260,7 +260,7 @@ public abstract class Artificielle
 		}
 	}
 	
-	public void setEspionAndMarechal()
+	protected void setEspionAndMarechal()
 	{
 		int t; Random r = new Random();
 		t = r.nextInt(30);
@@ -275,7 +275,7 @@ public abstract class Artificielle
 		else setEspionAndMarechal();
 	}
 	
-	public void setDemineur()
+	protected void setDemineur()
 	{
 		int t, i=0; Random r = new Random();
 		Pion temp = getPion("demineur");
@@ -300,7 +300,7 @@ public abstract class Artificielle
 		}
 	}
 	
-	public void setSergent()
+	protected void setSergent()
 	{
 		int t; Random r = new Random();
 		Pion temp = getPion("sergent");
@@ -315,7 +315,7 @@ public abstract class Artificielle
 		}
 	}
 	
-	public void setLieutenant()
+	protected void setLieutenant()
 	{
 		int t; Random r = new Random();
 		Pion temp = getPion("lieutenant");
@@ -330,7 +330,7 @@ public abstract class Artificielle
 		}
 	}
 	
-	public void setOthersPions()
+	protected void setOthersPions()
 	{
 		int t, place; Random r = new Random();
 		while(ListePion.size()!=0)

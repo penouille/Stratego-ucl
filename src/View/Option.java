@@ -54,7 +54,7 @@ public class Option extends StdWindow implements ActionListener
 	private JComboBox<String> comboBoxMusique;
 	
 	private String[] TScouleurs = {"Rouge", "Vert", "Bleu", "Noir"};
-	private String[] TSdifficultees = {"Kikoo", "Facile", "Normal", "Intermediaire"};
+	private String[] TSdifficultees = {"Kikoo", "Facile", "Normal", "Difficile"};
 	private String[] TSmusique = {"ON", "OFF"};
 	
 	private static Clip clip;

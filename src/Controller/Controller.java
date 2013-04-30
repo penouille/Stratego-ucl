@@ -3,8 +3,8 @@ package Controller;
 import View.AdminGame;
 import Game.Game;
 import Intelligence.Artificielle;
+import Intelligence.ArtificielleDifficile;
 import Intelligence.ArtificielleFacile;
-import Intelligence.ArtificielleIntermediaire;
 import Intelligence.ArtificielleKikoo;
 import Intelligence.ArtificielleNormal;
 import Intelligence.Deplacement;
@@ -62,7 +62,7 @@ public class Controller
 		if(game.getJ1().getPrefDiff().equals("Kikoo")){ IA = new ArtificielleKikoo(this); }
 		else if(game.getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
 		else if(game.getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
-		else if(game.getJ1().getPrefDiff().equals("Intermediaire")){ IA = new ArtificielleIntermediaire(this); }
+		else if(game.getJ1().getPrefDiff().equals("Difficile")){ IA = new ArtificielleDifficile(this); }
 	}
 	public void changeIA(String diff)
 	{

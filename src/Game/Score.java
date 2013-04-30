@@ -25,7 +25,7 @@ public class Score implements Serializable
 		Score = score;
 	}
 	
-	public static int Score (ArrayList<Pion> Lost)
+	public static int calculateScore (ArrayList<Pion> Lost)
 	{
 		int counter = 0;
 		
