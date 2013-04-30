@@ -3,7 +3,6 @@ package Game;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Intelligence.Joueur;
 import Pion.Bombe;
 import Pion.Capitaine;
 import Pion.Colonel;
@@ -28,49 +27,45 @@ import Pion.Sergent;
  */
 public class Game
 {
-	
+
 	private Map map;
 	
-	private Joueur J1;
-	private Joueur J2;
-	
+	private ArrayList<Pion> LostTrue;
+	private ArrayList<Pion> LostFalse;
+
 	public Game()
 	{
 		map = new Map();
-		J1 = new Joueur(true);
-		J2 = new Joueur(false);
+		
+		LostTrue = new ArrayList<Pion>();
+		LostFalse = new ArrayList<Pion>();
 	}
-	
-	public Game(int i)
-	{
-		map = new Map();
-		J1 = new Joueur(true);
-	}
-	
-	public Joueur getJ1()
-	{
-		return this.J1;
-	}
-	public Joueur getJ2()
-	{
-		return this.J2;
-	}
-	
+
 	public int sizeMap()
 	{
 		return map.getSize();
 	}
-	
+
 	public Map getMap() 
 	{
 		return this.map;
 	}
-	
+
 	public boolean logicalXOR(boolean x, boolean y) 
 	{
 	    return ( ( x || y ) && ! ( x && y ) );
 	}
 	
+	public ArrayList<Pion> getLostTrue()
+	{
+		return LostTrue;
+	}
+	
+	public ArrayList<Pion> getLostFalse()
+	{
+		return LostFalse;
+	}
+			
 	/**
 	 * @param oldX, oldY, x, y, nbrPas
 	 * @return Cette methode renvoit true si il y a un obstacle sur le trajet, et false sinon.
@@ -86,6 +81,7 @@ public class Game
 			}
 			return false;
 		}
+		
 		//si le pion monte
 		else if(oldX>x)
 		{
@@ -95,6 +91,7 @@ public class Game
 			}
 			return false;
 		}
+		
 		//si le pion va à gauche
 		else if(y<oldY)
 		{
@@ -104,6 +101,7 @@ public class Game
 			}
 			return false;
 		}
+		
 		//si le pion va à droite
 		else if(oldY<y)
 		{
@@ -115,7 +113,7 @@ public class Game
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @param oldX, oldY, x, y, joueur
 	 * @return 	renvoit true si le pion de la case (oldX,oldY) peut être déplacer sur la case (x,y)
@@ -127,30 +125,30 @@ public class Game
 		Pion attaquant = map.getPion(oldX,oldY);
 		if(attaquant==null)	//verification "inutile", mais on est jamais trop prudent.
 		{
-			//System.out.println("attaquant = "+attaquant);
+			System.out.println("attaquant = "+attaquant);
 			return false;
 		}
 		//Si on tente de déplacer un pion qui ne nous appartient pas.
 		else if(attaquant.getTeam()!=joueur)
 		{
-			//System.out.println("ce n'est pas mon pion");
+			System.out.println("ce n'est pas mon pion");
 			return false;
 		}
 		else
 		{
 			byte nbrPas = attaquant.getNbrDePas();
-			
+
 			/*System.out.println("oldX = "+oldX+" et x = "+x);
 			System.out.println("oldY = "+oldY+" et y = "+y);
 			System.out.println("Nombre de pas = "+nbrPas);
 			System.out.println("(0<oldX-x && oldX-x<=nbrPas) = "+((0<oldX-x && oldX-x<=nbrPas)));
 			System.out.println("(0< x-oldX && x-oldX<=nbrPas) = "+((0< x-oldX && x-oldX<=nbrPas)));
 			System.out.println("(0<oldY-y && oldY-y<=nbrPas) = "+((0<oldY-y && oldY-y<=nbrPas)));
-			System.out.println("(0<y-oldY && y-oldY<=nbrPas) = "+((0<y-oldY && y-oldY<=nbrPas)));
-			
+			System.out.println("(0<y-oldY && y-oldY<=nbrPas) = "+((0<y-oldY && y-oldY<=nbrPas)));*/
+
 			System.out.println("xor = "+(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)),
-					((0<oldY-y && oldY-y<=nbrPas) || (0<y-oldY && y-oldY<=nbrPas)))));*/
-			
+					((0<oldY-y && oldY-y<=nbrPas) || (0<y-oldY && y-oldY<=nbrPas)))));
+
 							//Soit un déplacement verticale (donc les x)
 			if(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)), 
 							//Soit un déplacement horizontale (donc les y)
@@ -158,43 +156,38 @@ public class Game
 			{
 				if(oldX!=x && oldY!=y)
 				{
-					//System.out.println("oldX!=x et oldY!=y");
+					System.out.println("oldX!=x et oldY!=y");
 					return false;
 				}
 				//Verifie s'il il n'y as pas de pion sur le trajet, lorsque la distance parcourue est différente de 1.
 				if(nbrPas!=1 && checkObstacleOnWay(oldX, oldY, x, y, nbrPas))
 				{
-					//System.out.println("il y a des obstacles");
+					System.out.println("il y a des obstacles");
 					return false;
 				}
 				Pion defenseur = map.getPion(x, y);
 				if(defenseur==null)
 				{
-					//System.out.println("case vide");
+					System.out.println("case vide");
 					return true;
-				}
-				//si blackout
-				if(defenseur.getName().equals("blackout"))
-				{
-					return false;
 				}
 				//deplacer un pion sur un pion adverse.
 				else if(defenseur.getTeam() != attaquant.getTeam())
 				{
-					//System.out.println("Il y a un enemi");
+					System.out.println("Il y a un enemi");
 					return true;
 				}
 				//tenter de deplacer un pion sur un autre pion qui nous appartient, ou sur une case interdite.
 				else
 				{
-					//System.out.println("c'est autre chose");
+					System.out.println("c'est autre chose");
 					return false;
 				}
 			}
 			else return false;
 		}
 	}
-	
+
 	/**
 	 * @param x, y, joueur
 	 * @return 	renvoit true si le pion à la position (x,y) peut etre deplacer sur une autre case 
@@ -202,29 +195,17 @@ public class Game
 	 */
 	public boolean canMove(int x, int y, boolean joueur)
 	{
-		for(int i=1; i<=map.getPion(x, y).getNbrDePas(); i++)
+		boolean canMove = false;
+		for(int i=1; !canMove && i<=map.getPion(x, y).getNbrDePas(); i++)
 		{
-			if( (x-i>=0) && canMoveOnNewCase(x, y, x-i, y, joueur)) return true;
-			else if( (x+i<10) && canMoveOnNewCase(x, y, x+i, y, joueur)) return true;
-			else if( (y-i>=0) && canMoveOnNewCase(x, y, x, y-i, joueur)) return true;
-			else if( (y+i<10) && canMoveOnNewCase(x, y, x, y+i, joueur)) return true;
+			if( (x-i>=0) && canMoveOnNewCase(x, y, x-i, y, joueur)) canMove=true;
+			else if( (x+i<10) && canMoveOnNewCase(x, y, x+i, y, joueur)) canMove=true;
+			else if( (y-i>=0) && canMoveOnNewCase(x, y, x, y-i, joueur)) canMove=true;
+			else if( (y+i<10) && canMoveOnNewCase(x, y, x, y+i, joueur)) canMove=true;
 		}
-		return false;
+		return canMove;
 	}
-	
-	public ArrayList<Integer> whichCaseCanGo(int x, int y, boolean joueur)
-	{
-		ArrayList<Integer> listCase = new ArrayList<Integer>();
-		for(int i=1; i<=map.getPion(x, y).getNbrDePas(); i++)
-		{
-			if( (x-i>=0) && canMoveOnNewCase(x, y, x-i, y, joueur)) listCase.add(((x-i)*10)+y);
-			if( (x+i<10) && canMoveOnNewCase(x, y, x+i, y, joueur)) listCase.add(((x+i)*10)+y);
-			if( (y-i>=0) && canMoveOnNewCase(x, y, x, y-i, joueur)) listCase.add((x*10)+y-i);
-			if( (y+i<10) && canMoveOnNewCase(x, y, x, y+i, joueur)) listCase.add((x*10)+y-i);
-		}
-		return listCase;
-	}
-	
+
 	/**
 	 * @param Pion1 et Pion2
 	 * @return implémentation d'un combat entre pions sur la carte.
@@ -234,7 +215,26 @@ public class Game
 	 */
 	public int fight(Pion P1 , Pion P2)
 	{
-		return Fight.fightResult[P1.getForce()][P2.getForce()];
+		int result = Fight.fightResult[P1.getForce()][P2.getForce()];
+		
+		if ( result == 0)
+		{
+			LostTrue.add(P1);
+			LostFalse.add(P2);
+			return result;
+		}	
+		
+		if ( !(result == 1 ^ P1.getTeam())) 
+		{System.out.println("P1"+P1);
+			LostTrue.add(P1);
+		}
+		else
+		{
+			LostFalse.add(P2);
+		}
+			
+		return result;
+		
 	}
 
 	public void placePion(int oldX, int oldY, int x, int y) 
@@ -245,22 +245,19 @@ public class Game
 
 	private Pion getTypePion(String pionPath, boolean joueur)
 	{
-		Joueur player;
-		if(joueur) player = J1;
-		else player = J2;
-		if(pionPath.contains("bombe")) return new Bombe(joueur, player);
-		if(pionPath.contains("drapeau")) return new Drapeau(joueur, player);
-		if(pionPath.contains("espion")) return new Espion(joueur, player);
-		if(pionPath.contains("colonel")) return new Colonel(joueur, player);
-		if(pionPath.contains("capitaine")) return new Capitaine(joueur, player);
-		if(pionPath.contains("commandant")) return new Commandant(joueur, player);
-		if(pionPath.contains("demineur")) return new Demineur(joueur, player);
-		if(pionPath.contains("eclaireur")) return new Eclaireur(joueur, player);
-		if(pionPath.contains("espion")) return new Espion(joueur, player);
-		if(pionPath.contains("general")) return new General(joueur, player);
-		if(pionPath.contains("lieutenant")) return new Lieutenant(joueur, player);
-		if(pionPath.contains("marechal")) return new Marechal(joueur, player);
-		if(pionPath.contains("sergent")) return new Sergent(joueur, player);
+		if(pionPath.contains("bombe")) return new Bombe(joueur);
+		if(pionPath.contains("drapeau")) return new Drapeau(joueur);
+		if(pionPath.contains("espion")) return new Espion(joueur);
+		if(pionPath.contains("colonel")) return new Colonel(joueur);
+		if(pionPath.contains("capitaine")) return new Capitaine(joueur);
+		if(pionPath.contains("commandant")) return new Commandant(joueur);
+		if(pionPath.contains("demineur")) return new Demineur(joueur);
+		if(pionPath.contains("eclaireur")) return new Eclaireur(joueur);
+		if(pionPath.contains("espion")) return new Espion(joueur);
+		if(pionPath.contains("general")) return new General(joueur);
+		if(pionPath.contains("lieutenant")) return new Lieutenant(joueur);
+		if(pionPath.contains("marechal")) return new Marechal(joueur);
+		if(pionPath.contains("sergent")) return new Sergent(joueur);
 		else return null;
 	}
 
@@ -304,6 +301,7 @@ public class Game
 	{
 		Pion attaquant = map.getPion(oldX,oldY);
 		Pion defenseur = map.getPion(x, y);
+		
 		//Si la case sur laquelle on veut placer le pion est vide.
 		if(defenseur==null) return 10;
 		else return fight(attaquant, defenseur);
@@ -311,12 +309,9 @@ public class Game
 
 	public void removePion(int x, int y) 
 	{
-		Pion temp = map.getPion(x, y);
-		if(temp.getTeam()) J1.getListPionDead().add(temp);
-		else J2.getListPionDead().add(temp);
 		map.resetPosition(x, y);
 	}
-	
+
 	/**
 	 * @param joueur
 	 * @return 	renvoit true si le joueur a perdu parce qu'il ne sait plus déplacer un seul pion
@@ -338,7 +333,7 @@ public class Game
 		return lost;
 	}
 
-	
+
 	/**
 	 * @param min, max
 	 * @return 	Regarde si le joueur a bien placé tous ses pions.
@@ -355,12 +350,9 @@ public class Game
 		}
 		return true;
 	}
-	
+
 	public void dude(boolean joueur)
 	{
-		Joueur player;
-		if(joueur) player = J1;
-		else player = J2;
 		int min, max;
 		if(joueur)
 		{
@@ -374,52 +366,54 @@ public class Game
 		}
 		int i;
 		ArrayList<Pion> ListePion = new ArrayList<Pion>();
-		ListePion.add(new Drapeau(joueur, player));
+		ListePion.add(new Drapeau(joueur));
 		for(i=1; i<7; i++)
 		{
-			ListePion.add(new Bombe(joueur, player));
+			ListePion.add(new Bombe(joueur));
 		}
-		ListePion.add(new Espion(joueur, player));
+		ListePion.add(new Espion(joueur));
 		for(i=8; i<16; i++)
 		{
-			ListePion.add(new Eclaireur(joueur, player));
+			ListePion.add(new Eclaireur(joueur));
 		}
 		for(i=16; i<21; i++)
 		{
-			ListePion.add(new Demineur(joueur, player));
+			ListePion.add(new Demineur(joueur));
 		}
 		for(i=21; i<25; i++)
 		{
-			ListePion.add(new Sergent(joueur, player));
+			ListePion.add(new Sergent(joueur));
 		}
 		for(i=25; i<29; i++)
 		{
-			ListePion.add(new Lieutenant(joueur, player));
+			ListePion.add(new Lieutenant(joueur));
 		}
 		for(i=29; i<33; i++)
 		{
-			ListePion.add(new Capitaine(joueur, player));
+			ListePion.add(new Capitaine(joueur));
 		}
 		for(i=33; i<36; i++)
 		{
-			ListePion.add(new Commandant(joueur, player));
+			ListePion.add(new Commandant(joueur));
 		}
 		for(i=36; i<38; i++)
 		{
-			ListePion.add(new Colonel(joueur, player));
+			ListePion.add(new Colonel(joueur));
 		}
-		ListePion.add(new General(joueur, player));
-		ListePion.add(new Marechal(joueur, player));
-		
-		int t; Random r = new Random();
+		ListePion.add(new General(joueur));
+		ListePion.add(new Marechal(joueur));
+
+		int t;
 		for(i=min; i<max; i++)
 		{
 			for(int j=0;j<10;j++)
 			{
+				//t = (int)Math.random()*ListePion.size();
+				Random r = new Random();
 				t = r.nextInt(ListePion.size());
 				map.setEtat(i, j, ListePion.get(t));
 				ListePion.remove(t);
-;			}
+			}
 		}
 	}
 }
