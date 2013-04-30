@@ -22,7 +22,7 @@ public class ArtificielleNormal extends Artificielle
 	public ArtificielleNormal(Controller controller)
 	{
 		super(controller);
-		setForceIA("Normal");
+		setForceIA("IA Normal");
 		System.out.println("IA Normal");
 		currentStrategy="Exploration";
 		setListOfDisplacement(new ArrayList<Deplacement>());

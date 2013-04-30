@@ -11,7 +11,7 @@ public class ArtificielleKikoo extends Artificielle
 	public ArtificielleKikoo(Controller controller)
 	{
 		super(controller);
-		setForceIA("Kikoo");
+		setForceIA("IA Kikoo");
 		System.out.println("IA Kikoo");
 	}
 	

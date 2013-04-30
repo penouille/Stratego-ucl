@@ -17,7 +17,7 @@ public class ArtificielleFacile extends Artificielle
 	public ArtificielleFacile(Controller controller)
 	{
 		super(controller);
-		setForceIA("Facile");
+		setForceIA("IA Facile");
 		System.out.println("IA Facile");
 		currentStrategy="Exploration";
 		setListOfDisplacement(new ArrayList<Deplacement>());

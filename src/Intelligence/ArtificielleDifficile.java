@@ -13,8 +13,8 @@ public class ArtificielleDifficile extends ArtificielleNormal
 	public ArtificielleDifficile(Controller controller)
 	{
 		super(controller);
-		setForceIA("Intermediaire");
-		System.out.println("IA Intermediaire");
+		setForceIA("IA Difficile");
+		System.out.println("IA Difficile");
 		currentStrategy="Attaque";
 		setListOfDisplacement(new ArrayList<Deplacement>());
 		count=0;
