@@ -23,7 +23,7 @@ public class Joueur
 			setPrefColor("Bleu");
 		}
 		setTeam(joueur);
-		setPrefDiff("Intermediaire");
+		setPrefDiff("Difficile");
 	}
 
 	public String getPrefColor()

@@ -160,15 +160,15 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		{
 			setVisible(false);
 			isAnIA = false;
-			//AdminGame admin = new AdminGame("Stratego : Joueur Vs Joueur", controller);
 			new Thread(this).start();
+			new Pseudo(controller);
 		}
 		if(b==JvIA)
 		{
 			setVisible(false);
 			isAnIA = true;
-			//AdminGame admin = new AdminGame("Stratego : Joueur Vs Joueur", controller);
 			new Thread(this).start();
+			new Pseudo(controller);
 		}
 		if(b==option)
 		{
@@ -189,16 +189,15 @@ public class Start extends StdWindow implements ActionListener, Runnable
 	}
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	public void run()
+	{
+		controller.setIA(isAnIA);
 		if(isAnIA)
 		{
-			controller.setIA(isAnIA);
-			new AdminGame("Stratego : Joueur Vs Joueur", controller, optionFrame);
+			new AdminGame("Stratego : Joueur Vs IA", controller, optionFrame);
 		}
 		else
 		{
-			controller.setIA(isAnIA);
 			new AdminGame("Stratego : Joueur Vs Joueur", controller, optionFrame);
 		}
 	}

@@ -119,7 +119,12 @@ public class ArtificielleDifficile extends ArtificielleNormal
 		Deplacement deplacementDone;
 		if(bestDeplacement.size()==0)
 		{
-			playStrategy();
+			if(count!=10){
+				playStrategy();
+				count++;
+			}
+			else playSomething();
+			
 		}
 		else
 		{

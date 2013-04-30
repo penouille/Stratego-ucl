@@ -110,6 +110,16 @@ public class Controller
 		return lastClick;
 	}
 	
+	public Artificielle getIA()
+	{
+		return this.IA;
+	}
+	
+	public boolean getIsAnIA()
+	{
+		return this.isAnIA;
+	}
+	
 	/**
 	 * @param click
 	 * Methode qui est appelé par le view à chaque fois que l'on a fait un clique.
