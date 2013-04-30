@@ -698,7 +698,7 @@ public class ArtificielleFacile extends Artificielle
 	private boolean canMoveTop(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
-			if(depl.getOldX()-i>=0 
+			if(depl.getOldX()-i>=0 && i<=depl.getOldX()-depl.getX()
 			&& getGame().canMoveOnNewCase(depl.getOldX(), depl.getOldY(), depl.getOldX()-i, depl.getOldY(), false))
 			{
 				Deplacement move;
@@ -714,7 +714,7 @@ public class ArtificielleFacile extends Artificielle
 	private boolean canMoveBottom(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
-			if(depl.getOldX()+i<10 
+			if(depl.getOldX()+i<10 && i<=depl.getX()-depl.getOldX()
 			&& getGame().canMoveOnNewCase(depl.getOldX(), depl.getOldY(), depl.getOldX()+i, depl.getOldY(), false))
 			{
 				Deplacement move;
@@ -730,7 +730,7 @@ public class ArtificielleFacile extends Artificielle
 	private boolean canMoveLeft(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
-			if(depl.getOldY()-i>=0
+			if(depl.getOldY()-i>=0 && i<=depl.getOldY()-depl.getY()
 			&& getGame().canMoveOnNewCase(depl.getOldX(), depl.getOldY(), depl.getOldX(), depl.getOldY()-i, false))
 			{
 				Deplacement move;
@@ -746,7 +746,7 @@ public class ArtificielleFacile extends Artificielle
 	private boolean canMoveRight(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
-			if(depl.getOldY()+i<10 
+			if(depl.getOldY()+i<10 && i<=depl.getY()-depl.getOldY()
 			&& getGame().canMoveOnNewCase(depl.getOldX(), depl.getOldY(), depl.getOldX(), depl.getOldY()+i, false))
 			{
 				Deplacement move;
@@ -874,6 +874,7 @@ public class ArtificielleFacile extends Artificielle
 			doDisplacement(deplacementDone);
 			listDepl.remove(deplacementDone);
 			checkIfNeededToChangeStrategy(deplacementDone);
+			getListOfDisplacement().removeAll(getListOfDisplacement());
 		}
 	}
 	

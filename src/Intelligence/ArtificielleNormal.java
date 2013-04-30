@@ -16,6 +16,8 @@ public class ArtificielleNormal extends Artificielle
 	private Deplacement deplExploration;
 	private Deplacement deplAttaque;
 	private Deplacement deplDefense;
+	
+	private int count;
 
 	public ArtificielleNormal(Controller controller)
 	{
@@ -23,6 +25,7 @@ public class ArtificielleNormal extends Artificielle
 		System.out.println("IA Normal");
 		currentStrategy="Exploration";
 		setListOfDisplacement(new ArrayList<Deplacement>());
+		count=0;
 		//listPionDeadJ1 = getGame().getJ1().getListPionDead();
 		//listPionDeadJ2 = getGame().getJ2().getListPionDead();
 	}
@@ -205,6 +208,7 @@ public class ArtificielleNormal extends Artificielle
 	public void unblockPion(Deplacement depl, int dist)
 	{
 		//TODO appel infini et ça craint du boudin
+		if(count==10) return;
 		int x = depl.getOldX(), y = depl.getOldY();
 		System.out.println("déblocage d'un pion au position ("+x+","+y+") et distance ="+dist);
 		//deplacer le pion à droite
@@ -318,9 +322,9 @@ public class ArtificielleNormal extends Artificielle
 		else if(depl.getOldX()>depl.getX() && isBlackout(x-dist, y)){
 			skirtBlackout(depl); return;
 		}
-		
 		else
 		{
+			count++;
 			dist+=1;
 			unblockPion(depl, dist);
 		}
@@ -1053,7 +1057,9 @@ public class ArtificielleNormal extends Artificielle
 			doDisplacement(deplacementDone);
 			listDepl.remove(deplacementDone);
 			checkIfNeededToChangeStrategy(deplacementDone);
+			getListOfDisplacement().removeAll(getListOfDisplacement());
 		}
+		count=0;
 	}
 	
 	private void checkIfNeededToChangeStrategy(Deplacement depl)
