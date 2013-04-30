@@ -7,6 +7,7 @@ import Pion.Pion;
 import Serializer.Serializer;
 
 import Controller.Controller;
+import Intelligence.Artificielle;
 import Intelligence.Joueur;
 
 public class Score implements Serializable
@@ -36,10 +37,10 @@ public class Score implements Serializable
 		return counter;
 	}
 	
-	public static void AddScore( Controller controller )
+	public static void AddScore(Joueur j1, Artificielle IA, boolean gagnant )
 	{
-		Score.add(joueur.getPseudo()+"-"+Score(controller.getGame().getLostTrue())+
-				"-"+Artificielle.getForceIA()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant());
+		Score.add(j1.getPseudo()+"-"+Score(controller.getGame().getLostTrue())+
+				"-"+IA.getForceIA()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant());
 	}
 	
 	public static void AddScore(Joueur joueur , Joueur joueur1)
