@@ -35,17 +35,17 @@ public class Game
 	private Joueur J1;
 	private Joueur J2;
 	
+	private ArrayList<Pion> LostTrue;
+	private ArrayList<Pion> LostFalse;
+	
 	public Game()
 	{
 		map = new Map();
 		J1 = new Joueur(true);
 		J2 = new Joueur(false);
-	}
-	
-	public Game(int i)
-	{
-		map = new Map();
-		J1 = new Joueur(true);
+		
+		LostTrue = new ArrayList<Pion>();
+		LostFalse = new ArrayList<Pion>();
 	}
 	
 	public Joueur getJ1()
@@ -70,6 +70,16 @@ public class Game
 	public boolean logicalXOR(boolean x, boolean y) 
 	{
 	    return ( ( x || y ) && ! ( x && y ) );
+	}
+	
+	public ArrayList<Pion> getLostTrue()
+	{
+		return LostTrue;
+	}
+	
+	public ArrayList<Pion> getLostFalse()
+	{
+		return LostFalse;
 	}
 	
 	/**
@@ -235,7 +245,25 @@ public class Game
 	 */
 	public int fight(Pion P1 , Pion P2)
 	{
-		return Fight.fightResult[P1.getForce()][P2.getForce()];
+		int result = Fight.fightResult[P1.getForce()][P2.getForce()];
+		
+		if ( result == 0)
+		{
+			LostTrue.add(P1);
+			LostFalse.add(P2);
+			return result;
+		}	
+		
+		if ( !(result == 1 ^ P1.getTeam())) 
+		{System.out.println("P1"+P1);
+			LostTrue.add(P1);
+		}
+		else
+		{
+			LostFalse.add(P2);
+		}
+			
+		return result;
 	}
 
 	public void placePion(int oldX, int oldY, int x, int y) 
@@ -312,9 +340,6 @@ public class Game
 
 	public void removePion(int x, int y) 
 	{
-		Pion temp = map.getPion(x, y);
-		if(temp.getTeam()) J1.getListPionDead().add(temp);
-		else J2.getListPionDead().add(temp);
 		map.resetPosition(x, y);
 	}
 	

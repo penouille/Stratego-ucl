@@ -1,7 +1,6 @@
 package Game;
 import Pion.*;
 
-import java.util.ArrayList;
 
 /**
  * Classe représentant une carte virtuelle du jeu stratégo.

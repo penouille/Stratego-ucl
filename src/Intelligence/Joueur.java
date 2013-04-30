@@ -7,9 +7,9 @@ import Pion.Pion;
 public class Joueur 
 {
 	private String pseudo;
+	private boolean team;
 	private String prefColor;
 	private String prefDiff;
-	private ArrayList<Pion> listPionDead;
 	private int score;
 	
 	public Joueur(boolean joueur)
@@ -22,8 +22,8 @@ public class Joueur
 		{
 			setPrefColor("Bleu");
 		}
+		setTeam(joueur);
 		setPrefDiff("Normal");
-		setListPionDead(new ArrayList<Pion>());
 	}
 
 	public String getPrefColor()
@@ -46,16 +46,6 @@ public class Joueur
 		this.prefDiff = prefDiff;
 	}
 
-	public ArrayList<Pion> getListPionDead()
-	{
-		return listPionDead;
-	}
-
-	public void setListPionDead(ArrayList<Pion> listPionDead)
-	{
-		this.listPionDead = listPionDead;
-	}
-
 	public String getPseudo() {
 		return pseudo;
 	}
@@ -70,5 +60,13 @@ public class Joueur
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public boolean isTeam() {
+		return team;
+	}
+
+	public void setTeam(boolean team) {
+		this.team = team;
 	}
 }

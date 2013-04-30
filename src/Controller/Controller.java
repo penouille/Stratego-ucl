@@ -1,7 +1,6 @@
 package Controller;
 
 import View.AdminGame;
-import View.Option;
 import Game.Game;
 import Intelligence.Artificielle;
 import Intelligence.ArtificielleFacile;
@@ -9,7 +8,6 @@ import Intelligence.ArtificielleIntermediaire;
 import Intelligence.ArtificielleKikoo;
 import Intelligence.ArtificielleNormal;
 import Intelligence.Deplacement;
-import Intelligence.Joueur;
 
 	
 /** 
@@ -29,8 +27,9 @@ public class Controller
 	private int lastClick;
 	private int newClick;
 	private boolean partieFinie;
-	private String gagnant;
+	private boolean gagnant;
 	private boolean isAnIA;
+	private boolean victime = false;
 	
 	private Artificielle IA;
 	
@@ -75,10 +74,6 @@ public class Controller
 		}
 		getGame().getJ1().setPrefDiff(diff);
 	}
-	public boolean getTour()
-	{
-		return this.tour;
-	}
 	public boolean getPartieFinie()
 	{
 		return this.partieFinie;
@@ -86,10 +81,6 @@ public class Controller
 	public void setPartieFinie(boolean b)
 	{
 		this.partieFinie = b;
-	}
-	public void setGagnant(String g)
-	{
-		this.gagnant = g;
 	}
 	
 	/**
@@ -129,6 +120,25 @@ public class Controller
 		lastClick = newClick;
 		newClick = click;
 		placePion();
+	}
+	
+	/**
+	 * pre:-
+	 * post: passe victime à false
+	 */
+	public void setVictime()
+	{
+		victime = false;
+	}
+	
+	/**
+	 * pre:-
+	 * post: retourne victime
+	 * @return
+	 */
+	public boolean getVictime()
+	{
+		return victime;
 	}
 	
 	public boolean checkStopPJ1()
@@ -218,12 +228,12 @@ public class Controller
 							if(!partieFinie && game.checkLost(!tour))
 							{
 								partieFinie=true; 
-								gagnant=tour+"";
+								gagnant=tour;
 							}
 							if(!partieFinie && game.checkLost(tour))
 							{
 								partieFinie=true; 
-								gagnant=!tour+"";
+								gagnant=!tour;
 							}
 							break;
 					case 1: game.removePion(oldX, oldY);
@@ -232,7 +242,7 @@ public class Controller
 							if(!partieFinie && game.checkLost(tour))
 							{
 								partieFinie=true;
-								gagnant = !tour+"";
+								gagnant = !tour;
 							}
 							break;
 					case 2: if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
@@ -243,7 +253,7 @@ public class Controller
 							if(!partieFinie && game.checkLost(!tour))
 							{
 								partieFinie=true;
-								gagnant = tour+"";
+								gagnant = tour;
 							}
 							break;
 					}
