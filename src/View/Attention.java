@@ -26,15 +26,16 @@ public class Attention extends StdWindow implements ActionListener
 		ok = new JButton("Ok");
 		ok.addActionListener(this);
 		
-		PPrincipal.add(Lmessage, BorderLayout.NORTH);
-		PPrincipal.add(ok, BorderLayout.CENTER);
+		PPrincipal.add(Lmessage, BorderLayout.CENTER);
+		Lmessage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		PPrincipal.add(ok, BorderLayout.SOUTH);
 		ok.setPreferredSize(new Dimension(100,50));
 		ok.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		
 		
 		add(PPrincipal);
 		
-		centerMe(300,70, 0);
+		centerMe(300,200, 0);
 		setAlwaysOnTop(true);
 		setVisible(true);
 	}
