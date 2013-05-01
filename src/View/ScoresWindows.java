@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import Controller.Controller;
 import Game.Score;
 
-public class Scores extends StdWindow
+public class ScoresWindows extends StdWindow
 {
 	
 	private Controller controller;
@@ -38,7 +38,7 @@ public class Scores extends StdWindow
 	private URL url_head2;
 	private URL url_head3;
 	
-	public Scores(Controller controller)
+	public ScoresWindows(Controller controller)
 	{
 		super("Scores");
 		

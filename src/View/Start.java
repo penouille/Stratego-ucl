@@ -180,7 +180,7 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		}
 		if(b==score)
 		{
-			new Scores(controller);
+			new ScoresWindows(controller);
 		}
 		if(b==regle)
 		{
