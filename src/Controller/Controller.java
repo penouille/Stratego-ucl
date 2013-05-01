@@ -47,7 +47,12 @@ public class Controller
 	public Game getGame() 
 	{
 		return this.game;
-	}	
+	}
+	public void setPseudo(String pseudoJ1, String pseudoJ2)
+	{
+		game.getJ1().setPseudo(pseudoJ1);
+		if(!isAnIA) game.getJ2().setPseudo(pseudoJ2);
+	}
 	public boolean getPlacementJoueur1()
 	{
 		return this.placementJoueur1;
@@ -278,10 +283,20 @@ public class Controller
 			}
 			//System.out.println("Le pion = "+game.getMap().getPion(x, y));
 		}
+		checkEndGame();
 	}
 	
+	private void checkEndGame()
+	{
+		if(partieFinie)
+		{
+			System.out.println("Partie finie !");
+		}
+		
+	}
 	public void dude()
 	{
 		game.dude(tour);
 	}
+	
 }

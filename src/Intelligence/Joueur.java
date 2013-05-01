@@ -1,9 +1,5 @@
 package Intelligence;
 
-import java.util.ArrayList;
-
-import Pion.Pion;
-
 public class Joueur 
 {
 	private String pseudo;

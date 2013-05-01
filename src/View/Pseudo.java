@@ -81,7 +81,6 @@ public class Pseudo extends StdWindow implements ActionListener, WindowListener
 
 	private void changeForIA()
 	{
-		System.out.println("Il y a une IA");
 		while(controller.getIA()==null)
 		setTitle("Choix du pseudo");
 		name2.setText("Type d'IA");
@@ -98,7 +97,7 @@ public class Pseudo extends StdWindow implements ActionListener, WindowListener
 		{
 			if(lookForTf())
 			{
-				
+				controller.setPseudo(tfName1.getText(), tfName2.getText());
 			}
 			else
 			{
@@ -111,9 +110,11 @@ public class Pseudo extends StdWindow implements ActionListener, WindowListener
 		}
 	}
 
-	private boolean lookForTf() {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean lookForTf()
+	{
+		return !(tfName1.getText().length()==0 
+				|| tfName2.getText().length()==0 
+				|| (tfName1.getText().length()==0 && tfName2.getText().length()==0));
 	}
 
 	@Override

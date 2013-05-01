@@ -40,13 +40,13 @@ public class Score implements Serializable
 	public static void AddScore(Joueur j1, Artificielle IA, boolean gagnant )
 	{
 		Score.add(j1.getPseudo()+"-"+Score(controller.getGame().getLostTrue())+
-				"-"+IA.getForceIA()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant());
+				"-"+IA.getForceIA()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant()+"-");
 	}
 	
-	public static void AddScore(Joueur joueur , Joueur joueur1)
+	public static void AddScore(Joueur joueur , Joueur joueur1, boolean gagnant)
 	{
 		Score.add(joueur.getPseudo()+"-"+Score(controller.getGame().getLostTrue())+
-				"-"+joueur.getPseudo()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant());
+				"-"+joueur.getPseudo()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant()+"-");
 	}
 	
 	public static void ReadScore()
