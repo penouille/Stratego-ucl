@@ -34,6 +34,7 @@ public class Option extends StdWindow implements ActionListener
 	private JPanel PForDifficultees;
 	private JPanel PForMusique;
 	
+	private JButton pseudo;
 	private JButton apply;
 	private JButton retour;
 	
@@ -77,9 +78,10 @@ public class Option extends StdWindow implements ActionListener
 		image = new ImageIcon(url_image);
 		
 		int width = image.getIconWidth(); int height = image.getIconHeight();
-		centerMe(width, height, 230); //Dimensionne et centre le JFrame.
+		centerMe(width, height, 260); //Dimensionne et centre le JFrame.
 		
 		//intialisation des JButtons
+		pseudo = new JButton("Changer les Noms/Pseudos");
 		apply = new JButton("Appliquer");
 		retour = new JButton("Retour");
 		
@@ -92,7 +94,7 @@ public class Option extends StdWindow implements ActionListener
 		
 		//initialisation des JPanel
 		PPrincipale = new JPanel (new BorderLayout());
-		PForButton = new JPanel (new GridLayout(6,1));
+		PForButton = new JPanel (new GridLayout(7,1));
 		PForMusique = new JPanel (new GridLayout(1,2));
 		PForCouleursJ1 = new JPanel (new GridLayout(1,2));
 		PForCouleursJ2 = new JPanel (new GridLayout(1,2));
@@ -129,6 +131,7 @@ public class Option extends StdWindow implements ActionListener
 		PForButton.add(PForCouleursJ1);
 		PForButton.add(PForCouleursJ2);
 		PForButton.add(PForDifficultees);
+		PForButton.add(pseudo);
 		PForButton.add(apply);
 		PForButton.add(retour);
 		
@@ -136,6 +139,7 @@ public class Option extends StdWindow implements ActionListener
 		PPrincipale.add(img, BorderLayout.NORTH); //ajoute de l'image
 		PPrincipale.add(PForButton, BorderLayout.CENTER); //ajout du reste
 		PPrincipale.setBackground(Color.black);
+		
 		
 		add(PPrincipale);
 		setListener(); //Met les ActionListener aux boutons et au xomboBoxs
@@ -171,6 +175,7 @@ public class Option extends StdWindow implements ActionListener
 
 	private void setListener()
 	{
+		pseudo.addActionListener(this);
 		apply.addActionListener(this);
 		retour.addActionListener(this);
 		comboBoxCouleursJ1.addActionListener(this);
