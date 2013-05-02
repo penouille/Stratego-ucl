@@ -2,9 +2,10 @@ package Controller;
 
 import View.AdminGame;
 import Game.Game;
+import Game.Score;
 import Intelligence.Artificielle;
-import Intelligence.ArtificielleDifficile;
 import Intelligence.ArtificielleFacile;
+import Intelligence.ArtificielleIntermediaire;
 import Intelligence.ArtificielleKikoo;
 import Intelligence.ArtificielleNormal;
 import Intelligence.Deplacement;
@@ -51,7 +52,7 @@ public class Controller
 	public void setPseudo(String pseudoJ1, String pseudoJ2)
 	{
 		game.getJ1().setPseudo(pseudoJ1);
-		if(!isAnIA) game.getJ2().setPseudo(pseudoJ2);
+		game.getJ2().setPseudo(pseudoJ2);
 	}
 	public boolean getPlacementJoueur1()
 	{
@@ -67,7 +68,7 @@ public class Controller
 		if(game.getJ1().getPrefDiff().equals("Kikoo")){ IA = new ArtificielleKikoo(this); }
 		else if(game.getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
 		else if(game.getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
-		else if(game.getJ1().getPrefDiff().equals("Difficile")){ IA = new ArtificielleDifficile(this); }
+		else if(game.getJ1().getPrefDiff().equals("Intermediaire")){ IA = new ArtificielleIntermediaire(this); }
 	}
 	public void changeIA(String diff)
 	{
@@ -76,6 +77,7 @@ public class Controller
 			if(diff.equals("Kikoo")) IA = new ArtificielleKikoo(this);
 			else if(diff.equals("Facile")) IA = new ArtificielleFacile(this);
 			else if(diff.equals("Normal")) IA = new ArtificielleNormal(this);
+			else if(diff.equals("Intermediaire")) IA = new ArtificielleIntermediaire(this);
 		}
 		getGame().getJ1().setPrefDiff(diff);
 	}
@@ -291,6 +293,7 @@ public class Controller
 		if(partieFinie)
 		{
 			System.out.println("Partie finie !");
+			//Score.AddScore(game.getJ1(), game.getJ2(), listDeadJ1, listDeadJ2, gagnant);
 		}
 		
 	}

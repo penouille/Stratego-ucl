@@ -19,7 +19,7 @@ public class Joueur
 			setPrefColor("Bleu");
 		}
 		setTeam(joueur);
-		setPrefDiff("Difficile");
+		setPrefDiff("Normal");
 	}
 
 	public String getPrefColor()

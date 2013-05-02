@@ -6,15 +6,15 @@ import java.util.Random;
 import Controller.Controller;
 import Pion.Pion;
 
-public class ArtificielleDifficile extends ArtificielleNormal
+public class ArtificielleIntermediaire extends ArtificielleNormal
 {
 	ArrayList<Pion> listTempPion;
 	
-	public ArtificielleDifficile(Controller controller)
+	public ArtificielleIntermediaire(Controller controller)
 	{
 		super(controller);
-		setForceIA("IA Difficile");
-		System.out.println("IA Difficile");
+		setForceIA("IA Intermediaire");
+		System.out.println("IA Intermediaire");
 		currentStrategy="Attaque";
 		setListOfDisplacement(new ArrayList<Deplacement>());
 		count=0;

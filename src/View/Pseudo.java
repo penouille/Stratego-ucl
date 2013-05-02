@@ -76,6 +76,7 @@ public class Pseudo extends StdWindow implements ActionListener, WindowListener
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setAlwaysOnTop(true);
 		if(controller.getIsAnIA()) changeForIA();
+		addWindowListener(this);
 		setVisible(true);
 	}
 
@@ -91,21 +92,32 @@ public class Pseudo extends StdWindow implements ActionListener, WindowListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Auto-generated method stub
 		JButton b = (JButton) e.getSource();
 		if(b==ok)
 		{
 			if(lookForTf())
 			{
-				controller.setPseudo(tfName1.getText(), tfName2.getText());
+				if(tfName1.getText().length()>15){
+					new Attention("<html> Le Nom/Pseudo du joueur 1 est trop grand ! <br>" +
+							" Il doit etre inferieur ou egal a 15 caracteres. </html>");
+				}
+				else if(tfName2.getText().length()>15){
+					new Attention("<html> Le Nom/Pseudo du joueur 2 est trop grand ! <br>" +
+							" Il doit etre inferieur ou egal a 15 caracteres. </html>");
+				}
+				else{
+					controller.setPseudo(tfName1.getText(), tfName2.getText());
+					dispose();
+				}
 			}
-			else
-			{
+			else{
 				new Attention("Les champs ne sont pas remplis correctement !");
 			}
 		}
 		else if(b==osef)
 		{
+			if(controller.getIsAnIA()) controller.setPseudo("Unknown", tfName2.getText());
+			else controller.setPseudo("Unknown", "Unknown");
 			dispose();
 		}
 	}
@@ -124,48 +136,23 @@ public class Pseudo extends StdWindow implements ActionListener, WindowListener
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		
-		if(lookForTf())
-		{
-			
-		}
-		else
-		{
-			new Attention("Les champs ne sont pas remplis correctement !");
-		}
 	}
-
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-		if(lookForTf())
-		{
-			
-		}
-		else
-		{
-			new Attention("Les champs ne sont pas remplis correctement !");
-		}
-		
+		new Attention("<html> Remplissez les champs correctement, ou<br>" +
+				"Cliquez sur \"Nobody cares\" pour continuer <br>" +
+				"sans Nom/Pseudo. </html>");
 	}
-
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		
 	}
-
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		
 	}
-
 	@Override
 	public void windowIconified(WindowEvent e) {
-		
 	}
-
 	@Override
 	public void windowOpened(WindowEvent e) {
-		
 	}
 }
