@@ -39,7 +39,7 @@ public class Score implements Serializable
 	
 	public static void AddScore(Joueur j1, Artificielle IA, ArrayList<Pion> listDeadJ1, ArrayList<Pion> listDeadJ2, boolean gagnant )
 	{
-		Score.add(j1.getPseudo()+"-"+Score(controller.getGame().getLostTrue())+
+		Score.add(j1.getPseudo()+"-"+calculateScore(listDeadJ1)+
 				"-"+IA.getForceIA()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant()+"-");
 	}
 	
@@ -49,14 +49,21 @@ public class Score implements Serializable
 				"-"+joueur.getPseudo()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant()+"-");
 	}
 	
-	public static void ReadScore()
+	@SuppressWarnings("unchecked")
+	public static ArrayList<String> ReadScore()
 	{
-		Serializer.Deserializer("data/Score.txt");
+		return (ArrayList<String>) Serializer.Deserializer("data/Score.txt");
 	}
 	
 	public static void SaveScore()
 	{
 		Serializer.saveObject( Score , "data/Score.txt");
+	}
+	
+	public static void main(String [] toto){
+		Score = new ArrayList<String>();
+		Score.add("Penouille-26-Vineuvall-1014-");
+		SaveScore();
 	}
 	
 }

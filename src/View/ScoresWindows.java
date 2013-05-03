@@ -52,8 +52,8 @@ public class ScoresWindows extends StdWindow implements ActionListener
 		
 		this.controller = controller;
 		
-		Score.ReadScore();
-		ArrayList<String> listScore = Score.getScore();
+		
+		ArrayList<String> listScore = Score.ReadScore();
 		/*ArrayList<String> listScore = new ArrayList<String>();
 		listScore.add("Penouille-26-Vineuvall-1014-");
 		listScore.add("Penouille-1001-Vineuvall-13-");
