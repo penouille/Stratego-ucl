@@ -218,6 +218,7 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     		   
     		   if (!controller.getPlacement() )
     		   {
+    			   System.out.println("hey hey hey");
     			   setMove(container);
     		   }
     		   

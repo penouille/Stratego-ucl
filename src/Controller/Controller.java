@@ -29,8 +29,10 @@ public class Controller
 	private int newClick;
 	private boolean partieFinie;
 	private boolean gagnant;
+	private boolean matchNull;
 	private boolean isAnIA;
-	private boolean victime = false;
+	private boolean victime;
+	private boolean scoreAdd;
 	
 	private Artificielle IA;
 	
@@ -95,6 +97,10 @@ public class Controller
 	 */
 	public boolean getPlacement()
 	{
+		System.out.println("placement joueur1 ? : "+placementJoueur1);
+		System.out.println("placement joueur1 ? : "+placementJoueur2);
+		System.out.println("mode placement ? :"+(placementJoueur1 || placementJoueur2));
+		System.out.println();
 		return(placementJoueur1 || placementJoueur2);
 	}
 	public void setPrise(String prise)
@@ -168,6 +174,7 @@ public class Controller
 			{
 				IA.placeYourPions();
 			}
+			System.out.println("Fin placement pion J1");
 			return true;
 		}
 		else return false;
@@ -179,6 +186,7 @@ public class Controller
 		{
 			placementJoueur2=false;
 			tour=!tour;
+			System.out.println("Fin placement pion J2");
 			return true;
 		}
 		else return false;
@@ -195,13 +203,7 @@ public class Controller
 		{
 			int x = newClick/10;
 			int y = newClick%10;
-			//Quand c'est au tour de joueur1 de placer ses pions.
-			
-			/*System.out.println("placementJoueur1 = "+placementJoueur1);
-			System.out.println("x>5 ? = "+ (x>5));
-			System.out.println("tour = "+tour);
-			System.out.println("Assez de nombre ? = "+game.checkNumberOfPion(prise, 6, 9));*/
-			
+			//Quand c'est au tour de joueur1 de placer ses pions.			
 			if(placementJoueur1 && x>5 && tour && game.checkNumberOfPion(prise, 6, 9))
 			{
 				//si on veut remplacer un pion déja existant sur la carte par un autre.
@@ -209,6 +211,7 @@ public class Controller
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
+			
 			//Quand c'est au tour de joueur2 de placer ses pions.
 			else if(placementJoueur2 && x<4 && !tour && game.checkNumberOfPion(prise, 0, 3))
 			{
@@ -217,12 +220,12 @@ public class Controller
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
+			
 			else if(!getPlacement() && !partieFinie)
 			{
 				//Quand on déplace un pion.
 				int oldX = lastClick/10;
 				int oldY = lastClick%10;
-				//System.out.println("Peut etre bougé ? = "+game.canMoveOnNewCase(oldX, oldY, x, y, tour));
 				if(game.canMoveOnNewCase(oldX, oldY, x, y, tour))
 				{
 					int resultFight = game.checkNewCase(oldX, oldY, x, y);
@@ -241,6 +244,7 @@ public class Controller
 							if(!partieFinie && game.checkLost(!tour) && game.checkLost(tour))
 							{
 								partieFinie=true;
+								matchNull=true;
 							}
 							if(!partieFinie && game.checkLost(!tour))
 							{
@@ -262,7 +266,10 @@ public class Controller
 								gagnant = !tour;
 							}
 							break;
-					case 2: if(game.getMap().getPion(x, y).getName().equals("drapeau")) partieFinie=true;
+					case 2: if(game.getMap().getPion(x, y).getName().equals("drapeau")){
+								partieFinie=true;
+								gagnant = tour;
+							}
 							game.removePion(x, y);
 							if(isAnIA) game.getMap().getPion(oldX, oldY).setVisibleByIA(true);
 							game.placePion(oldX, oldY, x, y);
@@ -279,27 +286,33 @@ public class Controller
 					{
 						Deplacement depl = new Deplacement(oldX, oldY, x, y);
 						IA.play(depl);
-						//tour=!tour;
 					}
 				}
 			}
-			//System.out.println("Le pion = "+game.getMap().getPion(x, y));
 		}
 		checkEndGame();
 	}
 	
 	private void checkEndGame()
 	{
-		if(partieFinie)
+		if(partieFinie && !scoreAdd)
 		{
-			System.out.println("Partie finie !");
-			//Score.AddScore(game.getJ1(), game.getJ2(), listDeadJ1, listDeadJ2, gagnant);
+			System.out.println("Partie finie ! Le gagnant est = "+gagnant);
+			Score.AddScore(game, gagnant, matchNull);
+			scoreAdd=true;
 		}
 		
 	}
 	public void dude()
 	{
-		game.dude(tour);
+		if(tour && placementJoueur1){
+			game.dude(tour, isAnIA);
+			checkStopPJ1();
+		}
+		else if(!tour && placementJoueur2){
+			game.dude(tour, isAnIA);
+			checkStopPJ2();
+		}
 	}
 	
 }

@@ -201,28 +201,6 @@ public abstract class Artificielle
 		}
 	}
 	
-	protected void setEclaireur()
-	{
-		getIaMap().setEtat(3, 0, getPion("eclaireur"));
-		getIaMap().setEtat(3, 1, getPion("eclaireur"));
-		getIaMap().setEtat(3, 4, getPion("eclaireur"));
-		getIaMap().setEtat(3, 5, getPion("eclaireur"));
-		getIaMap().setEtat(3, 8, getPion("eclaireur"));
-		getIaMap().setEtat(3, 9, getPion("eclaireur"));
-		Pion temp = getPion("eclaireur");
-		int t; Random r = new Random();
-		while(temp!=null)
-		{
-			t = r.nextInt(10);
-			if(isNothingOnCase(2, t))
-			{
-				getIaMap().setEtat(2, t, temp);
-				temp = getPion("eclaireur");
-			}
-				
-		}
-	}
-	
 	protected void setBombe()
 	{
 		int t; Random r = new Random();
@@ -259,108 +237,9 @@ public abstract class Artificielle
 				
 		}
 	}
-	
-	protected void setEspionAndMarechal()
-	{
-		int t; Random r = new Random();
-		t = r.nextInt(30);
-		if(isNothingOnCase(t/10, t%10) && 
-				(isNothingOnCase(t/10-1, t%10) || isNothingOnCase(t/10, t%10-1) || isNothingOnCase(t/10, t%10+1)))
-		{
-			getIaMap().setEtat(t/10, t%10, getPion("marechal"));
-			if(isNothingOnCase(t/10-1, t%10)) getIaMap().setEtat(t/10-1, t%10, getPion("espion"));
-			else if(isNothingOnCase(t/10, t%10-1)) getIaMap().setEtat(t/10, t%10-1, getPion("espion"));
-			else getIaMap().setEtat(t/10, t%10+1, getPion("espion"));
-		}
-		else setEspionAndMarechal();
-	}
-	
-	protected void setDemineur()
-	{
-		int t, i=0; Random r = new Random();
-		Pion temp = getPion("demineur");
-		while(i<3)
-		{
-			t = r.nextInt(20);
-			if(isNothingOnCase(t/10, t%10))
-			{
-				getIaMap().setEtat(t/10, t%10, temp);
-				temp = getPion("demineur");
-				i++;
-			}	
-		}
-		while(temp!=null)
-		{
-			t = 20+r.nextInt(20);
-			if(isNothingOnCase(t/10, t%10))
-			{
-				getIaMap().setEtat(t/10, t%10, temp);
-				temp = getPion("demineur");
-			}	
-		}
-	}
-	
-	protected void setSergent()
-	{
-		int t; Random r = new Random();
-		Pion temp = getPion("sergent");
-		while(temp!=null)
-		{
-			t = r.nextInt(40);
-			if(isNothingOnCase(t/10, t%10))
-			{
-				getIaMap().setEtat(t/10, t%10, temp);
-				temp = getPion("sergent");
-			}	
-		}
-	}
-	
-	protected void setLieutenant()
-	{
-		int t; Random r = new Random();
-		Pion temp = getPion("lieutenant");
-		while(temp!=null)
-		{
-			t = r.nextInt(40);
-			if(isNothingOnCase(t/10, t%10))
-			{
-				getIaMap().setEtat(t/10, t%10, temp);
-				temp = getPion("lieutenant");
-			}	
-		}
-	}
-	
-	protected void setOthersPions()
-	{
-		int t, place; Random r = new Random();
-		while(ListePion.size()!=0)
-		{
-			t = r.nextInt(ListePion.size());
-			place = r.nextInt(40);
-			if(isNothingOnCase(place/10, place%10))
-			{
-				getIaMap().setEtat(place/10, place%10, ListePion.get(t));
-				ListePion.remove(t);
-			}
-		}
-	}
-
 	public void placeYourPions()
 	{
-		initializePions();
-		
-		setDrapeau();
-		setEclaireur();
-		setBombe();
-		setEspionAndMarechal();
-		setDemineur();
-		setSergent();
-		setLieutenant();
-		setOthersPions();
-		
-		//updateInfluenceMap();
-		//printInfluenceMap();
-		controller.checkStopPJ2();
+		controller.dude();
 	}
 	
 	public void checkIfEclaireur(int oldX, int oldY, int x, int y)

@@ -2,10 +2,6 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,13 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import Controller.Controller;
 import Game.Score;
 
+@SuppressWarnings("serial")
 public class ScoresWindows extends StdWindow implements ActionListener
 {
-	
-	private Controller controller;
 	
 	private JScrollPane jsb;
 	
@@ -46,31 +40,23 @@ public class ScoresWindows extends StdWindow implements ActionListener
 	private JButton retour;
 	private JButton reset;
 	
-	public ScoresWindows(Controller controller)
+	public ScoresWindows()
 	{
 		super("Scores");
 		
-		this.controller = controller;
-		
 		
 		ArrayList<String> listScore = Score.ReadScore();
-		/*ArrayList<String> listScore = new ArrayList<String>();
-		listScore.add("Penouille-26-Vineuvall-1014-");
-		listScore.add("Penouille-1001-Vineuvall-13-");
-		listScore.add("Unknown-1000-IA Kikoo-39-");
-		for(int i=0; i!=100; i++){
-			listScore.add("Unknown-1000-IA Kikoo-39-");
-		}*/
 		
 		//Instanciation des JPanel
 		PPrincipal = new JPanel(new BorderLayout());
 		PIntermediaire = new JPanel(new BorderLayout());
 		PForHead = new JPanel(new GridLayout(1,4));
 		PForScore = new JPanel(new GridLayout(listScore.size(), 4));
-		PForButton = new JPanel(new BorderLayout());
+		PForButton = new JPanel(new GridLayout(1,5));
 		
 		PForScore.setBackground(new Color(7, 15, 41));
 		PForButton.setBackground(new Color(7, 15, 41));
+		PPrincipal.setBackground(new Color(7, 15, 41));
 		
 		//JButton
 		reset = new JButton ("Effacer les scores");
@@ -99,13 +85,14 @@ public class ScoresWindows extends StdWindow implements ActionListener
 		fillScore(listScore);
 		
 		//Mise des bouttons
-		PForButton.add(reset, BorderLayout.WEST);
-		PForButton.add(retour, BorderLayout.EAST);
+		PForButton.add(new JLabel());
+		PForButton.add(reset);
+		PForButton.add(new JLabel());
+		PForButton.add(retour);
+		PForButton.add(new JLabel());
 		
 		//mise des composants 1
-		PIntermediaire.add(PForHead, BorderLayout.NORTH);
-		PIntermediaire.add(PForScore, BorderLayout.CENTER);
-		PIntermediaire.add(PForButton, BorderLayout.SOUTH);
+		PIntermediaire.add(PForScore, BorderLayout.NORTH);
 		
 		//initialisation ScrollBar
 		jsb = new JScrollPane(PIntermediaire);
@@ -113,7 +100,10 @@ public class ScoresWindows extends StdWindow implements ActionListener
 		jsb.setAutoscrolls(true);
 		
 		//mise de composants 2
+		PPrincipal.add(PForHead, BorderLayout.NORTH);
 		PPrincipal.add(jsb, BorderLayout.CENTER);
+		PPrincipal.add(PForButton, BorderLayout.SOUTH);
+		revalidate();
 		
 		
 		add(PPrincipal);
@@ -126,10 +116,10 @@ public class ScoresWindows extends StdWindow implements ActionListener
 	{
 		pack();
 		if(this.getHeight()>600){
-			centerMe(627, 600, 0);
+			centerMe(598, 600, 0);
 		}
 		else{
-			centerMe(627, this.getHeight(),0);
+			centerMe(598, this.getHeight(),0);
 		}
 	}
 
@@ -152,23 +142,18 @@ public class ScoresWindows extends StdWindow implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Auto-generated method stub
 		JButton b = (JButton) e.getSource();
 		if(b==reset)
 		{
-			System.out.println("Score reseter");
+			Score.setScore(new ArrayList<String>());
+			Score.SaveScore();
+			PForScore.removeAll();
+			dimensionMe();
+			PForScore.updateUI();
 		}
 		else if(b==retour)
 		{
 			this.dispose();
 		}
 	}
-	
-	/*public void paintComponent(Graphics g)
-	{
-		Graphics2D g2d = (Graphics2D)g;         
-	    GradientPaint gp = new GradientPaint(0, 0, Color.RED, 30, 30, Color.cyan, true);                
-	    g2d.setPaint(gp);
-	    g2d.fillRect(0, 0, this.getWidth(), this.getHeight()); 
-	}*/
 }

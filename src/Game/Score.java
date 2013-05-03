@@ -6,10 +6,6 @@ import java.util.ArrayList;
 import Pion.Pion;
 import Serializer.Serializer;
 
-import Controller.Controller;
-import Intelligence.Artificielle;
-import Intelligence.Joueur;
-
 public class Score implements Serializable
 {
 	private static ArrayList<String> Score;
@@ -25,7 +21,7 @@ public class Score implements Serializable
 		Score = score;
 	}
 	
-	public static int calculateScore (ArrayList<Pion> Lost)
+	public static int calculateScore (ArrayList<Pion> Lost, boolean win, boolean matchNull)
 	{
 		int counter = 0;
 		
@@ -33,20 +29,16 @@ public class Score implements Serializable
 		{
 			counter += Lost.get(i).getForce();
 		}
-		
+		if(win && !matchNull) counter+=1000;
 		return counter;
 	}
 	
-	public static void AddScore(Joueur j1, Artificielle IA, ArrayList<Pion> listDeadJ1, ArrayList<Pion> listDeadJ2, boolean gagnant )
+	public static void AddScore(Game game, boolean gagnant, boolean matchNull)
 	{
-		Score.add(j1.getPseudo()+"-"+calculateScore(listDeadJ1)+
-				"-"+IA.getForceIA()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant()+"-");
-	}
-	
-	public static void AddScore(Joueur joueur , Joueur joueur1, ArrayList<Pion> listDeadJ1, ArrayList<Pion> listDeadJ2, boolean gagnant)
-	{
-		Score.add(joueur.getPseudo()+"-"+Score(controller.getGame().getLostTrue())+
-				"-"+joueur.getPseudo()+"-"+Score(controller.getGame().getLostFalse())+"-"+controller.getGagnant()+"-");
+		setScore(ReadScore());
+		Score.add(game.getJ1().getPseudo()+"-"+calculateScore(game.getLostTrue(), gagnant==true, matchNull)+
+				"-"+game.getJ2().getPseudo()+"-"+calculateScore(game.getLostFalse(), gagnant==false, matchNull)+"-");
+		SaveScore();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -60,9 +52,24 @@ public class Score implements Serializable
 		Serializer.saveObject( Score , "data/Score.txt");
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String [] toto){
 		Score = new ArrayList<String>();
 		Score.add("Penouille-26-Vineuvall-1014-");
+		
+		/*for(int i=0; i!=100; i++){
+			Score.add("Unknown-1000-IA Kikoo-39-");
+		}*/
 		SaveScore();
 	}
 	

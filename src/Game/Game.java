@@ -151,17 +151,6 @@ public class Game
 		{
 			byte nbrPas = attaquant.getNbrDePas();
 			
-			/*System.out.println("oldX = "+oldX+" et x = "+x);
-			System.out.println("oldY = "+oldY+" et y = "+y);
-			System.out.println("Nombre de pas = "+nbrPas);
-			System.out.println("(0<oldX-x && oldX-x<=nbrPas) = "+((0<oldX-x && oldX-x<=nbrPas)));
-			System.out.println("(0< x-oldX && x-oldX<=nbrPas) = "+((0< x-oldX && x-oldX<=nbrPas)));
-			System.out.println("(0<oldY-y && oldY-y<=nbrPas) = "+((0<oldY-y && oldY-y<=nbrPas)));
-			System.out.println("(0<y-oldY && y-oldY<=nbrPas) = "+((0<y-oldY && y-oldY<=nbrPas)));
-			
-			System.out.println("xor = "+(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)),
-					((0<oldY-y && oldY-y<=nbrPas) || (0<y-oldY && y-oldY<=nbrPas)))));*/
-			
 							//Soit un déplacement verticale (donc les x)
 			if(logicalXOR(((0<oldX-x && oldX-x<=nbrPas) || (0<x-oldX && x-oldX<=nbrPas)), 
 							//Soit un déplacement horizontale (donc les y)
@@ -382,22 +371,304 @@ public class Game
 		return true;
 	}
 	
-	public void dude(boolean joueur)
+	
+	
+	
+	
+	/**
+	 * @pre La matrice doit etre carrée.
+	 * @param matrix
+	 * @return renvoit la matrice inverse.
+	 */
+	public void reverse(Pion [] [] matrix)
 	{
+		Pion temp=null; int maxI, maxY=matrix.length;
+		if(matrix.length%2==0) maxI=matrix.length/2;
+		else maxI=(matrix.length/2);
+		
+		for(int i=0; i<=maxI; i++)
+		{
+			for(int j=0; j<maxY; j++)
+			{
+				temp = matrix[(matrix.length-1)-i][(matrix.length-1)-j];
+				matrix[(matrix.length-1)-i][(matrix.length-1)-j] = matrix [i][j];
+				matrix [i][j] = temp;
+				if(i==maxI) maxY=maxI;
+			}
+		}
+	}
+	
+	
+	public ArrayList<Pion> initializePions(boolean team, boolean isAnIA)
+	{
+		int i; ArrayList<Pion> listPion = new ArrayList<Pion>(); Joueur J;
+		if(team) J = J1;
+		else J = J2;
+		listPion.add(new Drapeau(team, J));
+		for(i=1; i<7; i++)
+		{
+			listPion.add(new Bombe(team, J));
+		}
+		listPion.add(new Espion(team, J));
+		for(i=8; i<16; i++)
+		{
+			listPion.add(new Eclaireur(team, J));
+		}
+		for(i=16; i<21; i++)
+		{
+			listPion.add(new Demineur(team, J));
+		}
+		for(i=21; i<25; i++)
+		{
+			listPion.add(new Sergent(team, J));
+		}
+		for(i=25; i<29; i++)
+		{
+			listPion.add(new Lieutenant(team, J));
+		}
+		for(i=29; i<33; i++)
+		{
+			listPion.add(new Capitaine(team, J));
+		}
+		for(i=33; i<36; i++)
+		{
+			listPion.add(new Commandant(team, J));
+		}
+		for(i=36; i<38; i++)
+		{
+			listPion.add(new Colonel(team, J));
+		}
+		listPion.add(new General(team, J));
+		listPion.add(new Marechal(team, J));
+		
+		if(!team && isAnIA){
+			for(Pion pion: listPion){
+				pion.setVisibleByIA(true);
+			}
+		}
+		return listPion;
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return renvoit le pion et le retir de la liste des pions si il y en a encore un, renvoit null sinon, et ne
+	 * touche pas à la liste des pions.
+	 */
+	protected Pion getPion(ArrayList<Pion> listPion, String name)
+	{
+		for(Pion i : listPion)
+		{
+			if(i.getName().equals(name))
+			{
+				listPion.remove(i);
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return true si il n'y a rien sur la case mentionné, false si il y a un pion, ou que la case n'existe pas.
+	 */
+	public boolean isNothingOnCase(int x, int y)
+	{
+		if(x>=0 && x<10 && y>=0 && y<10) return map.getPion(x, y)==null;
+		else return false;
+	}
+	
+	protected void setDrapeau(ArrayList<Pion> listPion)
+	{
+		int t; Random r = new Random();
+		t = r.nextInt(30);
+		if(t==20 || t==21 || t==24 || t==25 || t==28 || t==29) setDrapeau(listPion);
+		else
+		{
+			map.setEtat(t/10, t%10, getPion(listPion, "drapeau"));
+			//une bombe à gauche du drapeau
+			if(isNothingOnCase(t/10,t%10-1)) map.setEtat(t/10, t%10-1, getPion(listPion, "bombe"));
+			//une bombe en haut du drapeau
+			if(isNothingOnCase(t/10-1,t%10)) map.setEtat(t/10-1, t%10, getPion(listPion, "bombe"));
+			//une bombe à droite du drapeau
+			if(isNothingOnCase(t/10,t%10+1)) map.setEtat(t/10, t%10+1, getPion(listPion, "bombe"));
+			//une bombe en bas du drapeau
+			if(isNothingOnCase(t/10+1,t%10)) map.setEtat(t/10+1, t%10, getPion(listPion, "bombe"));
+		}
+	}
+	
+	protected void setEclaireur(ArrayList<Pion> listPion)
+	{
+		map.setEtat(3, 0, getPion(listPion, "eclaireur"));
+		map.setEtat(3, 1, getPion(listPion, "eclaireur"));
+		map.setEtat(3, 4, getPion(listPion, "eclaireur"));
+		map.setEtat(3, 5, getPion(listPion, "eclaireur"));
+		map.setEtat(3, 8, getPion(listPion, "eclaireur"));
+		map.setEtat(3, 9, getPion(listPion, "eclaireur"));
+		Pion temp = getPion(listPion, "eclaireur");
+		int t; Random r = new Random();
+		while(temp!=null)
+		{
+			t = r.nextInt(10);
+			if(isNothingOnCase(2, t))
+			{
+				map.setEtat(2, t, temp);
+				temp = getPion(listPion, "eclaireur");
+			}
+				
+		}
+	}
+	
+	protected void setBombe(ArrayList<Pion> listPion)
+	{
+		int t; Random r = new Random();
+		t = r.nextInt(20);
+		if(isNothingOnCase(t/10+1, t%10) && isNothingOnCase(t/10, t%10-1) && isNothingOnCase(t/10, t%10+1))
+		{
+			map.setEtat(t/10+1, t%10, getPion(listPion, "bombe"));
+			if(t%10<5)
+			{
+				//Si la case designé par t est plus à gauche, je commence par mettre à droite
+				map.setEtat(t/10, t%10+1, getPion(listPion, "bombe"));
+				if(isNothingOnCase(t/10, t%10-1)) map.setEtat(t/10, t%10-1, getPion(listPion, "bombe"));
+			}
+			else
+			{
+				//Si la case designé par t est plus à droite, je commence par mettre à gauche
+				map.setEtat(t/10, t%10-1, getPion(listPion, "bombe"));
+				if(isNothingOnCase(t/10, t%10+1)) map.setEtat(t/10, t%10+1, getPion(listPion, "bombe"));
+			}
+			if(isNothingOnCase(t/10, t%10)) map.setEtat(t/10, t%10, getPion(listPion, "sergent"));
+				
+				
+		}
+		else setBombe(listPion);
+		Pion temp = getPion(listPion, "bombe");
+		while(temp!=null)
+		{
+			t = r.nextInt(40);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				map.setEtat(t/10, t%10, temp);
+				temp = getPion(listPion, "bombe");
+			}
+				
+		}
+	}
+	
+	protected void setEspionAndMarechal(ArrayList<Pion> listPion)
+	{
+		int t; Random r = new Random();
+		t = r.nextInt(30);
+		if(isNothingOnCase(t/10, t%10) && 
+				(isNothingOnCase(t/10-1, t%10) || isNothingOnCase(t/10, t%10-1) || isNothingOnCase(t/10, t%10+1)))
+		{
+			map.setEtat(t/10, t%10, getPion(listPion, "marechal"));
+			if(isNothingOnCase(t/10-1, t%10)) map.setEtat(t/10-1, t%10, getPion(listPion, "espion"));
+			else if(isNothingOnCase(t/10, t%10-1)) map.setEtat(t/10, t%10-1, getPion(listPion, "espion"));
+			else map.setEtat(t/10, t%10+1, getPion(listPion, "espion"));
+		}
+		else setEspionAndMarechal(listPion);
+	}
+	
+	protected void setDemineur(ArrayList<Pion> listPion)
+	{
+		int t, i=0; Random r = new Random();
+		Pion temp = getPion(listPion, "demineur");
+		while(i<3)
+		{
+			t = r.nextInt(20);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				map.setEtat(t/10, t%10, temp);
+				temp = getPion(listPion, "demineur");
+				i++;
+			}	
+		}
+		while(temp!=null)
+		{
+			t = 20+r.nextInt(20);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				map.setEtat(t/10, t%10, temp);
+				temp = getPion(listPion, "demineur");
+			}	
+		}
+	}
+	
+	protected void setSergent(ArrayList<Pion> listPion)
+	{
+		int t; Random r = new Random();
+		Pion temp = getPion(listPion, "sergent");
+		while(temp!=null)
+		{
+			t = r.nextInt(40);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				map.setEtat(t/10, t%10, temp);
+				temp = getPion(listPion, "sergent");
+			}	
+		}
+	}
+	
+	protected void setLieutenant(ArrayList<Pion> listPion)
+	{
+		int t; Random r = new Random();
+		Pion temp = getPion(listPion, "lieutenant");
+		while(temp!=null)
+		{
+			t = r.nextInt(40);
+			if(isNothingOnCase(t/10, t%10))
+			{
+				map.setEtat(t/10, t%10, temp);
+				temp = getPion(listPion, "lieutenant");
+			}	
+		}
+	}
+	
+	protected void setOthersPions(ArrayList<Pion> listPion)
+	{
+		int t, place; Random r = new Random();
+		while(listPion.size()!=0)
+		{
+			t = r.nextInt(listPion.size());
+			place = r.nextInt(40);
+			if(isNothingOnCase(place/10, place%10))
+			{
+				map.setEtat(place/10, place%10, listPion.get(t));
+				listPion.remove(t);
+			}
+		}
+	}
+	
+	public void dude(boolean joueur, boolean isAnIA)
+	{
+		ArrayList<Pion> listPion = initializePions(joueur, isAnIA);
+		
+		if(joueur){
+			reverse(map.getMap());
+		}
+		
+		setDrapeau(listPion);
+		setEclaireur(listPion);
+		setBombe(listPion);
+		setEspionAndMarechal(listPion);
+		setDemineur(listPion);
+		setSergent(listPion);
+		setLieutenant(listPion);
+		setOthersPions(listPion);
+		
+		if(joueur){
+			reverse(map.getMap());
+		}
+		
+		/*
 		Joueur player;
 		if(joueur) player = J1;
 		else player = J2;
-		int min, max;
-		if(joueur)
-		{
-			min=6; 
-			max=10;
-		}
-		else
-		{
-			min=0; 
-			max=4;
-		}
+		int min=6, max=10;
 		int i;
 		ArrayList<Pion> ListePion = new ArrayList<Pion>();
 		ListePion.add(new Drapeau(joueur, player));
@@ -447,5 +718,8 @@ public class Game
 				ListePion.remove(t);
 ;			}
 		}
+		if(!joueur){
+			reverse(map.getMap());
+		}*/
 	}
 }

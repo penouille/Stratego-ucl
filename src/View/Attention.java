@@ -1,7 +1,5 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +11,7 @@ import javax.swing.JPanel;
 public class Attention extends StdWindow implements ActionListener
 {
 	JPanel PPrincipal;
+	JPanel PForButton;
 	
 	JLabel Lmessage;
 	
@@ -23,14 +22,26 @@ public class Attention extends StdWindow implements ActionListener
 		super("Attention");
 		
 		PPrincipal = new JPanel(new GridLayout(2,1));
+		PForButton = new JPanel(new GridLayout(3,3));
 		Lmessage = new JLabel(message);
 		ok = new JButton("Ok");
 		ok.addActionListener(this);
 		
 		PPrincipal.add(Lmessage);
 		Lmessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		PPrincipal.add(ok);
-		ok.setPreferredSize(new Dimension(100,50));
+		
+		PForButton.add(new JLabel());
+		PForButton.add(new JLabel());
+		PForButton.add(new JLabel());
+		PForButton.add(new JLabel());
+		PForButton.add(ok);
+		PForButton.add(new JLabel());
+		PForButton.add(new JLabel());
+		PForButton.add(new JLabel());
+		PForButton.add(new JLabel());
+		
+		PPrincipal.add(PForButton);
+		
 		ok.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		
 		

@@ -14,7 +14,7 @@ public class Map
 	
 	public Map()
 	{
-		Map = new Pion[11][11];
+		Map = new Pion[10][10];
 		initialise();
 		
 	}
@@ -36,6 +36,10 @@ public class Map
 		
 		setBlackout();
 		
+	}
+	
+	public Pion [] [] getMap(){
+		return Map;
 	}
 	
 	/*

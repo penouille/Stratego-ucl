@@ -224,6 +224,10 @@ public class Option extends StdWindow implements ActionListener
 			{
 				setVisible(false);
 			}
+			if(b==pseudo)
+			{
+				new Pseudo(controller);
+			}
 		}
 		else
 		{

@@ -16,6 +16,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import Controller.Controller;
 
+@SuppressWarnings("serial")
 public class Start extends StdWindow implements ActionListener, Runnable
 {
 	private URL url_img;
@@ -180,7 +181,7 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		}
 		if(b==score)
 		{
-			new ScoresWindows(controller);
+			new ScoresWindows();
 		}
 		if(b==regle)
 		{
