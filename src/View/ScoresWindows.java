@@ -59,7 +59,7 @@ public class ScoresWindows extends StdWindow implements ActionListener
 		PPrincipal.setBackground(new Color(7, 15, 41));
 		
 		//JButton
-		reset = new JButton ("Effacer les scores");
+		reset = new JButton ("Effacer scores");
 		retour = new JButton ("Retour");
 		
 		reset.addActionListener(this);
