@@ -33,6 +33,7 @@ public class Controller
 	private boolean isAnIA;
 	private boolean victime;
 	private boolean scoreAdd;
+	private boolean son;
 	
 	private Artificielle IA;
 	
@@ -46,6 +47,7 @@ public class Controller
 		this.game = new Game();
 		placementJoueur1=true;
 		placementJoueur2=true;
+		setSon(true);
 	}
 	public Game getGame() 
 	{
@@ -81,7 +83,14 @@ public class Controller
 			else if(diff.equals("Normal")) IA = new ArtificielleNormal(this);
 			else if(diff.equals("Intermediaire")) IA = new ArtificielleIntermediaire(this);
 		}
-		getGame().getJ1().setPrefDiff(diff);
+		game.getJ1().setPrefDiff(diff);
+		game.getJ2().setPseudo(IA.getForceIA());
+	}
+	public boolean isSon() {
+		return son;
+	}
+	public void setSon(boolean son) {
+		this.son = son;
 	}
 	public boolean getPartieFinie()
 	{
@@ -97,10 +106,6 @@ public class Controller
 	 */
 	public boolean getPlacement()
 	{
-		System.out.println("placement joueur1 ? : "+placementJoueur1);
-		System.out.println("placement joueur1 ? : "+placementJoueur2);
-		System.out.println("mode placement ? :"+(placementJoueur1 || placementJoueur2));
-		System.out.println();
 		return(placementJoueur1 || placementJoueur2);
 	}
 	public void setPrise(String prise)
@@ -174,7 +179,6 @@ public class Controller
 			{
 				IA.placeYourPions();
 			}
-			System.out.println("Fin placement pion J1");
 			return true;
 		}
 		else return false;
@@ -186,7 +190,6 @@ public class Controller
 		{
 			placementJoueur2=false;
 			tour=!tour;
-			System.out.println("Fin placement pion J2");
 			return true;
 		}
 		else return false;

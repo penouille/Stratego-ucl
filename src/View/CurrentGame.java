@@ -57,8 +57,6 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
        
        private boolean tour = true;
        
-       private Option optFrame;
-       
        private int i=0;
        
        /**
@@ -71,13 +69,11 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
            game = controller.getGame() ;
        }
        
-       public CurrentGame(Controller controller, Option optFrame)
+       public CurrentGame(Controller controller)
        {
     	   super();
     	   this.controller = controller;
     	   game = controller.getGame();
-    	   this.optFrame = optFrame;
-    	   optFrame.setCurrentGame(this);
        }
        
        public int getID() 
@@ -218,7 +214,6 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     		   
     		   if (!controller.getPlacement() )
     		   {
-    			   System.out.println("hey hey hey");
     			   setMove(container);
     		   }
     		   
@@ -242,13 +237,14 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	 //Code exécuté en cas de pression sur la touche Echap.
     	   if ( input.isKeyPressed(Input.KEY_ESCAPE))
     	   {
-    		   new Start(controller, optFrame);
+    		   new Start(controller);
     		   container.exit();
     		   
     	   }
     	   if( input.isKeyPressed(Input.KEY_M))
     	   {
-    		   optFrame.setVisible(true);
+    		   Option opt = new Option(controller);
+    		   opt.setCurrentGame(this);
     	   }
     	   
     	   

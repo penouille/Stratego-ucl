@@ -18,8 +18,7 @@ public class system
 		//Game game = new Game();
 		//creation du controller
 		Controller controller = new Controller();
-		Option optFrame = new Option(controller);
-		new Start(controller, optFrame);
+		new Start(controller);
 	}
 
 }

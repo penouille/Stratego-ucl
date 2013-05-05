@@ -53,9 +53,6 @@ public class Option extends StdWindow implements ActionListener
 	private String[] TSdifficultees = {"Kikoo", "Facile", "Normal", "Intermediaire"};
 	private String[] TSmusique = {"ON", "OFF"};
 	
-	private static Clip clip;
-	private URL url_son;
-	
 	
 	private URL url_image;
 	private ImageIcon image;
@@ -71,7 +68,6 @@ public class Option extends StdWindow implements ActionListener
 		this.controller = controller;
 		
 		//initialisation des URL
-		url_son = this.getClass().getResource("/song.wav");
 		url_image = this.getClass().getResource("/option.png");
 		
 		//initialisation du Frame ainsi de que l'image pour en obtenir les dimensions, et les utiliser pour dimensionner le Frame.
@@ -142,24 +138,8 @@ public class Option extends StdWindow implements ActionListener
 		
 		
 		add(PPrincipale);
-		setListener(); //Met les ActionListener aux boutons et au xomboBoxs
-		//startSon();
-		setVisible(false);
-	}
-	
-	
-	
-	private void startSon() 
-	{
-		try
-		{
-			clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream (url_son));
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-		catch (LineUnavailableException exception) { }
-		catch (IOException exception) {  }
-		catch (UnsupportedAudioFileException exception) {  }
+		setListener(); //Met les ActionListener aux boutons et au comboBoxs
+		setVisible(true);
 	}
 	
 	/**
@@ -295,14 +275,12 @@ public class Option extends StdWindow implements ActionListener
 	
 	private void changeMusic()
 	{
-		if((String)comboBoxMusique.getSelectedItem()=="OFF")
+		boolean son = false;
+		if((String)comboBoxMusique.getSelectedItem()=="ON")
 		{
-			clip.stop();
+			controller.setSon(true);
 		}
-		else
-		{
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
+		controller.setSon(son);
 	}
 
 
