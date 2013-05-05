@@ -1,6 +1,8 @@
 package Game;
 
 import java.io.Serializable;
+import java.net.URL;
+import java.security.Security;
 import java.util.ArrayList;
 
 import Pion.Pion;
@@ -9,6 +11,8 @@ import Serializer.Serializer;
 public class Score implements Serializable
 {
 	private static ArrayList<String> Score;
+	
+	private URL url_score;
 	
 	private Score()
 	{}
@@ -44,7 +48,9 @@ public class Score implements Serializable
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> ReadScore()
 	{
-		return (ArrayList<String>) Serializer.Deserializer("data/Score.txt");
+		//Score.getClass().getResource("/Score.txt").getPath();
+		System.out.println(Security.class.getResource("/Score.txt").getPath());
+		return (ArrayList<String>) Serializer.Deserializer(Security.class.getResource("/Score.txt").getPath());
 	}
 	
 	public static void SaveScore()

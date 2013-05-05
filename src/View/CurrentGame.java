@@ -427,5 +427,9 @@ public class CurrentGame extends BasicGameState implements InputProviderListener
     	   controller.dude();
     	   UpGame2();
        }
+
+	public void myInit() {
+		//init(container, game);
+	}
        
  }
