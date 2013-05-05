@@ -5,13 +5,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -68,6 +63,8 @@ public class Option extends StdWindow implements ActionListener
 		this.controller = controller;
 		
 		//initialisation des URL
+		//System.out.println(this.getClass().getResource("/option.png"));
+		//System.out.println(this.getClass().getResource("/option.png").getPath());
 		url_image = this.getClass().getResource("/option.png");
 		
 		//initialisation du Frame ainsi de que l'image pour en obtenir les dimensions, et les utiliser pour dimensionner le Frame.
@@ -193,7 +190,6 @@ public class Option extends StdWindow implements ActionListener
 				System.out.println("Application en cours . . .");
 				if(CG!=null){
 					try {
-						CG.myInit();
 						CG.UpGame2();
 					} catch (SlickException e1) {
 						// TODO Auto-generated catch block

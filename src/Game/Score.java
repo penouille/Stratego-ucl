@@ -48,14 +48,13 @@ public class Score implements Serializable
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> ReadScore()
 	{
-		//Score.getClass().getResource("/Score.txt").getPath();
-		System.out.println(Security.class.getResource("/Score.txt").getPath());
-		return (ArrayList<String>) Serializer.Deserializer(Security.class.getResource("/Score.txt").getPath());
+		return (ArrayList<String>) Serializer.Deserializer(Security.class.getResource("/Score.txt"));
 	}
 	
 	public static void SaveScore()
 	{
-		Serializer.saveObject( Score , "data/Score.txt");
+		//TODO badant le save :/
+		Serializer.saveObject( Score , Security.class.getResource("/Score.txt"));
 	}
 	
 	
@@ -73,9 +72,9 @@ public class Score implements Serializable
 		Score = new ArrayList<String>();
 		Score.add("Penouille-26-Vineuvall-1014-");
 		
-		/*for(int i=0; i!=100; i++){
+		for(int i=0; i!=100; i++){
 			Score.add("Unknown-1000-IA Kikoo-39-");
-		}*/
+		}
 		SaveScore();
 	}
 	
