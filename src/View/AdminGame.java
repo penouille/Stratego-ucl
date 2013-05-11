@@ -9,28 +9,8 @@ import Controller.Controller;
 
 public class AdminGame extends StateBasedGame
 {
-	static boolean Tour = true;
-	
 	private Controller controller;
-	
-	public AdminGame(String title)
-	{
-		super(title);
-		
-		try
-		{
-            AppGameContainer container = new AppGameContainer(this);
-            container.setDisplayMode(1150,700,false);
-            container.setShowFPS(false);
-            container.setAlwaysRender(true);
-            
-            container.start();
-		} 
-		catch (SlickException e) 
-		{
-			e.printStackTrace();
-		}
-	}
+	private CurrentGame current;
 	
 	
 	public AdminGame(String title, Controller controller)
@@ -42,8 +22,9 @@ public class AdminGame extends StateBasedGame
 		try
 		{
             AppGameContainer container = new AppGameContainer(this);
-            container.setDisplayMode(1150,700,false);
-            container.setShowFPS(false);
+            container.setTargetFrameRate(60); // Limite le nombre de fps à 60
+            container.setDisplayMode(1150,730,false);
+            container.setShowFPS(true);
             container.setAlwaysRender(true);
             
             container.start();
@@ -57,8 +38,8 @@ public class AdminGame extends StateBasedGame
 
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-		this.addState(new CurrentGame(controller));
-		this.addState(new AdversGame(controller));
-		this.addState(new Intermediaire(controller));
+		current = new CurrentGame(controller);
+		this.addState(current);
+		this.addState(new Intermediaire(controller , current ));
 	}
 }

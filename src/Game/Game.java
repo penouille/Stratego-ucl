@@ -138,13 +138,11 @@ public class Game
 		Pion attaquant = map.getPion(oldX,oldY);
 		if(attaquant==null)	//verification "inutile", mais on est jamais trop prudent.
 		{
-			//System.out.println("attaquant = "+attaquant);
 			return false;
 		}
 		//Si on tente de déplacer un pion qui ne nous appartient pas.
 		else if(attaquant.getTeam()!=joueur)
 		{
-			//System.out.println("ce n'est pas mon pion");
 			return false;
 		}
 		else
@@ -158,19 +156,16 @@ public class Game
 			{
 				if(oldX!=x && oldY!=y)
 				{
-					//System.out.println("oldX!=x et oldY!=y");
 					return false;
 				}
 				//Verifie s'il il n'y as pas de pion sur le trajet, lorsque la distance parcourue est différente de 1.
 				if(nbrPas!=1 && checkObstacleOnWay(oldX, oldY, x, y, nbrPas))
 				{
-					//System.out.println("il y a des obstacles");
 					return false;
 				}
 				Pion defenseur = map.getPion(x, y);
 				if(defenseur==null)
 				{
-					//System.out.println("case vide");
 					return true;
 				}
 				//si blackout
@@ -181,13 +176,11 @@ public class Game
 				//deplacer un pion sur un pion adverse.
 				else if(defenseur.getTeam() != attaquant.getTeam())
 				{
-					//System.out.println("Il y a un enemi");
 					return true;
 				}
 				//tenter de deplacer un pion sur un autre pion qui nous appartient, ou sur une case interdite.
 				else
 				{
-					//System.out.println("c'est autre chose");
 					return false;
 				}
 			}
@@ -241,17 +234,26 @@ public class Game
 			LostTrue.add(P1);
 			LostFalse.add(P2);
 			return result;
-		}	
-		
-		if ( !(result == 1 ^ P1.getTeam())) 
-		{System.out.println("P1"+P1);
+		}
+		if ( result == 1 && P1.getTeam() ) 
+		{
 			LostTrue.add(P1);
 		}
-		else
+		if ( result == 2 && P2.getTeam() ) 
+		{
+			LostTrue.add(P2);
+		}
+		
+		if ( result == 1 && P2.getTeam() ) 
+		{
+			LostFalse.add(P1);
+		}
+		
+		if ( result == 2 && P1.getTeam() ) 
 		{
 			LostFalse.add(P2);
 		}
-			
+		
 		return result;
 	}
 
@@ -302,6 +304,43 @@ public class Game
 			}
 		}
 		return nbrPion!=count;
+	}
+	
+	/**
+	 * pre:
+	 * post: retourne le nombre de pion qui peuvent encore être placé par ce joueur et ce pion.
+	 */
+	public int checkNumberOfPion(String pionPath , boolean Tour) 
+	{
+		int count = 0; int nbrPion;
+		int min ; int max;
+		Pion pion = getTypePion(pionPath , true);
+		
+		nbrPion = pion.getNombre();
+		
+		if (Tour)
+		{
+			min = 6;
+			max = 9;
+		}
+		else
+		{
+			min = 0;
+			max = 3;
+		}
+		
+		
+		for(int i = min; i<=max; i++)
+		{
+			for(int j = 0; j<10; j++)
+			{
+				if(map.getPion(i, j)!=null && pionPath.contains(map.getPion(i, j).getName()))
+				{
+					count++;
+				}
+			}
+		}
+		return nbrPion - count;
 	}
 
 	public void createAndPlacePion(String pionPath, int x, int y, boolean joueur) 
@@ -663,63 +702,7 @@ public class Game
 		if(joueur){
 			reverse(map.getMap());
 		}
-		
-		/*
-		Joueur player;
-		if(joueur) player = J1;
-		else player = J2;
-		int min=6, max=10;
-		int i;
-		ArrayList<Pion> ListePion = new ArrayList<Pion>();
-		ListePion.add(new Drapeau(joueur, player));
-		for(i=1; i<7; i++)
-		{
-			ListePion.add(new Bombe(joueur, player));
-		}
-		ListePion.add(new Espion(joueur, player));
-		for(i=8; i<16; i++)
-		{
-			ListePion.add(new Eclaireur(joueur, player));
-		}
-		for(i=16; i<21; i++)
-		{
-			ListePion.add(new Demineur(joueur, player));
-		}
-		for(i=21; i<25; i++)
-		{
-			ListePion.add(new Sergent(joueur, player));
-		}
-		for(i=25; i<29; i++)
-		{
-			ListePion.add(new Lieutenant(joueur, player));
-		}
-		for(i=29; i<33; i++)
-		{
-			ListePion.add(new Capitaine(joueur, player));
-		}
-		for(i=33; i<36; i++)
-		{
-			ListePion.add(new Commandant(joueur, player));
-		}
-		for(i=36; i<38; i++)
-		{
-			ListePion.add(new Colonel(joueur, player));
-		}
-		ListePion.add(new General(joueur, player));
-		ListePion.add(new Marechal(joueur, player));
-		
-		int t; Random r = new Random();
-		for(i=min; i<max; i++)
-		{
-			for(int j=0;j<10;j++)
-			{
-				t = r.nextInt(ListePion.size());
-				map.setEtat(i, j, ListePion.get(t));
-				ListePion.remove(t);
-;			}
-		}
-		if(!joueur){
-			reverse(map.getMap());
-		}*/
 	}
+	
+	
 }

@@ -1,6 +1,7 @@
 package Controller;
 
 import View.AdminGame;
+import View.Option;
 import Game.Game;
 import Game.Score;
 import Intelligence.Artificielle;
@@ -32,6 +33,7 @@ public class Controller
 	private boolean matchNull;
 	private boolean isAnIA;
 	private boolean victime;
+	
 	private boolean scoreAdd;
 	private boolean son;
 	
@@ -42,6 +44,7 @@ public class Controller
 	public Controller()
 	{
 		super();
+		victime=false;
 		tour = true;
 		partieFinie=false;
 		this.game = new Game();
@@ -68,9 +71,9 @@ public class Controller
 	}
 	public void setIA(boolean isAnIA)
 	{
+		this.isAnIA = isAnIA;
 		if(isAnIA)
 		{
-			this.isAnIA = isAnIA;
 			if(game.getJ1().getPrefDiff().equals("Kikoo")){ IA = new ArtificielleKikoo(this); }
 			else if(game.getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
 			else if(game.getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
@@ -112,6 +115,15 @@ public class Controller
 	{
 		return(placementJoueur1 || placementJoueur2);
 	}
+	public void setPlacementJoueur1(boolean placementJoueur1)
+	{
+		this.placementJoueur1 = placementJoueur1;
+	}
+	
+	public void setPlacementJoueur2(boolean placementJoueur2)
+	{
+		this.placementJoueur2 = placementJoueur2;
+	}
 	public void setPrise(String prise)
 	{
 		this.prise = prise;
@@ -120,6 +132,11 @@ public class Controller
 	public String getPrise()
 	{
 		return this.prise;
+	}
+	
+	public void setNewClick(int newClick)
+	{
+		this.newClick = newClick;
 	}
 	
 	public int getNewClick()
@@ -161,6 +178,11 @@ public class Controller
 	public void setVictime()
 	{
 		victime = false;
+	}
+	
+	public boolean getGagnant()
+	{
+		return gagnant;
 	}
 	
 	/**
@@ -214,7 +236,6 @@ public class Controller
 			if(placementJoueur1 && x>5 && tour && game.checkNumberOfPion(prise, 6, 9))
 			{
 				//si on veut remplacer un pion déja existant sur la carte par un autre.
-				System.out.println(x);
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
@@ -223,7 +244,6 @@ public class Controller
 			else if(placementJoueur2 && x<4 && !tour && game.checkNumberOfPion(prise, 0, 3))
 			{
 				//si on veut remplacer un pion déja existant sur la carte par un autre.
-				System.out.println(x);
 				game.removePion(x, y);	
 				game.createAndPlacePion(prise, x, y, tour);
 			}
@@ -286,6 +306,7 @@ public class Controller
 								partieFinie=true;
 								gagnant = tour;
 							}
+							victime = true;
 							break;
 					}
 					tour=!tour;
@@ -320,6 +341,10 @@ public class Controller
 			game.dude(tour, isAnIA);
 			checkStopPJ2();
 		}
+	}
+	public boolean getTour() 
+	{
+		return tour;
 	}
 	
 }
