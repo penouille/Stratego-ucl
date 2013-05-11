@@ -4,6 +4,8 @@ package View;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -99,6 +101,7 @@ public class CurrentGame extends BasicGameState
 
 		//Mise en place des boutons.
 		regles = new MouseOverArea( container, new Image("Images/regles.png") , 875 , 620 );
+		//regles = new MouseOverArea( container, new ImageIcon(this.getClass().getResource("/regles.png")).getImage() , 875 , 620 );
 		finDuTour = new MouseOverArea( container, new Image("Images/finDuTour.png") ,770 , 340 );
 		genererPlacement = new MouseOverArea( container, new Image("Images/genererPlacement.png") , 798 , 550 );
 		placementTermine = new MouseOverArea( container, new Image("Images/placementTermine.png") , 800 , 480 );
@@ -272,7 +275,6 @@ public class CurrentGame extends BasicGameState
 			}
 			if(placementTermine.isMouseOver())
 			{
-				System.out.println("Hey");
 				if(controller.getTour())
 				{
 					controller.checkStopPJ1();
