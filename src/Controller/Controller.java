@@ -68,11 +68,15 @@ public class Controller
 	}
 	public void setIA(boolean isAnIA)
 	{
-		this.isAnIA = isAnIA;
-		if(game.getJ1().getPrefDiff().equals("Kikoo")){ IA = new ArtificielleKikoo(this); }
-		else if(game.getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
-		else if(game.getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
-		else if(game.getJ1().getPrefDiff().equals("Intermediaire")){ IA = new ArtificielleIntermediaire(this); }
+		if(isAnIA)
+		{
+			this.isAnIA = isAnIA;
+			if(game.getJ1().getPrefDiff().equals("Kikoo")){ IA = new ArtificielleKikoo(this); }
+			else if(game.getJ1().getPrefDiff().equals("Facile")){ IA = new ArtificielleFacile(this); }
+			else if(game.getJ1().getPrefDiff().equals("Normal")){ IA = new ArtificielleNormal(this); }
+			else if(game.getJ1().getPrefDiff().equals("Intermediaire")){ IA = new ArtificielleIntermediaire(this); }
+			game.getJ2().setPseudo(IA.getForceIA());
+		}
 	}
 	public void changeIA(String diff)
 	{
@@ -82,9 +86,9 @@ public class Controller
 			else if(diff.equals("Facile")) IA = new ArtificielleFacile(this);
 			else if(diff.equals("Normal")) IA = new ArtificielleNormal(this);
 			else if(diff.equals("Intermediaire")) IA = new ArtificielleIntermediaire(this);
+			game.getJ1().setPrefDiff(diff);
+			game.getJ2().setPseudo(IA.getForceIA());
 		}
-		game.getJ1().setPrefDiff(diff);
-		game.getJ2().setPseudo(IA.getForceIA());
 	}
 	public boolean isSon() {
 		return son;

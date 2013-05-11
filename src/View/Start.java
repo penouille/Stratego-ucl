@@ -65,7 +65,7 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		URL url_JvJ = this.getClass().getResource("/JvJ.png");
 		URL url_JvIA = this.getClass().getResource("/JvIA.png");
 		URL url_options = this.getClass().getResource("/options.png");
-		URL url_regles = this.getClass().getResource("/regles.png");
+		URL url_regles = this.getClass().getResource("/reglesStart.png");
 		URL url_scores = this.getClass().getResource("/scores.png");
 		URL url_quitter = this.getClass().getResource("/quitter.png");
 		
