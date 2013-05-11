@@ -34,7 +34,7 @@ public class Intermediaire extends BasicGameState implements InputProviderListen
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		finDuTour = new MouseOverArea( arg0, new Image("Images/finDuTour.png") ,350 , 350 );
+		finDuTour = new MouseOverArea( arg0, new Image("finDuTour.png") ,350 , 350 );
 		
 	}
 

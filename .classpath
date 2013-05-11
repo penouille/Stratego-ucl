@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="Images/|src/|Song/|Data/" kind="src" path=""/>
+	<classpathentry excluding="Images/|src/|Song/|Data/|lib/" kind="src" path=""/>
+	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="src" path="Data"/>
 	<classpathentry kind="src" path="Images"/>
 	<classpathentry kind="src" path="src"/>

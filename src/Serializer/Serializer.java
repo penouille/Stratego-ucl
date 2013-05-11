@@ -1,7 +1,9 @@
 package Serializer;
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Cette classe Serializer contient des méthodes permettant d'enregistrer et
@@ -24,17 +26,20 @@ public class Serializer {
 	
 	//TODO Pas de path String -> URL
 	
-	public static void saveObject( Object  Score , URL url )
+	public static void saveObject( Object  Score , String path )
 	{
 	
 		try 
 		{
-			//ObjectOutputStream Output = new ObjectOutputStream(new FileOutputStream(Path));
-			System.out.println(url.getFile());
-			URLConnection con = url.openConnection();
-			con.setDoOutput(true);
-			ObjectOutputStream Output = new ObjectOutputStream(con.getOutputStream());
-			//ObjectOutputStream Output = new ObjectOutputStream(new FileOutputStream(url.getFile()));
+			File f = new File(path);
+			if(!f.exists())
+			{
+				f.createNewFile();
+			}
+			
+			
+			ObjectOutputStream Output = new ObjectOutputStream(new FileOutputStream(path));
+			
 			Output.writeObject(Score);
 			Output.flush();
 			Output.close();
@@ -53,26 +58,32 @@ public class Serializer {
 	 * 
 	 * Crée un objet à partir du fichier texte indiqué.
 	 */
-	public static Object Deserializer( URL url ) 
+	public static Object Deserializer( String path ) 
 	{
 		Object Score = null;
-			
-		try 
-		{
-			//ObjectInputStream Input = new ObjectInputStream(new FileInputStream(Path));
-			ObjectInputStream Input = new ObjectInputStream(url.openStream());
-			Score = Input.readObject();
-			Input.close();
-		}
-		catch (java.io.IOException e) 
-		{
-			e.printStackTrace();	
-		}
 		
-		catch (ClassNotFoundException e) 
+		File f = new File(path);
+		if(f.exists())
 		{
-			e.printStackTrace();
+			try 
+			{
+				
+				ObjectInputStream Input = new ObjectInputStream(new FileInputStream(path));
+				Score = Input.readObject();
+				Input.close();
+			}
+			catch (java.io.IOException e) 
+			{
+				e.printStackTrace();	
+			}
+			
+			catch (ClassNotFoundException e) 
+			{
+				e.printStackTrace();
+			}
 		}
+			
+		
 			
 		return Score;
 	}

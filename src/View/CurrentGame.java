@@ -4,8 +4,6 @@ package View;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -97,21 +95,20 @@ public class CurrentGame extends BasicGameState
 	public void init(GameContainer container,StateBasedGame game) throws SlickException 
 	{
 
-		carte = new Image("Images/mapStratego.jpg");
+		carte = new Image("mapStratego.jpg");
 
-		//Mise en place des boutons.
-		regles = new MouseOverArea( container, new Image("Images/regles.png") , 875 , 620 );
-		//regles = new MouseOverArea( container, new ImageIcon(this.getClass().getResource("/regles.png")).getImage() , 875 , 620 );
-		finDuTour = new MouseOverArea( container, new Image("Images/finDuTour.png") ,770 , 340 );
-		genererPlacement = new MouseOverArea( container, new Image("Images/genererPlacement.png") , 798 , 550 );
-		placementTermine = new MouseOverArea( container, new Image("Images/placementTermine.png") , 800 , 480 );
+		//Mise en place des boutons. 
+		regles = new MouseOverArea( container, new Image("regles.png") , 875 , 620 );
+		finDuTour = new MouseOverArea( container, new Image("finDuTour.png") ,770 , 340 );
+		genererPlacement = new MouseOverArea( container, new Image("genererPlacement.png") , 798 , 550 );
+		placementTermine = new MouseOverArea( container, new Image("placementTermine.png") , 800 , 480 );
 
 		// Mise en place de l'échequier.
 		for ( int i = 0 ; i < 10 ; i++)
 		{
 			for ( int j = 0 ; j < 10 ; j++)
 			{
-				Echequier.add( new MouseOverArea( container, new Image("Images/Transparent.png") ,71*j+58 , 71*i+20 , 44 , 62 ));
+				Echequier.add( new MouseOverArea( container, new Image("transparent.png") ,71*j+58 , 71*i+20 , 44 , 62 ));
 			}
 		}
 
@@ -254,6 +251,11 @@ public class CurrentGame extends BasicGameState
 					}
 				}
 			}
+			if ( finDuTour.isMouseOver() && !controller.getPartieFinie() && !controller.getIsAnIA() )
+			{
+				for ( int count = 0 ; count < 500 ; count += delta );
+
+			}
 
 			//en cours de partie.
 			if (!controller.getPlacement() && !controller.getPartieFinie())
@@ -375,8 +377,8 @@ public class CurrentGame extends BasicGameState
 		if ( controller.getGame().getMap().getPion(i/10,i%10) == null )
 		{	
 			//cas la case est vide.
-			Echequier.get(i).setNormalImage(new Image ("Images/Transparent.png"));
-			Echequier.get(i).setMouseOverImage(new Image ("Images/Transparent.png"));
+			Echequier.get(i).setNormalImage(new Image ("transparent.png"));
+			Echequier.get(i).setMouseOverImage(new Image ("transparent.png"));
 		}
 		else
 		{
@@ -388,7 +390,7 @@ public class CurrentGame extends BasicGameState
 			}
 			else
 			{
-				if ( !controller.getGame().getMap().getPion(i/10,i%10).getPath().contains("Transparent.png"))
+				if ( !controller.getGame().getMap().getPion(i/10,i%10).getPath().contains("transparent.png"))
 				{
 					//cas il s'agit d'un pion adverse mais pas de l'eau.
 					Echequier.get(i).setNormalImage(new Image ("jaune.jpg"));
@@ -589,8 +591,8 @@ public class CurrentGame extends BasicGameState
 								else
 								{
 									controller.setPrise( controller.getGame().getMap().getPion(i/10,i%10).getPath() );
-									Echequier.get(i).setNormalImage(new Image ("Images/Transparent.png"));
-									Echequier.get(i).setMouseOverImage(new Image ("Images/Transparent.png"));
+									Echequier.get(i).setNormalImage(new Image ("transparent.png"));
+									Echequier.get(i).setMouseOverImage(new Image ("transparent.png"));
 									checkCase(controller.getLastClick());
 								}
 							}

@@ -48,13 +48,12 @@ public class Score implements Serializable
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> ReadScore()
 	{
-		return (ArrayList<String>) Serializer.Deserializer(Security.class.getResource("/Score.txt"));
+		return (ArrayList<String>) Serializer.Deserializer("Score_Stratego.txt");
 	}
 	
 	public static void SaveScore()
 	{
-		//TODO badant le save :/
-		Serializer.saveObject( Score , Security.class.getResource("/Score.txt"));
+		Serializer.saveObject( Score , "Score_Stratego.txt");
 	}
 	
 	

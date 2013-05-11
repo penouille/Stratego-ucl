@@ -40,6 +40,8 @@ public class ScoresWindows extends StdWindow implements ActionListener
 	private JButton retour;
 	private JButton reset;
 	
+	private int size;
+	
 	public ScoresWindows()
 	{
 		super("Scores");
@@ -47,11 +49,19 @@ public class ScoresWindows extends StdWindow implements ActionListener
 		
 		ArrayList<String> listScore = Score.ReadScore();
 		
+		if(listScore==null){
+			size=0;
+		}
+		else{
+			size = listScore.size();
+		}
+		
+		
 		//Instanciation des JPanel
 		PPrincipal = new JPanel(new BorderLayout());
 		PIntermediaire = new JPanel(new BorderLayout());
 		PForHead = new JPanel(new GridLayout(1,4));
-		PForScore = new JPanel(new GridLayout(listScore.size(), 4));
+		PForScore = new JPanel(new GridLayout(size, 4));
 		PForButton = new JPanel(new GridLayout(1,5));
 		
 		PForScore.setBackground(new Color(7, 15, 41));
@@ -125,47 +135,49 @@ public class ScoresWindows extends StdWindow implements ActionListener
 
 	private void fillScore(ArrayList<String> listScore)
 	{
-		JLabel lScore; int sc; JLabel J1 = null; JLabel J2 = null;
-		for(String score : listScore)
-		{
-			while(score.length()!=0)
+		if(listScore!=null){
+			JLabel lScore; int sc; JLabel J1 = null; JLabel J2 = null;
+			for(String score : listScore)
 			{
-				try{
-					sc = Integer.parseInt(score.substring(0, score.indexOf("-")));
-					lScore = new JLabel();
-					lScore.setForeground(new Color(202,202,202));
-					if(sc>=1000){
-						sc -= 1000;
-						lScore.setForeground(new Color(33, 209, 7));
-						if(J2==null){
-							J1.setForeground(new Color(33, 209, 7));
+				while(score.length()!=0)
+				{
+					try{
+						sc = Integer.parseInt(score.substring(0, score.indexOf("-")));
+						lScore = new JLabel();
+						lScore.setForeground(new Color(202,202,202));
+						if(sc>=1000){
+							sc -= 1000;
+							lScore.setForeground(new Color(33, 209, 7));
+							if(J2==null){
+								J1.setForeground(new Color(33, 209, 7));
+							}
+							else{
+								J2.setForeground(new Color(33, 209, 7));
+							}
+						}
+						lScore.setText(sc+"");
+						PForScore.add(lScore);
+						lScore.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+					}
+					catch(Exception e)
+					{
+						if(J1==null){
+							J1 = new JLabel(score.substring(0, score.indexOf("-")));
+							J1.setForeground(new Color(202,202,202));
+							PForScore.add(J1);
+							J1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 						}
 						else{
-							J2.setForeground(new Color(33, 209, 7));
+							J2 = new JLabel(score.substring(0, score.indexOf("-")));
+							J2.setForeground(new Color(202,202,202));
+							PForScore.add(J2);
+							J2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 						}
 					}
-					lScore.setText(sc+"");
-					PForScore.add(lScore);
-					lScore.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+					score = score.substring(score.indexOf("-")+1);
 				}
-				catch(Exception e)
-				{
-					if(J1==null){
-						J1 = new JLabel(score.substring(0, score.indexOf("-")));
-						J1.setForeground(new Color(202,202,202));
-						PForScore.add(J1);
-						J1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-					}
-					else{
-						J2 = new JLabel(score.substring(0, score.indexOf("-")));
-						J2.setForeground(new Color(202,202,202));
-						PForScore.add(J2);
-						J2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-					}
-				}
-				score = score.substring(score.indexOf("-")+1);
+				J1 = null; J2 = null;
 			}
-			J1 = null; J2 = null;
 		}
 	}
 

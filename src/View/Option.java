@@ -63,8 +63,6 @@ public class Option extends StdWindow implements ActionListener
 		this.controller = controller;
 		
 		//initialisation des URL
-		//System.out.println(this.getClass().getResource("/option.png"));
-		//System.out.println(this.getClass().getResource("/option.png").getPath());
 		url_image = this.getClass().getResource("/option.png");
 		
 		//initialisation du Frame ainsi de que l'image pour en obtenir les dimensions, et les utiliser pour dimensionner le Frame.
@@ -147,7 +145,6 @@ public class Option extends StdWindow implements ActionListener
 	{
 		panel.add(label);
 		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		
 	}
 
 	private void setListener()
@@ -170,7 +167,6 @@ public class Option extends StdWindow implements ActionListener
 	 */
 	private void initialiseCombo(JComboBox<String> combo , String[] string) 
 	{
-		
 		for (int i = 0 ; i < string.length ; i++)
 		{
 			combo.addItem(string[i]);
@@ -265,7 +261,6 @@ public class Option extends StdWindow implements ActionListener
 			{
 				String s2 = (String)comboBoxDifficultees.getSelectedItem();
 				controller.changeIA(s2);
-				//controller.getGame().getJ1().setPrefDiff(s2);
 			}
 		}
 	}
