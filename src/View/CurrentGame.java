@@ -37,6 +37,8 @@ public class CurrentGame extends BasicGameState
 	private MouseOverArea placementTermine;
 	private MouseOverArea genererPlacement;
 	private MouseOverArea finDuTour;
+	
+	private int Counter;
 
 	private ParticleSystem particule = new ParticleSystem("drapeau.jpg");
 
@@ -54,14 +56,12 @@ public class CurrentGame extends BasicGameState
 			"sergent.jpg" , "lieutenant.jpg", "capitaine.jpg", "commandant.jpg" ,
 			"colonel.jpg" ,"general.jpg", "marechal.jpg" , "bombe.jpg"};
 
-	/**
-	 * Create a new image rendering test
-	 */
 	public CurrentGame(Controller controller)
 	{
 		super();
 		this.controller = controller;
 		TourView = true;
+		Counter = 5000;
 	}
 
 	/**
@@ -177,7 +177,10 @@ public class CurrentGame extends BasicGameState
 		{
 			regles.setLocation(970 , 337);
 			regles.render(container , g);
-			finDuTour.render(container , g);
+			if (!controller.getIsAnIA())
+			{
+				finDuTour.render(container , g);
+			}
 		}
 
 		// Fin.render(container, g);
@@ -204,6 +207,21 @@ public class CurrentGame extends BasicGameState
 		Input input = container.getInput();
 
 		ImageLost();
+		
+		if (Counter < 1500)
+		{
+			Counter += delta;
+			System.out.println(Counter);
+		}
+		
+		//Attente ia;
+		if(Counter > 1500 && controller.getDeplacement()!=null)
+		{
+			controller.IAPlay();
+			checkCase(controller.getLastClick());
+			checkCase(controller.getNewClick());
+			controller.setDeplacement();
+		}
 
 		//Code exécuté en cas de clic gauche avec la souris.
 		if (  input.isMousePressed(Input.MOUSE_LEFT_BUTTON) )
@@ -216,14 +234,15 @@ public class CurrentGame extends BasicGameState
 				{
 					setPion(container);
 				}
-
+				
 			}
 
-
-			if ( (finDuTour.isMouseOver() || placementTermine.isMouseOver() ) && !controller.getPartieFinie() && !controller.getIsAnIA() )
+			
+			if ( !controller.getPartieFinie() && !controller.getIsAnIA() )
 			{
-				if ( controller.getPlacement())
+				if ( controller.getPlacement() && placementTermine.isMouseOver())
 				{
+					
 					if ( controller.getPlacementJoueur1() && controller.checkStopPJ1() )
 					{
 						game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
@@ -238,22 +257,18 @@ public class CurrentGame extends BasicGameState
 				}
 				else
 				{
-					if (controller.getTour()!=TourView )
+					if (controller.getTour()!=TourView && finDuTour.isMouseOver())
 					{
 						game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
 					}
 				}
-			}
-			if ( finDuTour.isMouseOver() && !controller.getPartieFinie() && !controller.getIsAnIA() )
-			{
-				for ( int count = 0 ; count < 500 ; count += delta );
-
 			}
 
 			//en cours de partie.
 			if (!controller.getPlacement() && !controller.getPartieFinie())
 			{
 				setMove(container);
+				
 			}
 
 			//bouton permettant de placer ses pions automatiquement.
@@ -268,7 +283,8 @@ public class CurrentGame extends BasicGameState
 			{
 				new Regles();
 			}
-			if(placementTermine.isMouseOver())
+			
+			if(placementTermine.isMouseOver() && controller.getPlacement())
 			{
 				if(controller.getTour())
 				{
@@ -278,18 +294,15 @@ public class CurrentGame extends BasicGameState
 				{
 					controller.checkStopPJ2();
 				}
+				
+				if (controller.getIsAnIA())
+				{
+					UpGame2();
+				}
 			}
+			
+			
 		}
-
-
-
-
-		if ( finDuTour.isMouseOver() && !controller.getPartieFinie() && !controller.getIsAnIA() )
-		{
-			for ( int count = 0 ; count < 500 ; count += delta );
-
-		}
-
 
 		//Code exécuté en cas de pression sur la touche Echap.
 		if ( input.isKeyPressed(Input.KEY_ESCAPE))
@@ -545,7 +558,6 @@ public class CurrentGame extends BasicGameState
 			return ;
 		}
 
-
 		for (int i = 0 ; i < Echequier.size() ; i++)
 		{
 			//On parcourt l'échéquier pr trouver la case sur laquelle l'utilisateur à cliqué.
@@ -606,11 +618,18 @@ public class CurrentGame extends BasicGameState
 						{
 							checkCase(controller.getNewClick());
 						}
+						
+						if(controller.getIsAnIA())
+						{
+							checkCase(i);
+						}
+						Counter=0;
 					}
 				}
 
 				action = true;
-
+				
+				
 			}
 		}
 
@@ -620,7 +639,7 @@ public class CurrentGame extends BasicGameState
 			checkCase(controller.getNewClick());
 			controller.setNewClick(100);
 		}
-
+		
 	}
 
 

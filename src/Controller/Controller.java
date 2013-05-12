@@ -37,6 +37,7 @@ public class Controller
 	private boolean scoreAdd;
 	
 	private Artificielle IA;
+	private Deplacement deplacement;
 	
 	private Son music;
 	
@@ -382,6 +383,20 @@ public class Controller
 		else if(!tour && placementJoueur2){
 			game.dude(tour, isAnIA);
 		}
+	}
+	
+	public Deplacement getDeplacement() {
+		return deplacement;
+	}
+	
+	public void setDeplacement() {
+		this.deplacement = null;
+	}
+	
+	public void IAPlay()
+	{
+		IA.play(this.deplacement);
+		deplacement = null;
 	}
 	
 }
