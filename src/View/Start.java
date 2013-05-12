@@ -4,17 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import son.Son;
 
 import Controller.Controller;
 
@@ -41,17 +38,14 @@ public class Start extends StdWindow implements ActionListener, Runnable
 	
 	private boolean isAnIA;
 	
-	private static Clip clip;
-	private URL url_son;
-	
-	private static Clip clip2;
-	private URL url_son2;
+	private Son music;
 
-	public Start(Controller controller) 
+	public Start(Controller controller, Son music) 
 	{
 		super("Menu de demarrage");
 		
 		this.controller=controller;
+		this.music = music;
 		
 		//initialisation de l'URL
 		url_img = this.getClass().getResource("/stratego.jpg");
@@ -98,13 +92,8 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		PPrincipal.add(image, BorderLayout.NORTH);
 		PPrincipal.add(PForButtons, BorderLayout.CENTER);
 		
-		//Init son
-		url_son = this.getClass().getResource("/canon.wav");
-		url_son2 = this.getClass().getResource("/champ_bataille.wav");
-		
 		//les finiolages
 		add(PPrincipal);
-		startSon();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -118,41 +107,15 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		regle.addActionListener(this);
 		score.addActionListener(this);
 	}
-	
-	private void playSon() 
-	{
-		try
-		{
-			clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream (url_son));
-			clip.loop(0);
-		}
-		catch (LineUnavailableException exception) { }
-		catch (IOException exception) {  }
-		catch (UnsupportedAudioFileException exception) {  }
-	}
-	
-	private void startSon() 
-	{
-		try
-		{
-			clip2 = AudioSystem.getClip();
-			clip2.open(AudioSystem.getAudioInputStream (url_son2));
-			clip2.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-		catch (LineUnavailableException exception) { }
-		catch (IOException exception) {  }
-		catch (UnsupportedAudioFileException exception) {  }
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if(controller.isSon())playSon();
+		if(controller.isSon()) music.playCanon();
 		JButton b = (JButton)e.getSource();
 		if(b==JvJ)
 		{
-			clip2.stop();
+			music.changeSong(true);
 			setVisible(false);
 			isAnIA = false;
 			new Thread(this).start();
@@ -160,7 +123,7 @@ public class Start extends StdWindow implements ActionListener, Runnable
 		}
 		if(b==JvIA)
 		{
-			clip2.stop();
+			music.changeSong(true);
 			setVisible(false);
 			isAnIA = true;
 			new Thread(this).start();

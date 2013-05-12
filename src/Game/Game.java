@@ -417,7 +417,7 @@ public class Game
 	/**
 	 * @pre La matrice doit etre carrée.
 	 * @param matrix
-	 * @return renvoit la matrice inverse.
+	 * @return renvoit la matrice inversé : (0,0) = (max, max).
 	 */
 	public void reverse(Pion [] [] matrix)
 	{

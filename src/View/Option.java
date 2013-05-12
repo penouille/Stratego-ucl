@@ -267,12 +267,14 @@ public class Option extends StdWindow implements ActionListener
 	
 	private void changeMusic()
 	{
-		boolean son = false;
 		if((String)comboBoxMusique.getSelectedItem()=="ON")
 		{
 			controller.setSon(true);
 		}
-		controller.setSon(son);
+		else
+		{
+			controller.setSon(false);
+		}
 	}
 
 

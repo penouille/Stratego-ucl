@@ -1,7 +1,7 @@
 package Controller;
 
+import son.Son;
 import View.AdminGame;
-import View.Option;
 import Game.Game;
 import Game.Score;
 import Intelligence.Artificielle;
@@ -35,13 +35,14 @@ public class Controller
 	private boolean victime;
 	
 	private boolean scoreAdd;
-	private boolean son;
 	
 	private Artificielle IA;
 	
+	private Son music;
+	
 	private Game game;
 	
-	public Controller()
+	public Controller(Son music)
 	{
 		super();
 		victime=false;
@@ -50,7 +51,7 @@ public class Controller
 		this.game = new Game();
 		placementJoueur1=true;
 		placementJoueur2=true;
-		setSon(true);
+		this.music = music;
 	}
 	public Game getGame() 
 	{
@@ -93,11 +94,20 @@ public class Controller
 			game.getJ2().setPseudo(IA.getForceIA());
 		}
 	}
-	public boolean isSon() {
-		return son;
+	public boolean isSon()
+	{
+		return music.sonOn;
 	}
-	public void setSon(boolean son) {
-		this.son = son;
+	public void setSon(boolean son)
+	{
+		if(son)
+		{
+			music.startSon();
+		}
+		else
+		{
+			music.stopSon();
+		}
 	}
 	public boolean getPartieFinie()
 	{
@@ -265,7 +275,8 @@ public class Controller
 								IA.checkIfEclaireur(oldX, oldY, x, y);
 							}
 							break;
-					case 0: game.removePion(oldX, oldY);
+					case 0: music.playDeath(game.getMap().getPion(oldX, oldY), game.getMap().getPion(x, y), true);
+							game.removePion(oldX, oldY);
 							game.removePion(x, y);
 							//check si après l'élimination des deux pions, les deux joueurs savent encore jouer.
 							if(!partieFinie && game.checkLost(!tour) && game.checkLost(tour))
@@ -284,7 +295,8 @@ public class Controller
 								gagnant=!tour;
 							}
 							break;
-					case 1: game.removePion(oldX, oldY);
+					case 1: music.playDeath(game.getMap().getPion(oldX, oldY), game.getMap().getPion(x, y), false);
+							game.removePion(oldX, oldY);
 							if(isAnIA) game.getMap().getPion(x, y).setVisibleByIA(true);
 							//check si après la perte du pion, le joueur sait encore jouer.
 							if(!partieFinie && game.checkLost(tour))
@@ -297,6 +309,7 @@ public class Controller
 								partieFinie=true;
 								gagnant = tour;
 							}
+							music.playDeath(game.getMap().getPion(x, y), game.getMap().getPion(oldX, oldY), false);
 							game.removePion(x, y);
 							if(isAnIA) game.getMap().getPion(oldX, oldY).setVisibleByIA(true);
 							game.placePion(oldX, oldY, x, y);
@@ -325,7 +338,6 @@ public class Controller
 	{
 		if(partieFinie && !scoreAdd)
 		{
-			System.out.println("Partie finie ! Le gagnant est = "+gagnant);
 			Score.AddScore(game, gagnant, matchNull);
 			scoreAdd=true;
 		}

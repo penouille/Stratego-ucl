@@ -57,13 +57,6 @@ public class CurrentGame extends BasicGameState
 	/**
 	 * Create a new image rendering test
 	 */
-	public CurrentGame() 
-	{
-		super();
-		controller = new Controller();
-		TourView = true;
-	}
-
 	public CurrentGame(Controller controller)
 	{
 		super();
