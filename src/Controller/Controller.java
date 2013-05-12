@@ -350,8 +350,7 @@ public class Controller
 					tour=!tour;
 					if(isAnIA && !tour && !partieFinie)
 					{
-						Deplacement depl = new Deplacement(oldX, oldY, x, y);
-						IA.play(depl);
+						this.deplacement = new Deplacement(oldX, oldY, x, y);
 					}
 				}
 			}
