@@ -10,6 +10,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Pion.Pion;
 
+/**
+ * 
+ * @author Meyers Quentin
+ *
+ *C'est cette class qui s'occupe de jouer du son.
+ *
+ */
 public class Son
 {
 	public boolean sonOn;

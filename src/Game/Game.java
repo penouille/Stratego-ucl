@@ -205,6 +205,13 @@ public class Game
 		return false;
 	}
 	
+	/**
+	 * Renvoit la liste des cases sur lesquels un pion peut se déplacer.
+	 * @param x
+	 * @param y
+	 * @param joueur
+	 * @return
+	 */
 	public ArrayList<Integer> whichCaseCanGo(int x, int y, boolean joueur)
 	{
 		ArrayList<Integer> listCase = new ArrayList<Integer>();
@@ -257,12 +264,25 @@ public class Game
 		return result;
 	}
 
+	/**
+	 * place le pion au coordonné (oldX, oldY) au position (x,y) sur la carte
+	 * @param oldX
+	 * @param oldY
+	 * @param x
+	 * @param y
+	 */
 	public void placePion(int oldX, int oldY, int x, int y) 
 	{
 		map.setEtat(x, y, map.getPion(oldX, oldY));
 		map.setEtat(oldX, oldY, null);
 	}
 
+	/**
+	 * cree le pion correspondant au nom donné en parametre, et l'associe au joueur correspondant
+	 * @param pionPath
+	 * @param joueur
+	 * @return
+	 */
 	private Pion getTypePion(String pionPath, boolean joueur)
 	{
 		Joueur player;
@@ -343,6 +363,13 @@ public class Game
 		return nbrPion - count;
 	}
 
+	/**
+	 * crée et place un pion sur la carte
+	 * @param pionPath
+	 * @param x
+	 * @param y
+	 * @param joueur
+	 */
 	public void createAndPlacePion(String pionPath, int x, int y, boolean joueur) 
 	{
 		Pion pion = getTypePion(pionPath, joueur);
@@ -366,6 +393,11 @@ public class Game
 		else return fight(attaquant, defenseur);
 	}
 
+	/**
+	 * retir un pion de la carte.
+	 * @param x
+	 * @param y
+	 */
 	public void removePion(int x, int y) 
 	{
 		map.resetPosition(x, y);
@@ -437,7 +469,12 @@ public class Game
 		}
 	}
 	
-	
+	/**
+	 * initialise la liste des pions à placer sur le terrain de jeu.
+	 * @param team
+	 * @param isAnIA
+	 * @return
+	 */
 	public ArrayList<Pion> initializePions(boolean team, boolean isAnIA)
 	{
 		int i; ArrayList<Pion> listPion = new ArrayList<Pion>(); Joueur J;
@@ -519,6 +556,10 @@ public class Game
 		else return false;
 	}
 	
+	/**
+	 * place le drapeau avec des bombes autour
+	 * @param listPion
+	 */
 	protected void setDrapeau(ArrayList<Pion> listPion)
 	{
 		int t; Random r = new Random();
@@ -538,6 +579,10 @@ public class Game
 		}
 	}
 	
+	/**
+	 * place les eclaireurs
+	 * @param listPion
+	 */
 	protected void setEclaireur(ArrayList<Pion> listPion)
 	{
 		map.setEtat(3, 0, getPion(listPion, "eclaireur"));
@@ -560,6 +605,10 @@ public class Game
 		}
 	}
 	
+	/**
+	 * place les bombes comme si elle protegeait le drapeau, sauf qu'elle protège un sergent.
+	 * @param listPion
+	 */
 	protected void setBombe(ArrayList<Pion> listPion)
 	{
 		int t; Random r = new Random();
@@ -597,6 +646,10 @@ public class Game
 		}
 	}
 	
+	/**
+	 * place le maréchal et l'espion
+	 * @param listPion
+	 */
 	protected void setEspionAndMarechal(ArrayList<Pion> listPion)
 	{
 		int t; Random r = new Random();
@@ -612,6 +665,10 @@ public class Game
 		else setEspionAndMarechal(listPion);
 	}
 	
+	/**
+	 * place les démineurs
+	 * @param listPion
+	 */
 	protected void setDemineur(ArrayList<Pion> listPion)
 	{
 		int t, i=0; Random r = new Random();
@@ -637,6 +694,10 @@ public class Game
 		}
 	}
 	
+	/**
+	 * place les sergents
+	 * @param listPion
+	 */
 	protected void setSergent(ArrayList<Pion> listPion)
 	{
 		int t; Random r = new Random();
@@ -652,6 +713,10 @@ public class Game
 		}
 	}
 	
+	/**
+	 * place les lieutenants
+	 * @param listPion
+	 */
 	protected void setLieutenant(ArrayList<Pion> listPion)
 	{
 		int t; Random r = new Random();
@@ -667,6 +732,10 @@ public class Game
 		}
 	}
 	
+	/**
+	 * place les autres pions
+	 * @param listPion
+	 */
 	protected void setOthersPions(ArrayList<Pion> listPion)
 	{
 		int t, place; Random r = new Random();
@@ -682,12 +751,25 @@ public class Game
 		}
 	}
 	
+	/**
+	 * méthode qui place automatiquement les pions du joueurs.
+	 * @param joueur
+	 * @param isAnIA
+	 */
 	public void dude(boolean joueur, boolean isAnIA)
 	{
 		ArrayList<Pion> listPion = initializePions(joueur, isAnIA);
 		
 		if(joueur){
 			reverse(map.getMap());
+		}
+		
+		for(int i=0; i<4; i++)
+		{
+			for(int j=0; j<10; j++)
+			{
+				removePion(i, j);
+			}
 		}
 		
 		setDrapeau(listPion);

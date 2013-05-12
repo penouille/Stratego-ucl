@@ -1,8 +1,6 @@
 package Game;
 
 import java.io.Serializable;
-import java.net.URL;
-import java.security.Security;
 import java.util.ArrayList;
 
 import Pion.Pion;
@@ -11,8 +9,6 @@ import Serializer.Serializer;
 public class Score implements Serializable
 {
 	private static ArrayList<String> Score;
-	
-	private URL url_score;
 	
 	private Score()
 	{}
@@ -37,6 +33,12 @@ public class Score implements Serializable
 		return counter;
 	}
 	
+	/**
+	 * Ajoute un score à la liste des scores.
+	 * @param game
+	 * @param gagnant
+	 * @param matchNull
+	 */
 	public static void AddScore(Game game, boolean gagnant, boolean matchNull)
 	{
 		setScore(ReadScore());
@@ -46,11 +48,18 @@ public class Score implements Serializable
 	}
 	
 	@SuppressWarnings("unchecked")
+	/**
+	 * lis les score dans le fichier texte spécifié
+	 * @return la liste des scores sauvegardé.
+	 */
 	public static ArrayList<String> ReadScore()
 	{
 		return (ArrayList<String>) Serializer.Deserializer("Score_Stratego.txt");
 	}
 	
+	/**
+	 * Sauvegarde la liste des scores.
+	 */
 	public static void SaveScore()
 	{
 		Serializer.saveObject( Score , "Score_Stratego.txt");

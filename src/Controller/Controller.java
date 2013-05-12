@@ -70,6 +70,11 @@ public class Controller
 	{
 		return this.placementJoueur2;
 	}
+	/**
+	 * Initialise l'IA en fonction de la difficulte que le joueur a choisis, et change la variable
+	 * isAnIA
+	 * @param isAnIA
+	 */
 	public void setIA(boolean isAnIA)
 	{
 		this.isAnIA = isAnIA;
@@ -82,17 +87,27 @@ public class Controller
 			game.getJ2().setPseudo(IA.getForceIA());
 		}
 	}
+	
+	/**
+	 * Change l'IA, ainsi que la préférence de difficulte du joueur 1, et donne la force de l'IA comme pseudo au 
+	 * joueur 2
+	 * @param diff
+	 */
 	public void changeIA(String diff)
 	{
+		game.getJ1().setPrefDiff(diff);
 		if(isAnIA)
 		{
 			if(diff.equals("Kikoo")) IA = new ArtificielleKikoo(this);
 			else if(diff.equals("Facile")) IA = new ArtificielleFacile(this);
 			else if(diff.equals("Normal")) IA = new ArtificielleNormal(this);
 			else if(diff.equals("Intermediaire")) IA = new ArtificielleIntermediaire(this);
-			game.getJ1().setPrefDiff(diff);
 			game.getJ2().setPseudo(IA.getForceIA());
 		}
+	}
+	public boolean getTour() 
+	{
+		return tour;
 	}
 	public boolean isSon()
 	{
@@ -205,6 +220,11 @@ public class Controller
 		return victime;
 	}
 	
+	/**
+	 * Regarde si le joueur 1 peut arreter sa pahse de placement de pion
+	 * S'il y a une IA, elle demande a cette derniere de placer ses pions.
+	 * @return true si le joueur a bien placer tout ses pions, false sinon
+	 */
 	public boolean checkStopPJ1()
 	{
 		if(game.checkHaveAllPionsPlaced(6,9))
@@ -220,6 +240,10 @@ public class Controller
 		else return false;
 	}
 	
+	/**
+	 * Regarde si le joueur 2 peut arreter sa pahse de placement de pion
+	 * @return true si le joueur a bien placer tout ses pions, false sinon
+	 */
 	public boolean checkStopPJ2()
 	{
 		if(game.checkHaveAllPionsPlaced(0,3))
@@ -334,6 +358,9 @@ public class Controller
 		checkEndGame();
 	}
 	
+	/**
+	 * Regarde si la partie est fini, et si oui, ajoute les scores;
+	 */
 	private void checkEndGame()
 	{
 		if(partieFinie && !scoreAdd)
@@ -343,20 +370,18 @@ public class Controller
 		}
 		
 	}
+	
+	/**
+	 * methode qui pplace les pions automatiquement pour les joueurs.
+	 */
 	public void dude()
 	{
 		if(tour && placementJoueur1){
 			game.dude(tour, isAnIA);
-			checkStopPJ1();
 		}
 		else if(!tour && placementJoueur2){
 			game.dude(tour, isAnIA);
-			checkStopPJ2();
 		}
-	}
-	public boolean getTour() 
-	{
-		return tour;
 	}
 	
 }

@@ -4,6 +4,13 @@ import son.Son;
 import View.Start;
 import Controller.Controller;
 
+/**
+ * 
+ * @author Meyers Quentin
+ *
+ *Class contenant la main
+ *
+ */
 public class system 
 {
 	

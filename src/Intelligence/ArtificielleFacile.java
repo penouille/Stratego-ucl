@@ -35,19 +35,36 @@ public class ArtificielleFacile extends Artificielle
 				&& (getIaMap().getPion(x, y)!=null && !getIaMap().getPion(x, y).getTeam()));
 	}
 	
+	/**
+	 * @param x
+	 * @param y
+	 * @return true si le pion au position (x,y) est un pion adverse, soit dans l'equipe true
+	 */
 	public boolean isEnemy(int x, int y)
 	{
 		return (x>=0 && x<10 && y>=0 && y<10 
 				&& getIaMap().getPion(x, y)!=null && getIaMap().getPion(x, y).getTeam());
 	}
 	
+	/**
+	 * @param x
+	 * @param y
+	 * @return renvoit true si la case (x,y) est un blackout, false sinon.
+	 */
 	public boolean isBlackout(int x, int y)
 	{
 		return (x>=0 && x<10 && y>=0 && y<10 
 				&& getIaMap().getPion(x, y)!=null && getIaMap().getPion(x, y).getName().equals("blackout"));
 	}
 	
-	public int getInfluence(int oldX, int oldY, int x, int y)
+	/**
+	 * @param oldX
+	 * @param oldY
+	 * @param x
+	 * @param y
+	 * @return donne l'influence d'un mouvement.
+	 */
+	protected int getInfluence(int oldX, int oldY, int x, int y)
 	{
 		//si la case est un blackout
 		if(getIaMap().getPion(x, y)!=null && getIaMap().getPion(x, y).getName().equals("blackout"))
@@ -93,7 +110,10 @@ public class ArtificielleFacile extends Artificielle
 		else return -5;
 	}
 	
-	private void updateListOfDisplacement()
+	/**
+	 * recharge une nouvelles liste de déplacement avec leur influence associe.
+	 */
+	protected void updateListOfDisplacement()
 	{
 		setListOfDisplacement(new ArrayList<Deplacement>());
 		Deplacement depl;
@@ -135,7 +155,11 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 	
-	private ArrayList<Deplacement> getBestDisplacement(ArrayList<Deplacement> listDepl)
+	/**
+	 * @param listDepl
+	 * @return le ou les deplacement(s) avec l'influence la plus eleve.
+	 */
+	protected ArrayList<Deplacement> getBestDisplacement(ArrayList<Deplacement> listDepl)
 	{
 		System.out.println("taille de la liste des deplcament dans getBestDisplacement "+getListOfDisplacement().size());
 		ArrayList<Deplacement> bestDisplacement = new ArrayList<Deplacement>();
@@ -184,6 +208,11 @@ public class ArtificielleFacile extends Artificielle
 				&& (x+1>9 || isMine(x+1, y)));
 	}
 	
+	/**
+	 * @param x
+	 * @param y
+	 * @return renvoit true s'il n'y a que des pions de l'equipe true autour du pion au position (x,y)
+	 */
 	public boolean isOnlyEnemyAround(int x, int y)
 	{
 		return ((y-1<0 || isEnemy(x, y-1)) 
@@ -192,6 +221,12 @@ public class ArtificielleFacile extends Artificielle
 				&& (x+1>9 || isEnemy(x+1, y)));
 	}
 	
+	/**
+	 * @param name
+	 * @param team
+	 * @return true si il y a encore des pions dont le nom correspond a name apssé en parametre, et dans l'equipe
+	 * passe en parametre.
+	 */
 	public boolean hasStillPion(String name, boolean team)
 	{
 		for(int i=0; i<10; i++)
@@ -209,25 +244,32 @@ public class ArtificielleFacile extends Artificielle
 		return false;
 	}
 	
-	public int getInfluenceAroundPion(int x, int y)
+	/**
+	 * Regarde les pions qui se trouvent autour du pion au position (x,y), et additionne la force
+	 * des pions allié, si il y en a.
+	 * @param x
+	 * @param y
+	 * @return l'influence autour d'un pion.
+	 */
+	protected int getInfluenceAroundPion(int x, int y)
 	{
 		int influence = 0;
-		//on ajoute la force du pion allié à gauche de l'eclaireur
+		//on ajoute la force du pion allié à gauche du pion en (x,y)
 		if(y-1>=0 && getIaMap().getPion(x, y-1)!=null && !getIaMap().getPion(x, y-1).getTeam())
 		{
 			influence += getIaMap().getPion(x, y-1).getForce();
 		}
-		//on ajoute la force du pion allié en haut de l'eclaireur
+		//on ajoute la force du pion allié en haut du pion en (x,y)
 		if(x-1>=0 && getIaMap().getPion(x-1, y)!=null && !getIaMap().getPion(x-1, y).getTeam())
 		{
 			influence += getIaMap().getPion(x-1, y).getForce();
 		}
-		//on ajoute la force du pion allié à droite de l'eclaireur
+		//on ajoute la force du pion allié à droite du pion en (x,y)
 		if(y+1<10 && getIaMap().getPion(x, y+1)!=null && !getIaMap().getPion(x, y+1).getTeam())
 		{
 			influence += getIaMap().getPion(x, y+1).getForce();
 		}
-		//on ajoute la force du pion allié en bas de l'eclaireur
+		//on ajoute la force du pion allié en bas du pion en (x,y)
 		if(x+1<10 && getIaMap().getPion(x+1, y)!=null && !getIaMap().getPion(x+1, y).getTeam())
 		{
 			influence += getIaMap().getPion(x+1, y).getForce();
@@ -235,6 +277,12 @@ public class ArtificielleFacile extends Artificielle
 		return influence;
 	}
 	
+	/**
+	 * Ajoute tous des déplacement qu'un eclaireur peut faire (en haut, en bas, a gauche a droite)
+	 * que ce soit 1 case, 2cases, 3cases, etc.
+	 * @param x
+	 * @param y
+	 */
 	public void addDeplForEclaireur(int x, int y)
 	{
 		int i; Pion pion; boolean end=false;
@@ -468,7 +516,11 @@ public class ArtificielleFacile extends Artificielle
 		return null;
 	}
 	
-	private void findPionToTake(int perimetre)
+	/**
+	 * trouve un pion a prendre
+	 * @param perimetre
+	 */
+	protected void findPionToTake(int perimetre)
 	{
 		for(int i=9; i>=0 && deplAttaque==null; i--)
 		{
@@ -483,7 +535,11 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 	
-	public Deplacement findWeakerPion(int force)
+	/**
+	 * @param force
+	 * @return le pion le plus faible de la carte, appartenant a l'IA, et le plus en bas
+	 */
+	protected Deplacement findWeakerPion(int force)
 	{
 		if(force==3){
 			force +=1;
@@ -503,7 +559,17 @@ public class ArtificielleFacile extends Artificielle
 		return findWeakerPion(force);
 	}
 	
-	private void exploreMore(int oldX, int oldY, int x, int y)
+	/**
+	 * Cette methode est appelé lorsqu'un eclaireur a tué un autre eclaireur.
+	 * Si elle a encore des eclaireurs, elle va essayer de trouver le plus pres dans un perimetre qui augmentera
+	 * au fur et a mesure de la recherche, pour lui attribuer l'ancien deplacement programme (celui de
+	 * l'eclaireur qui a tué l'eclaireur adverse), mais en allant un case plus loin. 
+	 * @param oldX
+	 * @param oldY
+	 * @param x
+	 * @param y
+	 */
+	protected void exploreMore(int oldX, int oldY, int x, int y)
 	{
 		if(hasStillPion("eclaireur", false))
 		{
@@ -538,7 +604,13 @@ public class ArtificielleFacile extends Artificielle
 		
 	}
 	
-	private void playerMoveNearMe(int x, int y)
+	/**
+	 * Cette méthode check si le joueur de l'equipe true a deplacer un pion pres d'un de celui de l'IA
+	 * En fonction de ce que l'IA connait des pions adverse, elle evalue un déplcement à faire.
+	 * @param x
+	 * @param y
+	 */
+	protected void playerMoveNearMe(int x, int y)
 	{
 		Pion temp = getIaMap().getPion(x, y);
 		//si le pion est mort en bougeant pres de moi, ou s'il n'y a rien que je puisse bougé à coté.
@@ -562,7 +634,17 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 
-	private void evaluateStrategy(Deplacement pionFinded, int x, int y)
+	/**
+	 * Cette methode est appele par playerMoveNearMe
+	 * Elle evalute la strategie lorsque le joeuur de l'equipe true a deplacer un pion inconnu pres 
+	 * d'un pion de l'IA.
+	 * Elle évalue les chances qu'on puissent prendre sont pions. Si c'est négatif, elle tente de faire fuir son pion
+	 * Sinon, elle attaque le pion inconnu.
+	 * @param pionFinded
+	 * @param x
+	 * @param y
+	 */
+	protected void evaluateStrategy(Deplacement pionFinded, int x, int y)
 	{
 		Pion myPion = getIaMap().getPion(pionFinded.getOldX(), pionFinded.getOldY());
 		int chance = howMuchPionCanTakeThis(myPion);
@@ -605,7 +687,7 @@ public class ArtificielleFacile extends Artificielle
 	 * @param myPion
 	 * @return Renvoit la force du pion - le nombre de pion qui peuvent prendre ce pion.
 	 */
-	private int howMuchPionCanTakeThis(Pion myPion) {
+	protected int howMuchPionCanTakeThis(Pion myPion) {
 		int nbr= 0; Pion temp;
 		for(int i=0; i<10; i++)
 		{
@@ -621,6 +703,10 @@ public class ArtificielleFacile extends Artificielle
 		return myPion.getForce()-nbr;
 	}
 
+	/**
+	 * Effectue un déplacement.
+	 * @param depl
+	 */
 	private void goToDest(Deplacement depl)
 	{
 		if(depl==null)
@@ -644,6 +730,10 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 
+	/**
+	 * Effectue un deplacement en fonction de la direction dans laquelle un pion doit aller
+	 * @param depl
+	 */
 	private void doOneMove(Deplacement depl)
 	{
 		System.out.println("doOneMove");
@@ -667,14 +757,13 @@ public class ArtificielleFacile extends Artificielle
 		{
 			System.out.println("Deplacement en haut");
 		}
-		checkIfNeededDeleteDepl(depl);
+		checkIfNeededDeleteDepl();
 	}
 
 	/**
-	 * @param depl
 	 * Regarde si l'une des tactiques de déplacement est accomplie, si oui, elle est mise à null.
 	 */
-	private void checkIfNeededDeleteDepl(Deplacement depl)
+	protected void checkIfNeededDeleteDepl()
 	{
 		if(deplAttaque!=null 
 				&& deplAttaque.getOldX()==deplAttaque.getX() 
@@ -696,7 +785,13 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 
-	private boolean canMoveTop(Deplacement depl) {
+	/**
+	 * Regarde si on peut effectue un deplacement en haut.
+	 * Si oui, elle renvoit true, en ajoutant dans la liste des daplcements le deplacement vers le haut.
+	 * @param depl
+	 * @return
+	 */
+	protected boolean canMoveTop(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldX()-i>=0 && i<=depl.getOldX()-depl.getX()
@@ -712,7 +807,13 @@ public class ArtificielleFacile extends Artificielle
 		return false;
 	}
 
-	private boolean canMoveBottom(Deplacement depl) {
+	/**
+	 * Regarde si on peut effectue un deplacement en bas.
+	 * Si oui, elle renvoit true, en ajoutant dans la liste des daplcements le deplacement vers le bas.
+	 * @param depl
+	 * @return
+	 */
+	protected boolean canMoveBottom(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldX()+i<10 && i<=depl.getX()-depl.getOldX()
@@ -728,7 +829,13 @@ public class ArtificielleFacile extends Artificielle
 		return false;
 	}
 
-	private boolean canMoveLeft(Deplacement depl) {
+	/**
+	 * Regarde si on peut effectue un deplacement a gauche.
+	 * Si oui, elle renvoit true, en ajoutant dans la liste des daplcements le deplacement vers la gauche.
+	 * @param depl
+	 * @return
+	 */
+	protected boolean canMoveLeft(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldY()-i>=0 && i<=depl.getOldY()-depl.getY()
@@ -744,7 +851,13 @@ public class ArtificielleFacile extends Artificielle
 		return false;
 	}
 
-	private boolean canMoveRight(Deplacement depl) {
+	/**
+	 * Regarde si on peut effectue un deplacement à droite.
+	 * Si oui, elle renvoit true, en ajoutant dans la liste des daplcements le deplacement vers la droite.
+	 * @param depl
+	 * @return
+	 */
+	protected boolean canMoveRight(Deplacement depl) {
 		for(int i=getIaMap().getPion(depl.getOldX(), depl.getOldY()).getNbrDePas(); i!=0; i--)
 		{
 			if(depl.getOldY()+i<10 && i<=depl.getY()-depl.getOldY()
@@ -760,7 +873,12 @@ public class ArtificielleFacile extends Artificielle
 		return false;
 	}
 
-	private boolean findUnknownPion(Deplacement depl)
+	/**
+	 * @param depl
+	 * @return Renvoit un pion inconnu le plus vers le haut sous forme de déplacement, ou X et Y sont 
+	 * les position du pion en question.
+	 */
+	protected boolean findUnknownPion(Deplacement depl)
 	{
 		for(int i=0; i<10; i++)
 		{
@@ -775,6 +893,10 @@ public class ArtificielleFacile extends Artificielle
 		return false;
 	}
 	
+	/**
+	 * joue la tactique exploration.
+	 * Soit des eclaireur si il y en a encore, soit avec des pions les plus faibles s'il n'y en a plus.
+	 */
 	public void playExploration()
 	{
 		System.out.println("Exploration mode");
@@ -817,6 +939,9 @@ public class ArtificielleFacile extends Artificielle
 		
 	}
 
+	/**
+	 * joue la tactique defense, soit s'éloigner d'un pion adverse.
+	 */
 	public void playDefense()
 	{
 		System.out.println("Defense mode");
@@ -832,6 +957,9 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 	
+	/**
+	 * joue la tactique attaque, soit essayer de prendre un pion adverse.
+	 */
 	public void playAttaque()
 	{
 		System.out.println("Attaque mode");
@@ -852,6 +980,9 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 	
+	/**
+	 * joue quelque chose lorsqu'aucune tactique n'a abouti.
+	 */
 	public void playSomething()
 	{
 		System.out.println("I play something");
@@ -859,6 +990,10 @@ public class ArtificielleFacile extends Artificielle
 		playBestDisplacement(getListOfDisplacement());
 	}
 
+	/**
+	 * joue le meilleur deplacement.
+	 * @param listDepl
+	 */
 	public void playBestDisplacement(ArrayList<Deplacement> listDepl)
 	{
 		ArrayList<Deplacement> bestDeplacement = getBestDisplacement(listDepl);
@@ -879,7 +1014,11 @@ public class ArtificielleFacile extends Artificielle
 		}
 	}
 	
-	private void checkIfNeededToChangeStrategy(Deplacement depl)
+	/**
+	 * Regarde s'il faut changer de strategie en fonction d'un dpelacement du joueur true.
+	 * @param depl
+	 */
+	protected void checkIfNeededToChangeStrategy(Deplacement depl)
 	{
 		if(depl==null)
 		{
@@ -901,7 +1040,12 @@ public class ArtificielleFacile extends Artificielle
 		System.out.println();
 	}
 
-	public void checkChangeDeplProg(Deplacement deplJoueur)
+	/**
+	 * regarde si il faut changer les coordonnées des deplacement programmée, ou s'il faut 
+	 * les supprimé, ou ne rien faire.
+	 * @param deplJoueur
+	 */
+	protected void checkChangeDeplProg(Deplacement deplJoueur)
 	{
 		if(deplAttaque!=null)
 		{
@@ -964,7 +1108,10 @@ public class ArtificielleFacile extends Artificielle
 		playerMoveNearMe(deplJoueur.getX(), deplJoueur.getY());
 	}
 
-	public void playStrategy()
+	/**
+	 * joue une strategie.
+	 */
+	protected void playStrategy()
 	{
 		if(currentStrategy.equals("Exploration"))
 		{
@@ -979,6 +1126,7 @@ public class ArtificielleFacile extends Artificielle
 			playAttaque();
 		}
 	}
+	
 	
 	public void play(Deplacement depl) 
 	{

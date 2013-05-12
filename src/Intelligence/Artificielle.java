@@ -24,8 +24,6 @@ public abstract class Artificielle
 {
 	protected Map iaMap;
 	
-	protected int [] [] influenceMap;
-	
 	protected Controller controller;
 	
 	protected ArrayList<Pion> ListePion;
@@ -40,7 +38,6 @@ public abstract class Artificielle
 	{
 		this.controller = controller;
 		setIaMap(controller.getGame().getMap());
-		influenceMap = new int [10] [10];
 		setGame(controller.getGame());
 	}
 	
@@ -74,16 +71,6 @@ public abstract class Artificielle
 		this.game = game;
 	}
 	
-	public void setInfluence(int x, int y, int influence)
-	{
-		influenceMap [x][y] = influence;
-	}
-	
-	public int getInfluenceMap(int x, int y)
-	{
-		return influenceMap[x][y];
-	}
-	
 	public void printList()
 	{
 		for(Deplacement i : getListOfDisplacement())
@@ -92,6 +79,9 @@ public abstract class Artificielle
 		}
 	}
 	
+	/**
+	 * initialise les pions de l'IA
+	 */
 	protected void initializePions()
 	{
 		int i;
@@ -182,6 +172,9 @@ public abstract class Artificielle
 		else return true;
 	}
 	
+	/**
+	 * positionne le drapeau de l'IA, et le protège avec des bombes.
+	 */
 	protected void setDrapeau()
 	{
 		int t; Random r = new Random();
@@ -201,6 +194,9 @@ public abstract class Artificielle
 		}
 	}
 	
+	/**
+	 * place des bnombes autour d'un sergent, pour donner l'illusion qu'on protege le drapeau
+	 */
 	protected void setBombe()
 	{
 		int t; Random r = new Random();
@@ -237,19 +233,35 @@ public abstract class Artificielle
 				
 		}
 	}
+	
+	/**
+	 * methode appelè par controller
+	 * demande à l'IA de placer ses pions
+	 * utilise la methode dude du controller.
+	 */
 	public void placeYourPions()
 	{
 		controller.dude();
+		controller.checkStopPJ2();
 	}
 	
+	/**
+	 * regarde si le pion qui a bouger est un pion qui a fait plus d'une case en deplacement.
+	 * si oui, cette methode le rend visible à l'IA en mettant la variable visibleByIA a true.
+	 * @param oldX
+	 * @param oldY
+	 * @param x
+	 * @param y
+	 */
 	public void checkIfEclaireur(int oldX, int oldY, int x, int y)
 	{
 		if(x-oldX>1 || x-oldX<-1 || y-oldY>1 || y-oldY<-1) iaMap.getPion(x, y).setVisibleByIA(true);
-	}	
+	}
 	
-
-	
-	
+	/**
+	 * Execute un deplacement, en simulant des cliques, comme si un 2eme joueur jouait.
+	 * @param depl
+	 */
 	protected void doDisplacement(Deplacement depl)
 	{
 		System.out.println("Influence = "+depl.getInfluence()+", et x="+depl.getX()+" et y="+depl.getY()
@@ -260,15 +272,27 @@ public abstract class Artificielle
 		controller.setPrise(null);
 	}
 
+	/**
+	 * methode overwrite dans l'heritage
+	 * @param depl
+	 */
 	public void play(Deplacement depl)
 	{
 		
 	}
 
+	/**
+	 * renvoit la force de l'IA
+	 * @return
+	 */
 	public String getForceIA() {
 		return forceIA;
 	}
 
+	/**
+	 * 
+	 * @param forceIA
+	 */
 	public void setForceIA(String forceIA) {
 		this.forceIA = forceIA;
 	}

@@ -23,9 +23,6 @@ public class Serializer {
 	 * 
 	 * Enregistre l'état d'un objet dans un fichier texte.
 	 */
-	
-	//TODO Pas de path String -> URL
-	
 	public static void saveObject( Object  Score , String path )
 	{
 

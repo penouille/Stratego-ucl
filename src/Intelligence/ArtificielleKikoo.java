@@ -15,6 +15,13 @@ public class ArtificielleKikoo extends Artificielle
 		System.out.println("IA Kikoo");
 	}
 	
+	/**
+	 * @param oldX
+	 * @param oldY
+	 * @param x
+	 * @param y
+	 * @return donne l'influence d'un mouvement.
+	 */
 	public int getInfluence(int oldX, int oldY, int x, int y)
 	{
 		//si la case est un blackout
@@ -61,6 +68,9 @@ public class ArtificielleKikoo extends Artificielle
 		else return -5;
 	}
 	
+	/**
+	 * recharge une nouvelles liste de déplacement avec leur influence associe.
+	 */
 	private void updateListOfDisplacement()
 	{
 		setListOfDisplacement(new ArrayList<Deplacement>());
@@ -103,6 +113,10 @@ public class ArtificielleKikoo extends Artificielle
 		}
 	}
 	
+	/**
+	 * @param listDepl
+	 * @return le ou les deplacement(s) avec l'influence la plus eleve.
+	 */
 	private ArrayList<Deplacement> getBestDisplacement()
 	{
 		ArrayList<Deplacement> bestDisplacement = new ArrayList<Deplacement>();

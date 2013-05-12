@@ -8,6 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * fenetre pop-up pour afficher un message
+ *
+ */
 public class Attention extends StdWindow implements ActionListener
 {
 	JPanel PPrincipal;
