@@ -220,7 +220,7 @@ public class CurrentGame extends BasicGameState
 			controller.IAPlay();
 			checkCase(controller.getLastClick());
 			checkCase(controller.getNewClick());
-			controller.setDeplacement();
+			//controller.setDeplacement();
 		}
 
 		//Code exécuté en cas de clic gauche avec la souris.
