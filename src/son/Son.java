@@ -170,6 +170,7 @@ public class Son
 			}
 			else if(pion1.getName().equals("drapeau"))
 			{
+				music.stop();
 				try
 				{
 					sonor = AudioSystem.getClip();
