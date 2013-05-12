@@ -28,24 +28,31 @@ public class Serializer {
 	
 	public static void saveObject( Object  Score , String path )
 	{
-	
+
 		try 
 		{
+
+			//"décacher" le fichier
+			Process p = Runtime.getRuntime().exec("attrib -H " + path);
+			p.waitFor();
+		
 			File f = new File(path);
 			if(!f.exists())
 			{
 				f.createNewFile();
 			}
 			
-			
 			ObjectOutputStream Output = new ObjectOutputStream(new FileOutputStream(path));
-			
 			Output.writeObject(Score);
 			Output.flush();
 			Output.close();
+			
+			// "recacher" le fichier 
+			p = Runtime.getRuntime().exec("attrib +H " + path);
+			p.waitFor();
 		}
 	
-		catch (java.io.IOException e) 
+		catch (java.io.IOException | InterruptedException e) 
 		{
 			e.printStackTrace();
 		}
@@ -67,18 +74,24 @@ public class Serializer {
 		{
 			try 
 			{
+				//"décacher" le fichier
+				Process p = Runtime.getRuntime().exec("attrib -H " + path);
+				p.waitFor();
 				
 				ObjectInputStream Input = new ObjectInputStream(new FileInputStream(path));
 				Score = Input.readObject();
 				Input.close();
+				
+				// "recacher" le fichier 
+				p = Runtime.getRuntime().exec("attrib +H " + path);
+				p.waitFor();
 			}
-			catch (java.io.IOException e) 
-			{
+			catch (java.io.IOException e) {
 				e.printStackTrace();	
 			}
-			
-			catch (ClassNotFoundException e) 
-			{
+			catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
