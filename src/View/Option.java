@@ -186,6 +186,7 @@ public class Option extends StdWindow implements ActionListener
 				System.out.println("Application en cours . . .");
 				if(CG!=null){
 					try {
+						System.out.println("J m'actualise");
 						CG.UpGame2();
 					} catch (SlickException e1) {
 						// TODO Auto-generated catch block

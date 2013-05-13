@@ -238,9 +238,16 @@ public class Game
 		
 		if ( result == 0)
 		{
-			LostTrue.add(P1);
-			LostFalse.add(P2);
-			return result;
+			if(P1.getTeam())
+			{
+				LostTrue.add(P1);
+				LostFalse.add(P2);
+			}
+			else
+			{
+				LostTrue.add(P2);
+				LostFalse.add(P1);
+			}
 		}
 		if ( result == 1 && P1.getTeam() ) 
 		{

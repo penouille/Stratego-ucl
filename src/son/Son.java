@@ -27,6 +27,7 @@ public class Son
 	private URL son_song;
 	private URL son_bombe;
 	private URL son_victoire;
+	private URL son_desamorcage;
 	
 	private Clip music;
 	private Clip sonor;
@@ -45,6 +46,7 @@ public class Son
 		son_song = this.getClass().getResource("/song.wav");
 		son_bombe = this.getClass().getResource("/bombe.wav");
 		son_victoire = this.getClass().getResource("/victoire.wav");
+		son_desamorcage = this.getClass().getResource("/desamorcage.wav");
 		
 		startSonMenu();
 	}
@@ -162,6 +164,18 @@ public class Son
 				{
 					sonor = AudioSystem.getClip();
 					sonor.open(AudioSystem.getAudioInputStream (son_bombe));
+					sonor.start();
+				}
+				catch (LineUnavailableException exception) { }
+				catch (IOException exception) {  }
+				catch (UnsupportedAudioFileException exception) {  }
+			}
+			else if(pion1.getName().equals("bombe"))
+			{
+				try
+				{
+					sonor = AudioSystem.getClip();
+					sonor.open(AudioSystem.getAudioInputStream (son_desamorcage));
 					sonor.start();
 				}
 				catch (LineUnavailableException exception) { }

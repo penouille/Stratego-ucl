@@ -162,6 +162,12 @@ public class ArtificielleFacile extends Artificielle
 	protected ArrayList<Deplacement> getBestDisplacement(ArrayList<Deplacement> listDepl)
 	{
 		System.out.println("taille de la liste des deplcament dans getBestDisplacement "+getListOfDisplacement().size());
+		if(listDepl.size()==0)
+		{
+			deplExploration = null;
+			deplAttaque = null;
+			deplDefense = null;
+		}
 		ArrayList<Deplacement> bestDisplacement = new ArrayList<Deplacement>();
 		for(Deplacement i : listDepl)
 		{
@@ -513,7 +519,8 @@ public class ArtificielleFacile extends Artificielle
 			}
 			h--;
 		}
-		return null;
+		perimetre++;
+		return isAPionOfMeAroundPos(name, x, y, perimetre);
 	}
 	
 	/**
