@@ -41,7 +41,7 @@ public class Son
 		
 		//initialisation de URL
 		son_canon = this.getClass().getResource("/canon.wav");
-		son_champ_bataille = this.getClass().getResource("/champ_bataille.wav");
+		son_champ_bataille = this.getClass().getResource("/throne.wav");
 		cri_wilhelm = this.getClass().getResource("/cri_wilhelm.wav");
 		son_song = this.getClass().getResource("/song.wav");
 		son_bombe = this.getClass().getResource("/bombe.wav");

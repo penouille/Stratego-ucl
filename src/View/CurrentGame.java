@@ -1,7 +1,6 @@
 package View;
 
 
-import java.io.File;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -12,9 +11,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.loading.LoadingList;
-import org.newdawn.slick.particles.ConfigurableEmitter;
-import org.newdawn.slick.particles.ParticleIO;
-import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -41,8 +37,6 @@ public class CurrentGame extends BasicGameState
 	private MouseOverArea option;
 	
 	private int Counter;
-
-	private ParticleSystem particule = new ParticleSystem("drapeau.jpg");
 
 	private Image carte ;
 	public String[] lettres = { "A", "B" , "C" , "D" , "E" , "F" , "G" , "H" , "I" , "J"};
@@ -98,7 +92,7 @@ public class CurrentGame extends BasicGameState
 		finDuTour = new MouseOverArea( container, new Image("finDuTour.png") ,770 , 340 );
 		genererPlacement = new MouseOverArea( container, new Image("genererPlacement.png") , 798 , 550 );
 		placementTermine = new MouseOverArea( container, new Image("placementTermine.png") , 800 , 480 );
-		option = new MouseOverArea( container, new Image("options.png") , 875 , 680 );
+		option = new MouseOverArea( container, new Image("optGame.png") , 870 , 680 );
 
 		// Mise en place de l'échequier.
 		for ( int i = 0 ; i < 10 ; i++)
@@ -118,21 +112,6 @@ public class CurrentGame extends BasicGameState
 		}
 
 		force(container);
-
-		try
-		{
-			File xmlFile = new File ("emitter.xml");
-			ConfigurableEmitter emitter = ParticleIO.loadEmitter(xmlFile) ;
-			particule.addEmitter(emitter);
-			particule.setPosition(600, 600);
-		}
-		catch (Exception e)
-		{
-			System.out.println("particule error");
-
-		}
-
-		particule.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
 	}
 
 
@@ -180,12 +159,16 @@ public class CurrentGame extends BasicGameState
 		}
 		else
 		{
-			regles.setLocation(970 , 337);
+			regles.setLocation(970 , 300);
 			regles.render(container , g);
-			option.setLocation(970 , 380);
+			option.setLocation(965 , 380);
 			option.render(container , g);
 			if (!controller.getIsAnIA())
 			{
+				regles.setLocation(970 , 300);
+				regles.render(container , g);
+				option.setLocation(965 , 380);
+				option.render(container , g);
 				finDuTour.render(container , g);
 			}
 		}
@@ -196,8 +179,6 @@ public class CurrentGame extends BasicGameState
 		{
 			new Image(controller.getPrise()).drawCentered(container.getInput().getMouseX(), container.getInput().getMouseY());
 		}
-
-		particule.render();
 
 		//affichage des pions perdus
 		RenderLost(g);
@@ -331,11 +312,6 @@ public class CurrentGame extends BasicGameState
 		{
 			container.exit();
 		}
-
-		if (controller.getPartieFinie())
-		{
-			particule.update(delta);
-		}
 	}
 
 	/**
@@ -399,35 +375,44 @@ public class CurrentGame extends BasicGameState
 	 */
 	public void checkCase(int i) throws SlickException
 	{
+		try{
+			LoadingList.setDeferredLoading(true);
+			if (i == 100)  return;
 
-		if (i == 100)  return;
-
-		if ( controller.getGame().getMap().getPion(i/10,i%10) == null )
-		{	
-			//cas la case est vide.
-			Echequier.get(i).setNormalImage(new Image ("transparent.png"));
-			Echequier.get(i).setMouseOverImage(new Image ("transparent.png"));
-		}
-		else
-		{
-			if ( TourView == controller.getGame().getMap().getPion(i/10,i%10).getTeam())
-			{
-				//cas où il s'agit d'un pion apparteant à un joueur qui est en train de jouer.
-				System.out.println(controller.getGame().getMap().getPion(i/10,i%10).getPath());
+			if ( controller.getGame().getMap().getPion(i/10,i%10) == null )
+			{	
 				LoadingList.setDeferredLoading(true);
-				Echequier.get(i).setNormalImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
-				Echequier.get(i).setMouseOverImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
+				//cas la case est vide.
+				Echequier.get(i).setNormalImage(new Image ("transparent.png"));
+				Echequier.get(i).setMouseOverImage(new Image ("transparent.png"));
 			}
 			else
 			{
-				if ( !controller.getGame().getMap().getPion(i/10,i%10).getPath().contains("transparent.png"))
+				if ( TourView == controller.getGame().getMap().getPion(i/10,i%10).getTeam())
 				{
-					//cas il s'agit d'un pion adverse mais pas de l'eau.
-					Echequier.get(i).setNormalImage(new Image ("jaune.jpg"));
-					Echequier.get(i).setMouseOverImage(new Image ("jaune.jpg"));
+					//cas où il s'agit d'un pion apparteant à un joueur qui est en train de jouer.
+					System.out.println(controller.getGame().getMap().getPion(i/10,i%10).getPath());
+					LoadingList.setDeferredLoading(true);
+					Echequier.get(i).setNormalImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
+					Echequier.get(i).setMouseOverImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
+				}
+				else
+				{
+					if ( !controller.getGame().getMap().getPion(i/10,i%10).getPath().contains("transparent.png"))
+					{
+						LoadingList.setDeferredLoading(true);
+						//cas il s'agit d'un pion adverse mais pas de l'eau.
+						Echequier.get(i).setNormalImage(new Image ("jaune.jpg"));
+						Echequier.get(i).setMouseOverImage(new Image ("jaune.jpg"));
+					}
 				}
 			}
 		}
+		catch(Exception e)
+		{
+			checkCase(i);
+		}
+		
 	}
 
 	/**

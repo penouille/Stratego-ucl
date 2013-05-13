@@ -98,7 +98,7 @@ public class ArtificielleIntermediaire extends ArtificielleNormal
 		}
 	}
 	
-	public void playAttaque()
+	protected void playAttaque()
 	{
 		System.out.println("Attaque mode");
 		if(deplAttaque!=null && !isMine(deplAttaque.getOldX(), deplAttaque.getOldY())) deplAttaque=null;
@@ -119,11 +119,15 @@ public class ArtificielleIntermediaire extends ArtificielleNormal
 		Deplacement deplacementDone;
 		if(bestDeplacement.size()==0)
 		{
-			if(count!=10){
-				playStrategy();
+			if(count<3){
 				count++;
+				playStrategy();
 			}
-			else playSomething();
+			else
+			{
+				count=0;
+				playSomething();
+			}
 			
 		}
 		else
@@ -136,7 +140,6 @@ public class ArtificielleIntermediaire extends ArtificielleNormal
 			checkIfNeededToChangeStrategy(deplacementDone);
 			getListOfDisplacement().removeAll(getListOfDisplacement());
 		}
-		count=0;
 	}
 
 }

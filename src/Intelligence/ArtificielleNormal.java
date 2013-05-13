@@ -1012,7 +1012,7 @@ public class ArtificielleNormal extends Artificielle
 		}
 	}
 	
-	public void playAttaque()
+	protected void playAttaque()
 	{
 		System.out.println("Attaque mode");
 		if(deplAttaque!=null && !isMine(deplAttaque.getOldX(), deplAttaque.getOldY())) deplAttaque=null;
@@ -1045,7 +1045,17 @@ public class ArtificielleNormal extends Artificielle
 		Deplacement deplacementDone;
 		if(bestDeplacement.size()==0)
 		{
-			playSomething();
+			if(count<3){
+				count++;
+				playStrategy();
+				count++;
+			}
+			else
+			{
+				count = 0;
+				playSomething();
+			}
+			
 		}
 		else
 		{
@@ -1057,7 +1067,6 @@ public class ArtificielleNormal extends Artificielle
 			checkIfNeededToChangeStrategy(deplacementDone);
 			getListOfDisplacement().removeAll(getListOfDisplacement());
 		}
-		count=0;
 	}
 	
 	protected void checkIfNeededToChangeStrategy(Deplacement depl)

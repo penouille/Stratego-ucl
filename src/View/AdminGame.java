@@ -23,7 +23,7 @@ public class AdminGame extends StateBasedGame
 		{
             AppGameContainer container = new AppGameContainer(this);
             container.setTargetFrameRate(60); // Limite le nombre de fps à 60
-            container.setDisplayMode(1150,730,false);
+            container.setDisplayMode(1200,730,false);
             container.setShowFPS(true);
             container.setAlwaysRender(true);
             

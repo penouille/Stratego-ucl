@@ -184,15 +184,8 @@ public class Option extends StdWindow implements ActionListener
 			{
 				setVisible(false);
 				System.out.println("Application en cours . . .");
-				if(CG!=null){
-					try {
-						System.out.println("J m'actualise");
-						CG.UpGame2();
-					} catch (SlickException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
+				actualizaPion();
+				
 			}
 			if(b==retour)
 			{
@@ -266,6 +259,17 @@ public class Option extends StdWindow implements ActionListener
 		}
 	}
 	
+	private void actualizaPion()
+	{
+		if(CG!=null){
+			try {
+				CG.UpGame2();
+			} catch (SlickException e1) {
+				actualizaPion();
+			}
+		}
+	}
+
 	private void changeMusic()
 	{
 		if((String)comboBoxMusique.getSelectedItem()=="ON")
