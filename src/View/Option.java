@@ -263,8 +263,9 @@ public class Option extends StdWindow implements ActionListener
 		if(CG!=null){
 			try {
 				CG.UpGame2();
-			} catch (SlickException e1) {
-				actualizaPion();
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

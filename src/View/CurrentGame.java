@@ -1,6 +1,7 @@
 package View;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -10,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
+import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleIO;
@@ -44,6 +46,9 @@ public class CurrentGame extends BasicGameState
 	private String pionJoué;
 	private int lastClickJoué;
 	private int newClickJoué;
+	
+	private String lastLoaded;
+	private DeferredResource nextResource;
 
 	private int Counter;
 
@@ -96,8 +101,7 @@ public class CurrentGame extends BasicGameState
 	 */
 	public void init(GameContainer container,StateBasedGame game) throws SlickException 
 	{
-		
-		 LoadingList.setDeferredLoading(true);
+		LoadingList.setDeferredLoading(false);
 		
 		carte = new Image("mapStratego.jpg");
 
@@ -126,21 +130,6 @@ public class CurrentGame extends BasicGameState
 		}
 
 		force(container);
-
-		try
-		{
-			File xmlFile = new File ("emitter.xml");
-			ConfigurableEmitter emitter = ParticleIO.loadEmitter(xmlFile) ;
-			particule.addEmitter(emitter);
-			particule.setPosition(600, 600);
-		}
-		catch (Exception e)
-		{
-			System.out.println("particule error");
-
-		}
-
-		particule.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
 	}
 
 	/**
@@ -149,7 +138,8 @@ public class CurrentGame extends BasicGameState
 	 */
 	public void render(GameContainer container,StateBasedGame game, Graphics g) throws SlickException 
 	{
-
+		
+		
 		g.drawImage(carte, 45, 15);
 
 		//affiche les lettres de la carte
@@ -183,12 +173,12 @@ public class CurrentGame extends BasicGameState
 			if ( controller.getVictime() )
 			{
 				g.drawString("Dernier coup joué: "+ pionJoué + " déplacé de "+ this.lettres[lastClickJoué%10]+","+lastClickJoué/10+
-						" à "+this.lettres[newClickJoué%10]+","+newClickJoué/10, 800, 450);
+						" à "+this.lettres[newClickJoué%10]+","+newClickJoué/10, 800, 400);
 			}
 			else
 			{
 				g.drawString("Dernier coup joué:"+ this.lettres[lastClickJoué%10]+","+lastClickJoué/10+
-						" placé en "+this.lettres[newClickJoué%10]+","+newClickJoué/10, 800, 450);
+						" placé en "+this.lettres[newClickJoué%10]+","+newClickJoué/10, 800, 400);
 			}
 			;
 		}
@@ -212,17 +202,21 @@ public class CurrentGame extends BasicGameState
 		}
 		else
 		{
-			regles.setLocation(970 , 300);
-			regles.render(container , g);
-			option.setLocation(965 , 380);
-			option.render(container , g);
+			
 			if (!controller.getIsAnIA())
 			{
-				regles.setLocation(970 , 300);
+				regles.setLocation(1100 , 335);
 				regles.render(container , g);
-				option.setLocation(965 , 380);
+				option.setLocation(957 , 340);
 				option.render(container , g);
 				finDuTour.render(container , g);
+			}
+			else
+			{
+				regles.setLocation(1000 , 335);
+				regles.render(container , g);
+				option.setLocation(865 , 340);
+				option.render(container , g);
 			}
 		}
 
@@ -246,134 +240,152 @@ public class CurrentGame extends BasicGameState
 
 	public void update(GameContainer container,StateBasedGame game, int delta) throws SlickException 
 	{
-
-		Input input = container.getInput();
-
-		ImageLost();
-
-		if (Counter < 1000)
-		{
-			Counter += delta;
+		/**if (nextResource != null) {
+			try {
+				nextResource.load();
+				// slow down loading for example purposes
+				try { Thread.sleep(50); } catch (Exception e) {}
+			} catch (IOException e) {
+				throw new SlickException("Failed to load: "+nextResource.getDescription(), e);
+			}
+			
+			nextResource = null;
 		}
-
-		//Attente ia;
-		if(Counter > 1000 && controller.getDeplacement()!=null)
-		{
-			controller.setVictime();
-			checkCase(controller.getNewClick());
-
-			controller.IAPlay();
-			checkCase(controller.getLastClick());
-			checkCase(controller.getNewClick());
-			//controller.setDeplacement();
-
-			if(controller.getVictime())
+		
+		if (LoadingList.get().getRemainingResources() > 0) {
+			nextResource = LoadingList.get().getNext();
+		} 
+		else 
+		{*/
+			Input input = container.getInput();
+	
+			ImageLost();
+	
+			if (Counter < 1000)
 			{
-				int i = controller.getNewClick();
-				Echequier.get(i).setNormalImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
-				Echequier.get(i).setMouseOverImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
+				Counter += delta;
 			}
-			controller.setVictime();
-		}
-
-		//Code exécuté en cas de clic gauche avec la souris.
-		if (  input.isMousePressed(Input.MOUSE_LEFT_BUTTON) )
-		{
-			//phase Placement.
-			if ( controller.getPlacement())
+	
+			//Attente ia;
+			if(Counter > 1000 && controller.getDeplacement()!=null)
 			{
-
-				if (!ChoixPion())
+				controller.setVictime();
+				checkCase(controller.getNewClick());
+	
+				controller.IAPlay();
+				checkCase(controller.getLastClick());
+				checkCase(controller.getNewClick());
+				//controller.setDeplacement();
+	
+				if(controller.getVictime())
 				{
-					setPion(container);
+					int i = controller.getNewClick();
+					Echequier.get(i).setNormalImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
+					Echequier.get(i).setMouseOverImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
 				}
-
+				controller.setVictime();
 			}
-
-
-			if ( !controller.getPartieFinie() && !controller.getIsAnIA() )
+	
+			//Code exécuté en cas de clic gauche avec la souris.
+			if (  input.isMousePressed(Input.MOUSE_LEFT_BUTTON) )
 			{
-				if ( controller.getPlacement() && placementTermine.isMouseOver())
-				{
-
-					if ( controller.getPlacementJoueur1() && controller.checkStopPJ1() )
-					{
-						game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
-					}
-
-					if ( controller.getPlacementJoueur2() && controller.checkStopPJ2())
-					{
-
-						game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
-
-					}
-				}
-				else
-				{
-					if (controller.getTour()!=TourView && finDuTour.isMouseOver())
-					{
-						coupJoué = true;
-						
-						game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
-					}
-				}
-			}
-
-			//en cours de partie.
-			if (!controller.getPlacement() && !controller.getPartieFinie())
-			{
-				setMove(container);
-
-			}
-
-			//bouton permettant de placer ses pions automatiquement.
-			if ( genererPlacement.isMouseOver())
-			{
+				//phase Placement.
 				if ( controller.getPlacement())
 				{
-					dude(container);
+	
+					if (!ChoixPion())
+					{
+						setPion(container);
+					}
+	
 				}
-			}
-			if( regles.isMouseOver())
-			{
-				new Regles();
-			}
-			if( option.isMouseOver())
-			{
-				Option opt = new Option(controller);
-				opt.setCurrentGame(this);
-			}
-
-			if(placementTermine.isMouseOver() && controller.getPlacement())
-			{
-				if(controller.getTour())
+	
+	
+				if ( !controller.getPartieFinie() && !controller.getIsAnIA() )
 				{
-					controller.checkStopPJ1();
+					if ( controller.getPlacement() && placementTermine.isMouseOver())
+					{
+	
+						if ( controller.getPlacementJoueur1() && controller.checkStopPJ1() )
+						{
+							game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
+						}
+	
+						if ( controller.getPlacementJoueur2() && controller.checkStopPJ2())
+						{
+	
+							game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
+	
+						}
+					}
+					else
+					{
+						if (controller.getTour()!=TourView && finDuTour.isMouseOver())
+						{
+							coupJoué = true;
+							
+							game.enterState(2,new  FadeOutTransition() , new FadeInTransition());
+						}
+					}
 				}
-				else
+	
+				//en cours de partie.
+				if (!controller.getPlacement() && !controller.getPartieFinie())
 				{
-					controller.checkStopPJ2();
+					setMove(container);
+	
 				}
-
-				if (controller.getIsAnIA())
+	
+				//bouton permettant de placer ses pions automatiquement.
+				if ( genererPlacement.isMouseOver())
 				{
+					if ( controller.getPlacement())
+					{
+						dude(container);
+					}
+				}
+				if( regles.isMouseOver())
+				{
+					new Regles();
+				}
+				if( option.isMouseOver())
+				{
+					Option opt = new Option(controller);
+					opt.setCurrentGame(this);
 					UpGame2();
 				}
+	
+				if(placementTermine.isMouseOver() && controller.getPlacement())
+				{
+					if(controller.getTour())
+					{
+						controller.checkStopPJ1();
+					}
+					else
+					{
+						controller.checkStopPJ2();
+					}
+	
+					if (controller.getIsAnIA())
+					{
+						UpGame2();
+					}
+				}
+	
+	
 			}
-
-
-		}
-
-		//Code exécuté en cas de pression sur la touche Echap.
-		if ( input.isKeyPressed(Input.KEY_ESCAPE))
-		{
-			container.exit();
-		}
-
-		if (controller.getPartieFinie())
-		{
-			particule.update(delta);
-		}
+	
+			//Code exécuté en cas de pression sur la touche Echap.
+			if ( input.isKeyPressed(Input.KEY_ESCAPE))
+			{
+				container.exit();
+			}
+	
+			if (controller.getPartieFinie())
+			{
+				particule.update(delta);
+			}
+	    
 	}
 
 	/**
@@ -451,7 +463,7 @@ public class CurrentGame extends BasicGameState
 				{
 					//cas où il s'agit d'un pion apparteant à un joueur qui est en train de jouer.
 					System.out.println(controller.getGame().getMap().getPion(i/10,i%10).getPath());
-					LoadingList.setDeferredLoading(true);
+					
 					Echequier.get(i).setNormalImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
 					Echequier.get(i).setMouseOverImage(new Image (controller.getGame().getMap().getPion(i/10,i%10).getPath()));
 				}
@@ -465,6 +477,7 @@ public class CurrentGame extends BasicGameState
 					}
 				}
 			}
+		
 	}
 
 	/**
