@@ -48,7 +48,6 @@ public class Intermediaire extends BasicGameState implements InputProviderListen
 		
 		if(!controller.getPlacement())
 		{
-			System.out.println("victime"+controller.getVictime());
 			if ( controller.getVictime() )//&& controller.getGame().getMap().getPion(controller.getNewClick()/10, controller.getNewClick()%10) != null)
 			{
 				arg2.drawString("Dernier coup joué: "+ controller.getGame().getMap().getPion(controller.getNewClick()/10, controller.getNewClick()%10).getName()+ " déplacé de "+ current.lettres[controller.getLastClick()%10]+","+controller.getLastClick()/10+

@@ -65,25 +65,4 @@ public class Score implements Serializable
 		Serializer.saveObject( Score , "Score_Stratego.txt");
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public static void main(String [] toto){
-		Score = new ArrayList<String>();
-		Score.add("Penouille-26-Vineuvall-1014-");
-		
-		for(int i=0; i!=100; i++){
-			Score.add("Unknown-1000-IA Kikoo-39-");
-		}
-		SaveScore();
-	}
-	
 }

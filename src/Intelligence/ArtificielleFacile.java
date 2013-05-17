@@ -18,7 +18,6 @@ public class ArtificielleFacile extends Artificielle
 	{
 		super(controller);
 		setForceIA("IA Facile");
-		System.out.println("IA Facile");
 		currentStrategy="Exploration";
 		setListOfDisplacement(new ArrayList<Deplacement>());
 	}
@@ -161,7 +160,6 @@ public class ArtificielleFacile extends Artificielle
 	 */
 	protected ArrayList<Deplacement> getBestDisplacement(ArrayList<Deplacement> listDepl)
 	{
-		System.out.println("taille de la liste des deplcament dans getBestDisplacement "+getListOfDisplacement().size());
 		if(listDepl.size()==0)
 		{
 			deplExploration = null;
@@ -426,7 +424,6 @@ public class ArtificielleFacile extends Artificielle
 					else if(getIaMap().getPion(x, y).getName().equals("marechal")
 							&& getIaMap().getPion(x+v, y+k).getName().equals("espion"))
 					{
-						System.out.println("Le marechal adverse peut-etre pris");
 						deplAttaque = new Deplacement(x+v, y+k, x, y);
 						return true;
 					}
@@ -459,7 +456,6 @@ public class ArtificielleFacile extends Artificielle
 					else if(getIaMap().getPion(x, y).getName().equals("marechal")
 							&& getIaMap().getPion(x+v, y+k).getName().equals("espion"))
 					{
-						System.out.println("Le marechal adverse peut-etre pris");
 						deplAttaque = new Deplacement(x+v, y+k, x, y);
 						return true;
 					}
@@ -677,14 +673,12 @@ public class ArtificielleFacile extends Artificielle
 					deplDefense.setX(pionFinded.getOldX()+1); deplDefense.setY(pionFinded.getOldY());
 				}
 				currentStrategy = "Defense";
-				System.out.println("changement de strategie : Defense mode (playerMoveNearMe)");
 			}
 		}
 		else 
 		{
 			deplAttaque = pionFinded; deplAttaque.setX(x); deplAttaque.setY(y);
 			currentStrategy="Attaque";
-			System.out.println("changement de strategie : Attaque mode (playerMoveNearMe)");
 		}
 
 	}
@@ -718,20 +712,14 @@ public class ArtificielleFacile extends Artificielle
 	{
 		if(depl==null)
 		{
-			System.out.println("goToDest avec depl==null");
 			setListOfDisplacement(new ArrayList<Deplacement>());
 			return;
 		}
-		System.out.println("currentStrategy = "+currentStrategy+ ", Influence="+depl.getInfluence()
-				+", et x="+depl.getX()+" et y="+depl.getY()
-				+", et oldX="+depl.getOldX()+" et oldY="+depl.getOldY());
 		if(isOnlyMyPionAround(depl.getOldX(), depl.getOldY()))
 		{
-			System.out.println("pion à déplacer bloqué :/");
 		}
 		else
 		{
-			System.out.println("goToDest avec depl!=null");
 			setListOfDisplacement(new ArrayList<Deplacement>());
 			doOneMove(depl);
 		}
@@ -743,26 +731,21 @@ public class ArtificielleFacile extends Artificielle
 	 */
 	private void doOneMove(Deplacement depl)
 	{
-		System.out.println("doOneMove");
 		//S'il faut deplacer le pion à droite
 		if(depl.getOldY()<depl.getY() && canMoveRight(depl))
 		{
-			System.out.println("Deplacement à droite");
 		}
 		//S'il faut déplacer le pion à gauche
 		else if(depl.getOldY()>depl.getY() && canMoveLeft(depl))
 		{
-			System.out.println("Deplacement à gauche");
 		}
 		//S'il faut déplacer le pion en bas
 		else if(depl.getOldX()<depl.getX() && canMoveBottom(depl))
 		{
-			System.out.println("Deplacement en bas");
 		}
 		//S'il faut déplacer le pion en haut
 		else if(depl.getOldX()>depl.getX() && canMoveTop(depl))
 		{
-			System.out.println("Deplacement en haut");
 		}
 		checkIfNeededDeleteDepl();
 	}
@@ -906,11 +889,9 @@ public class ArtificielleFacile extends Artificielle
 	 */
 	public void playExploration()
 	{
-		System.out.println("Exploration mode");
 		//si je n'ai pas de mouvement retenu du précédent mouvement effectué.
 		if(deplExploration==null)
 		{
-			System.out.println("Pas de deplacement exploration programme");
 			setListOfDisplacement(new ArrayList<Deplacement>());
 			if(hasStillPion("eclaireur", false))
 			{
@@ -922,7 +903,6 @@ public class ArtificielleFacile extends Artificielle
 						temp = getIaMap().getPion(i, j);
 						if(isMine(i, j) && temp.getName().equals("eclaireur") && !isBlocked(i, j))
 						{
-							System.out.println("j'ai encore des eclaireurs non bloqué");
 							addDeplForEclaireur(i, j);
 						}
 					}
@@ -931,7 +911,6 @@ public class ArtificielleFacile extends Artificielle
 			//si je n'ai plus d'eclaireur ou qu'il m'en reste mais qu'ils sont bloqués..
 			else
 			{
-				System.out.println("Exploration avec pion ou eclaireur bloqué");
 				deplExploration = findWeakerPion(2);
 				if(!findUnknownPion(deplExploration))
 				{
@@ -951,7 +930,6 @@ public class ArtificielleFacile extends Artificielle
 	 */
 	public void playDefense()
 	{
-		System.out.println("Defense mode");
 		goToDest(deplDefense);
 		playBestDisplacement(getListOfDisplacement());
 		if(deplDefense==null)
@@ -969,7 +947,6 @@ public class ArtificielleFacile extends Artificielle
 	 */
 	public void playAttaque()
 	{
-		System.out.println("Attaque mode");
 		if(deplAttaque!=null && !isMine(deplAttaque.getOldX(), deplAttaque.getOldY())) deplAttaque=null;
 		goToDest(deplAttaque);
 		playBestDisplacement(getListOfDisplacement());
@@ -981,7 +958,6 @@ public class ArtificielleFacile extends Artificielle
 			}
 			if(deplAttaque==null)
 			{
-				System.out.println("pas de pion à attaquer->switch strategie:Exploration");
 				currentStrategy="Exploration";
 			}
 		}
@@ -992,7 +968,6 @@ public class ArtificielleFacile extends Artificielle
 	 */
 	public void playSomething()
 	{
-		System.out.println("I play something");
 		updateListOfDisplacement();
 		playBestDisplacement(getListOfDisplacement());
 	}
@@ -1029,22 +1004,17 @@ public class ArtificielleFacile extends Artificielle
 	{
 		if(depl==null)
 		{
-			System.out.println("Error -> deplacementDone == null");
 			return;
 		}
 		Pion temp = getIaMap().getPion(depl.getX(), depl.getY());
 		if(temp!=null && temp.getTeam() && canBeTaken(depl.getX(), depl.getY(), 5, false))
 		{
-			System.out.println("changement de strategie : Attaque mode");
 			currentStrategy="Attaque";
 		}
 		if(temp==null && currentStrategy.equals("Exploration"))
 		{
 			exploreMore(depl.getOldX(), depl.getOldY(), depl.getX(), depl.getY());
-			System.out.println("J'ai exploreMore.");
 		}
-		System.out.println("taille de la list des deplacements ="+getListOfDisplacement().size());
-		System.out.println();
 	}
 
 	/**

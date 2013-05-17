@@ -71,14 +71,6 @@ public abstract class Artificielle
 		this.game = game;
 	}
 	
-	public void printList()
-	{
-		for(Deplacement i : getListOfDisplacement())
-		{
-			System.out.println("oldX = "+i.getOldX()+", oldY = "+i.getOldY()+", x = "+i.getX()+", y = "+i.getY()+", et l'influence = "+i.getInfluence());
-		}
-	}
-	
 	/**
 	 * initialise les pions de l'IA
 	 */
@@ -264,8 +256,6 @@ public abstract class Artificielle
 	 */
 	protected void doDisplacement(Deplacement depl)
 	{
-		System.out.println("Influence = "+depl.getInfluence()+", et x="+depl.getX()+" et y="+depl.getY()
-				+ ", et oldX="+depl.getOldX()+" et oldY="+depl.getOldY());
 		controller.setClick((depl.getOldX()*10)+depl.getOldY());
 		controller.setPrise(getIaMap().getPion(depl.getOldX(), depl.getOldY()).getPath());
 		controller.setClick((depl.getX()*10)+depl.getY()); 

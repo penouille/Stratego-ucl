@@ -12,7 +12,6 @@ public class ArtificielleKikoo extends Artificielle
 	{
 		super(controller);
 		setForceIA("IA Kikoo");
-		System.out.println("IA Kikoo");
 	}
 	
 	/**
@@ -143,7 +142,6 @@ public class ArtificielleKikoo extends Artificielle
 	{
 		updateListOfDisplacement();
 		ArrayList<Deplacement> bestDeplacement = getBestDisplacement();
-		System.out.println(getBestDisplacement().size());
 		int t; Random r = new Random();
 		t = r.nextInt(bestDeplacement.size());
 		doDisplacement(bestDeplacement.get(t));

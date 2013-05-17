@@ -14,7 +14,6 @@ public class ArtificielleIntermediaire extends ArtificielleNormal
 	{
 		super(controller);
 		setForceIA("IA Intermediaire");
-		System.out.println("IA Intermediaire");
 		currentStrategy="Attaque";
 		setListOfDisplacement(new ArrayList<Deplacement>());
 		count=0;
@@ -100,7 +99,6 @@ public class ArtificielleIntermediaire extends ArtificielleNormal
 	
 	protected void playAttaque()
 	{
-		System.out.println("Attaque mode");
 		if(deplAttaque!=null && !isMine(deplAttaque.getOldX(), deplAttaque.getOldY())) deplAttaque=null;
 		else
 		{

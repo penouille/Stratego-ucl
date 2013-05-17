@@ -183,7 +183,6 @@ public class Option extends StdWindow implements ActionListener
 			if(b==apply)
 			{
 				setVisible(false);
-				System.out.println("Application en cours . . .");
 				actualizaPion();
 				
 			}
