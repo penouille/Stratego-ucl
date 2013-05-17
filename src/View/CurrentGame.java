@@ -348,6 +348,7 @@ public class CurrentGame extends BasicGameState
 				{
 					new Regles();
 				}
+				
 				if( option.isMouseOver())
 				{
 					Option opt = new Option(controller);
