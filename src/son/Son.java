@@ -40,13 +40,19 @@ public class Son
 		game = false;
 		
 		//initialisation de URL
-		son_canon = this.getClass().getResource("/canon.wav");
-		son_champ_bataille = this.getClass().getResource("/champ_bataille.wav");
-		cri_wilhelm = this.getClass().getResource("/cri_wilhelm.wav");
-		son_song = this.getClass().getResource("/song.wav");
-		son_bombe = this.getClass().getResource("/bombe.wav");
-		son_victoire = this.getClass().getResource("/victoire.wav");
-		son_desamorcage = this.getClass().getResource("/desamorcage.wav");
+		try
+		{
+			son_canon = this.getClass().getResource("/canon.wav");
+			son_champ_bataille = this.getClass().getResource("/champ_bataille.wav");
+			cri_wilhelm = this.getClass().getResource("/cri_wilhelm.wav");
+			son_song = this.getClass().getResource("/song.wav");
+			son_bombe = this.getClass().getResource("/bombe.wav");
+			son_victoire = this.getClass().getResource("/victoire.wav");
+			son_desamorcage = this.getClass().getResource("/desamorcage.wav");
+		}
+		catch(Exception e){
+			//Pas de son
+		}
 		
 		startSonMenu();
 	}
@@ -67,9 +73,7 @@ public class Son
 				music.open(AudioSystem.getAudioInputStream (son_song));
 				music.loop(Clip.LOOP_CONTINUOUSLY);
 			}
-			catch (LineUnavailableException exception) { }
-			catch (IOException exception) {  }
-			catch (UnsupportedAudioFileException exception) {  }
+			catch (Exception e) {}
 		}
 		else
 		{
@@ -79,9 +83,7 @@ public class Son
 				music.open(AudioSystem.getAudioInputStream (son_champ_bataille));
 				music.loop(Clip.LOOP_CONTINUOUSLY);
 			}
-			catch (LineUnavailableException exception) { }
-			catch (IOException exception) {  }
-			catch (UnsupportedAudioFileException exception) {  }
+			catch (Exception e) {}
 		}
 		sonOn = true;
 	}
@@ -97,9 +99,7 @@ public class Son
 				music.open(AudioSystem.getAudioInputStream (son_champ_bataille));
 				music.loop(Clip.LOOP_CONTINUOUSLY);
 			}
-			catch (LineUnavailableException exception) { }
-			catch (IOException exception) {  }
-			catch (UnsupportedAudioFileException exception) {  }
+			catch (Exception e) {}
 		}
 	}
 	
@@ -113,9 +113,7 @@ public class Son
 				sonor.open(AudioSystem.getAudioInputStream (son_canon));
 				sonor.start();
 			}
-			catch (LineUnavailableException exception) { }
-			catch (IOException exception) {  }
-			catch (UnsupportedAudioFileException exception) {  }
+			catch (Exception e) {}
 		}
 	}
 	
@@ -133,9 +131,7 @@ public class Son
 					music.open(AudioSystem.getAudioInputStream (son_song));
 					music.loop(Clip.LOOP_CONTINUOUSLY);
 				}
-				catch (LineUnavailableException exception) { }
-				catch (IOException exception) {  }
-				catch (UnsupportedAudioFileException exception) {  }
+				catch (Exception e) {}
 			}
 			else
 			{
@@ -146,9 +142,7 @@ public class Son
 					music.open(AudioSystem.getAudioInputStream (son_champ_bataille));
 					music.loop(Clip.LOOP_CONTINUOUSLY);
 				}
-				catch (LineUnavailableException exception) { }
-				catch (IOException exception) {  }
-				catch (UnsupportedAudioFileException exception) {  }
+				catch (Exception e) {}
 			}
 		}
 	}
@@ -166,9 +160,7 @@ public class Son
 					sonor.open(AudioSystem.getAudioInputStream (son_bombe));
 					sonor.start();
 				}
-				catch (LineUnavailableException exception) { }
-				catch (IOException exception) {  }
-				catch (UnsupportedAudioFileException exception) {  }
+				catch (Exception e) {}
 			}
 			else if(pion1.getName().equals("bombe"))
 			{
@@ -178,9 +170,7 @@ public class Son
 					sonor.open(AudioSystem.getAudioInputStream (son_desamorcage));
 					sonor.start();
 				}
-				catch (LineUnavailableException exception) { }
-				catch (IOException exception) {  }
-				catch (UnsupportedAudioFileException exception) {  }
+				catch (Exception e) {}
 			}
 			else if(pion1.getName().equals("drapeau"))
 			{
@@ -191,9 +181,7 @@ public class Son
 					sonor.open(AudioSystem.getAudioInputStream (son_victoire));
 					sonor.start();
 				}
-				catch (LineUnavailableException exception) { }
-				catch (IOException exception) {  }
-				catch (UnsupportedAudioFileException exception) {  }
+				catch (Exception e) {}
 			}
 			else if(pion1.getName().equals("marechal"))
 			{
@@ -203,9 +191,7 @@ public class Son
 					sonor.open(AudioSystem.getAudioInputStream (cri_wilhelm));
 					sonor.start();
 				}
-				catch (LineUnavailableException exception) { }
-				catch (IOException exception) {  }
-				catch (UnsupportedAudioFileException exception) {  }
+				catch (Exception e) {}
 			}
 			else
 			{
@@ -216,9 +202,7 @@ public class Son
 					sonor.open(AudioSystem.getAudioInputStream (cri_wilhelm));
 					sonor.start();
 				}
-				catch (LineUnavailableException exception) { }
-				catch (IOException exception) {  }
-				catch (UnsupportedAudioFileException exception) {  }
+				catch (Exception e) {}
 			}
 		}
 	}

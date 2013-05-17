@@ -34,31 +34,18 @@ public class Intermediaire extends BasicGameState implements InputProviderListen
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		finDuTour = new MouseOverArea( arg0, new Image("finDuTour.png") ,520 , 310 );
+		finDuTour = new MouseOverArea( arg0, new Image("finDuTour.png") ,520 , 310);
 		
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException 
-			{
+	{
 		finDuTour.render(arg0 , arg2);
 		
 		arg2.drawString("Tour suivant.", 100, 100);
 		
-		if(!controller.getPlacement())
-		{
-			if ( controller.getVictime() )//&& controller.getGame().getMap().getPion(controller.getNewClick()/10, controller.getNewClick()%10) != null)
-			{
-				arg2.drawString("Dernier coup joué: "+ controller.getGame().getMap().getPion(controller.getNewClick()/10, controller.getNewClick()%10).getName()+ " déplacé de "+ current.lettres[controller.getLastClick()%10]+","+controller.getLastClick()/10+
-						" à "+current.lettres[controller.getNewClick()%10]+","+controller.getNewClick()/10, 100, 200);
-			}
-			else
-			{
-				arg2.drawString("Dernier coup joué:"+ current.lettres[controller.getLastClick()%10]+","+controller.getLastClick()/10+
-						" placé en "+current.lettres[controller.getNewClick()%10]+","+controller.getNewClick()/10, 100, 200);
-			}
-		}
 	}
 
 	@Override
